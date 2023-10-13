@@ -1,7 +1,10 @@
 import React from 'react';
+import classNames from 'classnames';
+
 import styles from './ResizableBar.module.css';
 
 function ResizableBar(props) {
+  const { className } = props;
   function handleResizeWidth(e) {
     const resizableSidebar = e.target.parentElement;
 
@@ -19,7 +22,7 @@ function ResizableBar(props) {
     }
   }
   return (
-    <div className={styles.wrapper} onMouseDown={handleResizeWidth}>
+    <div className= {classNames(styles.wrapper, className)} onMouseDown={handleResizeWidth}>
       <div className={styles.resizeBar}></div>
     </div>
   );

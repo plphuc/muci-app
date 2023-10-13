@@ -1,0 +1,27 @@
+.toggleIconWrapper {
+  width: 20px;
+  height: 20px;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  &:hover {
+    background-color: rgb(217, 217, 214);
+  }
+}
+
+.toggleIcon {
+  color: var(--icon-color);
+  transition: linear 0.2s;
+
+}
+
+.toggleDown {
+  transform: rotate(90deg);
+}
+
+.pageInfo {
+  display: flex;
+  gap: 8px;
+}

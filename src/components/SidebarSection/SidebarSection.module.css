@@ -1,5 +1,6 @@
 .wrapper {
   width: 300px;
+  min-width: 220px;
   height: inherit;
   font-size: 1.4rem;
 
@@ -37,9 +38,32 @@
 }
 
 .navList {
-  margin-left: 4px;
+  width: 100%;
+  padding: 0 4px 8px 4px;
 }
 
 .navItem {
+  width: 100%;
   padding: 2px 10px;
+  margin: 1px 0px;
+  border-radius: 3px;
+  color: var(--text-color);
+  font-weight: 600;
+
+  display: flex;
+  gap: 8px;
+  &:hover {
+    cursor: pointer;
+    background-color: var(--hover-color);
+  }
+}
+
+.pagesWrapper {
+  width: inherit;
+  padding-top: 6px;
+  padding-bottom: 20px;
+}
+
+.pageOptions {
+  margin-top: 18px;
 }
