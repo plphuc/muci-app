@@ -12,15 +12,18 @@ function PageBlock(props) {
   }
   return (
     <div className={classNames(styles.wrapper, className)}>
-      <div className={styles.toggleIconWrapper} onClick={handleToggleIcon}>
+      <div className={styles.iconWrapper} onClick={handleToggleIcon}>
         <div className={styles.toggleIcon}>
           <FontAwesomeIcon icon={faChevronRight} />
         </div>
       </div>
+
       <div className={styles.pageInfo}>
         <div className={styles.pageIcon}>{icon}</div>
         <div className={styles.pageName}>{title}</div>
       </div>
+
+      
     </div>
   );
 }
