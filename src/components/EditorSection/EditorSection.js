@@ -25,6 +25,13 @@ function EditorSection(props) {
     });
   };
 
+  function handleOnChange(e) {
+    const fileInput = document.getElementById('img');
+    const file = fileInput.files[0];
+    const formData = new FormData();
+    formData.append('file', file);
+  }
+
   // This will run only once
   useEffect(() => {
     if (ejInstance.current === null) {
