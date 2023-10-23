@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import EditorJS from '@editorjs/editorjs';
+import classNames from 'classnames';
 
 import { DEFAULT_INITIAL_DATA } from 'utils/contants';
 import { EDITOR_JS_TOOLS } from 'utils/utils';
@@ -18,19 +19,12 @@ function EditorSection(props) {
       autofocus: true,
       data: DEFAULT_INITIAL_DATA,
       onChange: async () => {
-        // let content = await editor.saver.save();
-        // console.log(content);
+        let content = await editor.saver.save();
+        console.log(content);
       },
       tools: EDITOR_JS_TOOLS,
     });
   };
-
-  function handleOnChange(e) {
-    const fileInput = document.getElementById('img');
-    const file = fileInput.files[0];
-    const formData = new FormData();
-    formData.append('file', file);
-  }
 
   // This will run only once
   useEffect(() => {
@@ -45,8 +39,8 @@ function EditorSection(props) {
   }, []);
 
   return (
-    <div className={styles.wrapper}>
-      <div id="editorjs"></div>
+    <div className={classNames(styles.wrapper, styles.layout, styles.layoutWide)}>
+      <div id="editorjs" className={styles.layoutContent}></div>
     </div>
   );
 }
