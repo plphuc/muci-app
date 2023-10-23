@@ -1,5 +1,5 @@
 .wrapper {
-  width: 300px;
+  width: 265px;
   min-width: 220px;
   height: inherit;
   font-size: 1.4rem;
@@ -14,7 +14,7 @@
 
 .usernameWrapper {
   height: 45px;
-  width: inherit;
+  width: 100%;
   display: flex;
   align-items: center;
 
@@ -59,7 +59,7 @@
 }
 
 .pagesWrapper {
-  width: inherit;
+  width: 100%;
   padding-top: 6px;
   padding-bottom: 20px;
 }

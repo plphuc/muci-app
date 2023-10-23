@@ -23,7 +23,6 @@ function ResizableBar(props) {
   }
   return (
     <div className= {classNames(styles.wrapper, className)} onMouseDown={handleResizeWidth}>
-      <div className={styles.resizeBar}></div>
     </div>
   );
 }
