@@ -1,15 +1,11 @@
 .wrapper {
   height: 100%;
-  width: 6px;
+  width: 5px;
   cursor: col-resize;
+  user-select: none;
   position: absolute;
   right: 0;
-  &:hover .resizeBar{
+  &:hover {
     background-color: var(--hover-color);
   }
-}
-
-.resizeBar {
-  width: 4px;
-  height: inherit;
 }
