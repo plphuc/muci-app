@@ -1,6 +1,6 @@
 .wrapper {
-  width: 265px;
-  min-width: 220px;
+  width: var(--sidebar-default-width);
+  min-width: var(--sidebar-min-width);
   height: inherit;
   font-size: 1.4rem;
 
@@ -13,7 +13,7 @@
 }
 
 .usernameWrapper {
-  height: 45px;
+  height: var(--header-height);
   width: 100%;
   display: flex;
   align-items: center;
@@ -51,7 +51,7 @@
   font-weight: 600;
 
   display: flex;
-  gap: 8px;
+  gap: var(--gap-size);
   &:hover {
     cursor: pointer;
     background-color: var(--hover-color);

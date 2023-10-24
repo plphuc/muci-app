@@ -1,7 +1,7 @@
 .wrapper {
-  height: inherit;
-  overflow-y: scroll;
+  width: 100%;
   flex: 1;
+  overflow-y: scroll;
 }
 
 .layoutContent {
@@ -18,5 +18,5 @@
 
 .layoutWide {
   --content-width: 1fr;
-  --margin-width: 96px;
+  --margin-width: var(--margin-editor-width);
 }

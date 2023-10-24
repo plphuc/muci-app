@@ -1,6 +1,6 @@
 .wrapper {
   height: 100%;
-  width: 5px;
+  width: var(--resizeBar-width);
   cursor: col-resize;
   user-select: none;
   position: absolute;

@@ -6,10 +6,19 @@ font-family: 'Raleway', sans-serif; */
 
 :root {
   --general-font: 'Raleway', monospace;
+
   --background-color: rgb(251, 251, 250);
   --hover-color: rgb(234, 234, 232);
   --icon-color: rgba(55, 53, 47, 0.45);
   --text-color: rgba(25, 23, 17, 0.6);
+
+  --header-height: 45px;
+  --toolbar-width: 7px;
+  --margin-editor-width: 96px;
+  --resizeBar-width: 5px;
+  --gap-size: 8px;
+  --sidebar-default-width: 256px;
+  --sidebar-min-width: 220px;
 }
 
 html {
@@ -32,7 +41,7 @@ html {
 
 /* width */
 ::-webkit-scrollbar {
-  width: 7px;
+  width: var(--toolbar-width);
 }
 
 /* Track */

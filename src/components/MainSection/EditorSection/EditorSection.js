@@ -2,8 +2,8 @@ import { useEffect, useRef } from 'react';
 import EditorJS from '@editorjs/editorjs';
 import classNames from 'classnames';
 
-import { DEFAULT_INITIAL_DATA } from 'utils/contants';
-import { EDITOR_JS_TOOLS } from 'utils/utils';
+import { DEFAULT_INITIAL_DATA } from 'utils/constant';
+import { EDITOR_JS_TOOLS } from 'config/config';
 
 import styles from './EditorSection.module.css';
 
