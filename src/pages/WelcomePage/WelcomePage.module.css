@@ -30,7 +30,7 @@
 
 .actionsWrapper {
   display: flex;
-  gap: 10px;
+  gap: 30px;
   justify-content: center;
   align-items: center;
 }
@@ -47,8 +47,8 @@
   cursor: pointer;
 
   display: flex;
-    justify-content: center;
-    align-items: center;
+  justify-content: center;
+  align-items: center;
 
   &:hover {
     background-color: #333;

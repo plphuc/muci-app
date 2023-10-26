@@ -23,9 +23,9 @@ function TopLayout(props) {
         })}
       >
         <div className={styles.leftWrapper}>
-          <div className={styles.logoWrapper}>
+          <Link to='/' className={styles.logoWrapper}>
             <LogoSvg />
-          </div>
+          </Link>
           <ul className={styles.navListWrapper}>
             <li className={styles.navItem}>
               <p>Product</p>
