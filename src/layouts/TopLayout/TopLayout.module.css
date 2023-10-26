@@ -1,0 +1,100 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.navWrapper {
+  padding: 15px 16px;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+}
+
+.isScrolled {
+  &::after {
+    position: absolute;
+    content: '';
+    bottom: 0;
+    left: 16px;
+    right: 16px;
+    height: 1px;
+    background: rgba(0,0,0,.1);;
+    -webkit-transition: opacity 200ms;
+    -moz-transition: opacity 200ms;
+    -o-transition: opacity 200ms;
+    transition: opacity 200ms;
+  }
+}
+
+.leftWrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.navListWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.navItem {
+  padding: 0 24px 0 10px;
+
+  &::after {
+    content: '';
+    display: block;
+    width: 8px;
+    height: 6px;
+    background: url('/src/assets/ArrowDownSVG.js');
+    position: absolute;
+    top: 50%;
+    margin-top: -2px;
+    right: 10px;
+  }
+}
+
+.actionsWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.actionItem {
+  padding: 0 10px;
+}
+
+.divider {
+  width: 1px;
+  height: 20px;
+  margin: 0 10px;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.actionBtnWrapper {
+  padding-left: 10px;
+}
+
+.actionBtn {
+  min-height: 30px;
+  padding: 0.25rem 0.6875rem;
+  border-radius: 0.3125rem;
+  line-height: 20px;
+  font-size: 15px;
+  font-weight: 700;
+
+  color: #fff;
+  background-color: #121212;
+  box-shadow: 0 0.3259259164px 0.7333333492px 0 rgba(0, 0, 0, 0.12),
+    0 1.5407407284px 2.8666665554px 0 rgba(0, 0, 0, 0.07),
+    0 4px 9px 0 rgba(0, 0, 0, 0.05);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover {
+    background-color: #333;
+  }
+}

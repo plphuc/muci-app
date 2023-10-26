@@ -1,15 +1,24 @@
-import EditorSection from "./components/EditorSection/EditorSection"; 
-import SidebarSection from "./components/SidebarSection/SidebarSection";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
-import styles from 'App.module.css'
+import WelcomePage from 'pages/WelcomePage/WelcomePage';
+import AuthenticationPage from 'pages/AuthenticationPage/AuthenticationPage';
+import NotFoundPage from 'pages/NotFoundPage/NotFoundPage';
+import TopLayout from 'layouts/TopLayout/TopLayout';
+
+import styles from 'App.module.css';
+
 function App() {
-
   return (
-    <div className={styles.wrapper}>
-      <SidebarSection />
-      <EditorSection />
-    </div>
-    )
+    <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<TopLayout />}>
+        <Route index element={<WelcomePage />} />
+        <Route path="authen" element={<AuthenticationPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Route>
+    </Routes>
+  </BrowserRouter>
+  );
 }
 
 export default App;
