@@ -5,8 +5,8 @@
   align-items: center;
 }
 
-.loginFormWrapper {
-  width: 40%;
+.registerFormWrapper {
+  width: 45%;
   border-radius: 10px;
   background-color: #f6f6f6;
 
@@ -14,9 +14,9 @@
   justify-content: center;
 }
 
-.loginFormContainer {
+.registerFormContainer {
   width: 60%;
-  margin: 60px;
+  margin: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -29,14 +29,14 @@
   text-align: center;
 }
 
-.loginFormContentWrapper {
+.registerFormContentWrapper {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.loginFormContentContainer {
+.registerFormContentContainer {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -46,6 +46,10 @@
 
   & > p {
     width: 95%;
+  }
+
+  & label {
+    font-size: 1.2rem;
   }
 
   & input {
@@ -69,11 +73,13 @@
   }
 }
 
-.registerWrapper {
+.loginWrapper {
   font-size: 1.1rem;
   margin-top: 6px;
 
   & a {
-    text-decoration: underline;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: rgb(129 129 129);
   }
 }

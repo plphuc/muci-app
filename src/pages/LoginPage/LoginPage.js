@@ -10,6 +10,7 @@ function LoginPage(props) {
           <div className={styles.loginFormContentWrapper}>
             <form className={styles.loginFormContentContainer}>
               <p>
+              <label for="username">Username</label>
                 <input
                   placeholder="Username"
                   id="username"
@@ -18,6 +19,7 @@ function LoginPage(props) {
                 ></input>
               </p>
               <p>
+              <label for="password">Password</label>
                 <input
                   type="password"
                   placeholder="Password"
