@@ -19,7 +19,7 @@
     left: 16px;
     right: 16px;
     height: 1px;
-    background: rgba(0,0,0,.1);;
+    background: rgba(0, 0, 0, 0.1);
     -webkit-transition: opacity 200ms;
     -moz-transition: opacity 200ms;
     -o-transition: opacity 200ms;
@@ -41,17 +41,37 @@
 
 .navItem {
   padding: 0 24px 0 10px;
+  position: relative;
+  cursor: pointer;
 
-  &::after {
+  &:not(:last-child)::after {
     content: '';
-    display: block;
-    width: 8px;
-    height: 6px;
-    background: url('/src/assets/ArrowDownSVG.js');
+    width: 4px;
+    height: 4px;
+    margin-top: -2px;
     position: absolute;
     top: 50%;
-    margin-top: -2px;
-    right: 10px;
+    right: 13px;
+    transition: 100ms;
+
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    border: solid black;
+    border-width: 0 1px 1px 0;
+    display: inline-block;
+  }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+    border-radius: 4px;
+
+    &::after {
+      transform: rotate(45deg);
+    }
+
+    & .dropdownMenuWrapper{
+      display: block;
+    }
   }
 }
 
@@ -63,6 +83,12 @@
 
 .actionItem {
   padding: 0 10px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+    border-radius: 4px;
+  }
 }
 
 .divider {
@@ -96,5 +122,62 @@
 
   &:hover {
     background-color: #333;
+  }
+}
+
+/* dropdown menu in navbar */
+.dropdownMenuWrapper {
+  position: absolute;
+  top: 28px;
+  left: 0;
+  display: none;
+}
+
+.productWrapper:last-child {
+  border-left: 1px solid var(--divider-color);
+}
+
+.productWrapper:not(:first-child) {
+  padding-left: 4px;
+}
+
+.productContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 8px;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: var(--hover-color);
+  }
+}
+
+.productContent {
+  flex: 1;
+  line-height: 1.8rem;
+  font-weight: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.productName {
+  font-size: 1.5rem;
+}
+
+.productDescription {
+  font-size: 1.35rem;
+  color: var(--text-description-color);
+}
+
+.downloadOptionWrapper {
+  padding: 4px 8px;
+  border-radius: 4px;
+
+  &:hover {
+    background-color: var(--hover-color);
   }
 }
