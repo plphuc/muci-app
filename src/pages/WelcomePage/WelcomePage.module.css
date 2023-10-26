@@ -1,5 +1,6 @@
 .wrapper {
   width: 100%;
+  padding: 0 125px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -12,6 +13,10 @@
   align-items: center;
 }
 
+.welcomeImageWrapper {
+  width: inherit;
+}
+
 .introWrapper {
   display: flex;
   flex-direction: column;
@@ -19,11 +24,20 @@
 }
 
 .contentContainer {
-  font-size: 30px;
+  font-size: 2.5rem;
   font-weight: 500;
 }
 
+.actionsWrapper {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
 .authenBtnWrapper {
+  min-width: 110px;
+
   font-size: 21px;
   font-weight: 600;
   background: #121212;
@@ -32,8 +46,12 @@
   margin-top: 20px;
   cursor: pointer;
 
+  display: flex;
+    justify-content: center;
+    align-items: center;
+
   &:hover {
-    background-color: #333;;
+    background-color: #333;
   }
 }
 

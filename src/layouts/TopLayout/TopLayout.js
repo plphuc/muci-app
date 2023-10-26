@@ -106,10 +106,6 @@ function TopLayout(props) {
         </div>
         <ul className={styles.actionsWrapper}>
           <li className={styles.actionItem}>Request a demo</li>
-          <div className={styles.divider}></div>
-          <Link to="/authen">
-            <li className={styles.actionItem}>Log in</li>
-          </Link>
           <li className={styles.actionBtnWrapper}>
             <a href="/" className={styles.actionBtn}>
               Get Notion free

@@ -1,11 +1,12 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import WelcomePage from 'pages/WelcomePage/WelcomePage';
-import AuthenticationPage from 'pages/AuthenticationPage/AuthenticationPage';
 import NotFoundPage from 'pages/NotFoundPage/NotFoundPage';
 import TopLayout from 'layouts/TopLayout/TopLayout';
+import LoginPage from 'pages/LoginPage/LoginPage';
 
 import styles from 'App.module.css';
+import RegisterPage from 'pages/RegisterPage/RegisterPage';
 
 function App() {
   return (
@@ -13,7 +14,8 @@ function App() {
     <Routes>
       <Route path="/" element={<TopLayout />}>
         <Route index element={<WelcomePage />} />
-        <Route path="authen" element={<AuthenticationPage />} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="register" element={<RegisterPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
