@@ -10,22 +10,24 @@ function LoginPage(props) {
           <div className={styles.loginFormContentWrapper}>
             <form className={styles.loginFormContentContainer}>
               <p>
-              <label for="username">Username</label>
+                <label htmlFor="username">Username</label>
                 <input
                   placeholder="Username"
                   id="username"
                   name="username"
                   required
+                  pattern="^[^ ].+[^ ]$"
                 ></input>
               </p>
               <p>
-              <label for="password">Password</label>
+                <label htmlFor="password">Password</label>
                 <input
                   type="password"
                   placeholder="Password"
                   id="password"
                   name="password"
                   required
+                  pattern="^[^ ].+[^ ]$"
                 ></input>
               </p>
               <p>
@@ -33,8 +35,9 @@ function LoginPage(props) {
               </p>
             </form>
             <div className={styles.registerWrapper}>
-              <p>Don't have an account?&nbsp;
-                <Link to='/register'>Create account</Link>
+              <p>
+                Don't have an account?&nbsp;
+                <Link to="/register">Create account</Link>
               </p>
             </div>
           </div>

@@ -23,7 +23,7 @@
 }
 
 .formTitle {
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   font-size: 40px;
   width: 100%;
   text-align: center;
@@ -44,10 +44,6 @@
   align-items: center;
   gap: 15px;
 
-  & > p {
-    width: 95%;
-  }
-
   & label {
     font-size: 1.2rem;
   }
@@ -62,6 +58,10 @@
     &:focus-visible {
       outline: none;
     }
+  }
+
+  .fieldWrapper {
+    width: 95%;
   }
 
   & input[type='submit'] {

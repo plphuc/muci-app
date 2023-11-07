@@ -3,12 +3,13 @@ import styles from './TopLayout.module.css';
 import classNames from 'classnames';
 import { useState } from 'react';
 import { Link, Outlet } from 'react-router-dom';
-import DropdownMenu from 'components/DropdownMenu/DropdownMenu';
+import DropdownMenu from 'common/components/DropdownMenu/DropdownMenu';
 import {
   productDropdownMenu,
   instructDropdownMenu,
   downloadOptions,
-} from 'utils/contants';
+} from 'common/utils/contants';
+
 function TopLayout(props) {
   const [isScrolled, setIsScrolled] = useState(false);
   window.onscroll = function () {
@@ -23,7 +24,7 @@ function TopLayout(props) {
         })}
       >
         <div className={styles.leftWrapper}>
-          <Link to='/' className={styles.logoWrapper}>
+          <Link to="/" className={styles.logoWrapper}>
             <LogoSvg />
           </Link>
           <ul className={styles.navListWrapper}>
@@ -32,8 +33,8 @@ function TopLayout(props) {
               <div className={styles.dropdownMenuWrapper}>
                 <DropdownMenu style={{ minWidth: '425px' }}>
                   <div className={styles.productWrapper}>
-                    {productDropdownMenu.map((product) => (
-                      <div className={styles.productContainer}>
+                    {productDropdownMenu.map((product, idx) => (
+                      <div className={styles.productContainer} key={idx}>
                         {product.icon}
                         <div className={styles.productContent}>
                           <p className={styles.productName}>{product.name}</p>
@@ -45,8 +46,8 @@ function TopLayout(props) {
                     ))}
                   </div>
                   <div className={styles.productWrapper}>
-                    {instructDropdownMenu.map((product) => (
-                      <div className={styles.productContainer}>
+                    {instructDropdownMenu.map((product, idx) => (
+                      <div className={styles.productContainer} key={idx}>
                         <div className={styles.productContent}>
                           <p className={styles.productName}>{product.name}</p>
                           <p className={styles.productDescription}>
@@ -65,8 +66,8 @@ function TopLayout(props) {
                 <DropdownMenu
                   style={{ flexDirection: 'column', minWidth: '180px' }}
                 >
-                  {downloadOptions.map((options) => (
-                    <div className={styles.downloadOptionWrapper}>
+                  {downloadOptions.map((options, idx) => (
+                    <div className={styles.downloadOptionWrapper} key={idx}>
                       {options}
                     </div>
                   ))}
@@ -79,8 +80,8 @@ function TopLayout(props) {
                 <DropdownMenu
                   style={{ flexDirection: 'column', minWidth: '180px' }}
                 >
-                  {downloadOptions.map((options) => (
-                    <div className={styles.downloadOptionWrapper}>
+                  {downloadOptions.map((options, idx) => (
+                    <div className={styles.downloadOptionWrapper} key={idx}>
                       {options}
                     </div>
                   ))}
@@ -93,8 +94,8 @@ function TopLayout(props) {
                 <DropdownMenu
                   style={{ flexDirection: 'column', minWidth: '180px' }}
                 >
-                  {downloadOptions.map((options) => (
-                    <div className={styles.downloadOptionWrapper}>
+                  {downloadOptions.map((options, idx) => (
+                    <div className={styles.downloadOptionWrapper} key={idx}>
                       {options}
                     </div>
                   ))}
