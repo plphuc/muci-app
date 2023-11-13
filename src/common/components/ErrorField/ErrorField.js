@@ -1,9 +1,9 @@
-import styles from './ErrorField.module.css'
+import styles from './ErrorField.module.css';
 
 function ErrorField(props) {
-  const {message} = props
+  const { message, idx } = props;
   return (
-    <li className={styles.wrapper}>
+    <li key={idx} className={styles.wrapper}>
       {message}
     </li>
   );

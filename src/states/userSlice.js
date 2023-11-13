@@ -8,27 +8,29 @@ const initialState = {
   error: null,
 };
 
-export const registerUser = createAsyncThunk(
-  'user/registerUser',
-  async (registerData) => {
-    const response = await client.post('/auth/register', registerData);
-    return response.data;
-  }
-);
-
 const userSlice = createSlice({
   name: 'user',
   initialState,
+  reducers: {
+    refreshUser: {
+      reducer() {
+        return {
+          ...initialState
+        }
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state, action) => {
         return {
           ...state,
           status: 'loading',
+          error: null
         };
       })
       .addCase(registerUser.fulfilled, (state, action) => {
-        const { tokens, user } = action.payload;
+        const { tokens, user } = action.payload; 
         return {
           ...state,
           status: 'succeeded',
@@ -49,4 +51,9 @@ const userSlice = createSlice({
   },
 });
 
+export const {
+  refreshUser
+} = userSlice.actions
+
+export const {useRegisterUserMutation} = 
 export default userSlice.reducer

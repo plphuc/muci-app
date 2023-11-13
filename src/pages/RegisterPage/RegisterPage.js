@@ -1,5 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import validator from 'validator';
 
 import ErrorField from 'common/components/ErrorField/ErrorField';
@@ -7,11 +7,11 @@ import * as utils from 'common/utils/index.js'
 
 import styles from './RegisterPage.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { registerUser } from 'states/userSlice';
+import { refreshUser, registerUser } from 'states/userSlice';
 function RegisterPage(props) {
   const [errors, setErrors] = useState({});
   const userData = useSelector(state => state.user)
-
+  console.log(userData);
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -79,17 +79,9 @@ function RegisterPage(props) {
       data.password = await utils.digestPassword(data.password);
       const { confirmPassword, ...registerData } = data;
       try {
-        dispatch(registerUser(registerData))
-        console.log(userData);
-        // const response = await axiosInstance.post('/auth/register',registerData);
-        if (userData.status === 'succeeded') {
-          utils.handleSaveTokens(userData.tokens)
+        dispatch(registerUser(registerData)).then(() => {
           navigate(`/${userData.user.username}`)
-        }
-        if (userData.error) {
-          console.log(userData.error);
-        }
-        // await axiosInstance.post('/auth/login', response.data?.tokens)
+        })
       } catch {
         console.error();
         // handle annouce not valid data
@@ -97,6 +89,12 @@ function RegisterPage(props) {
       }
     }
   };
+
+  useEffect(() => {
+    if (userData.status === 'succeeded') {
+      dispatch(refreshUser())
+    }
+  }, [userData.status, dispatch])
 
   return (
     <div className={styles.wrapper}>
@@ -173,8 +171,8 @@ function RegisterPage(props) {
                 </p>
                 <div className={styles.errorContainer}>
                   {errors.password &&
-                    errors.password.map((message) => (
-                      <ErrorField message={message} />
+                    errors.password.map((message, idx) => (
+                      <ErrorField message={message} idx={idx}/>
                     ))}
                 </div>
               </div>
