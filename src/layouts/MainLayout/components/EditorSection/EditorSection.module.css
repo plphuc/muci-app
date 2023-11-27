@@ -1,5 +1,11 @@
 .wrapper {
   height: inherit;
-  overflow-y: scroll;
-  flex: 1;
+  overflow-y: overlay;
+}
+
+.headerSectionWrapper {
+  height: var(--header-height);
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }

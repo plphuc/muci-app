@@ -1,20 +1,26 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import validator from 'validator';
+import { useDispatch } from 'react-redux';
 
+import * as utils from 'common/utils/index.js';
 import ErrorField from 'common/components/ErrorField/ErrorField';
-import * as utils from 'common/utils/index.js'
+import { setUser, useRegisterUserMutation } from 'slices/userSlice';
+import ShowHidePassword from 'common/components/ShowHidePassword/ShowHidePassword';
 
 import styles from './RegisterPage.module.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { refreshUser, registerUser } from 'states/userSlice';
-function RegisterPage(props) {
-  const [errors, setErrors] = useState({});
-  const userData = useSelector(state => state.user)
-  console.log(userData);
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
 
+function RegisterPage(props) {
+  const [isShowPw, setIsShowPw] = useState(false);
+
+  const [errors, setErrors] = useState({});
+  const dispatch = useDispatch();
+  const [
+    registerUser,
+    { data: registerResponse, isSuccess: isRegisterSuccess },
+  ] = useRegisterUserMutation();
+
+  const navigate = useNavigate();
   const handleOnFocus = (e) => {
     setErrors({
       ...errors,
@@ -40,6 +46,7 @@ function RegisterPage(props) {
       });
     }
   };
+
   const handleOnBlurEmail = (e) => {
     const value = e.target.value;
     if (!validator.isEmail(value)) {
@@ -71,30 +78,28 @@ function RegisterPage(props) {
       return;
     } else {
       const data = {};
-
       for (const [name, value] of dataForm) {
         data[name] = value;
       }
 
       data.password = await utils.digestPassword(data.password);
       const { confirmPassword, ...registerData } = data;
+
       try {
-        dispatch(registerUser(registerData)).then(() => {
-          navigate(`/${userData.user.username}`)
-        })
-      } catch {
-        console.error();
+        await registerUser(registerData).unwrap();
+      } catch (err) {
+        console.log(err.data.message);
         // handle annouce not valid data
-        
       }
     }
   };
 
   useEffect(() => {
-    if (userData.status === 'succeeded') {
-      dispatch(refreshUser())
+    if (isRegisterSuccess) {
+      dispatch(setUser(registerResponse));
+      navigate(`/${registerResponse.user.id}`);
     }
-  }, [userData.status, dispatch])
+  }, [isRegisterSuccess]);
 
   return (
     <div className={styles.wrapper}>
@@ -107,7 +112,7 @@ function RegisterPage(props) {
               onSubmit={handleSubmitRegister}
             >
               <div className={styles.fieldWrapper}>
-                <p>
+                <div>
                   <label htmlFor="name">Name</label>
                   <input
                     placeholder="Enter your name"
@@ -117,13 +122,13 @@ function RegisterPage(props) {
                     onBlur={handleOnBlurName}
                     onFocus={handleOnFocus}
                   ></input>
-                </p>
+                </div>
                 <div className={styles.errorContainer}>
                   {errors.name && <ErrorField message={errors.name} />}
                 </div>
               </div>
               <div className={styles.fieldWrapper}>
-                <p>
+                <div>
                   <label htmlFor="email">Email</label>
                   <input
                     type="email"
@@ -134,13 +139,13 @@ function RegisterPage(props) {
                     onBlur={handleOnBlurEmail}
                     onFocus={handleOnFocus}
                   ></input>
-                </p>
+                </div>
                 <div className={styles.errorContainer}>
                   {errors.email && <ErrorField message={errors.email} />}
                 </div>
               </div>
               <div className={styles.fieldWrapper}>
-                <p>
+                <div>
                   <label htmlFor="username">Username</label>
                   <input
                     placeholder="Username"
@@ -151,33 +156,38 @@ function RegisterPage(props) {
                     onFocus={handleOnFocus}
                     onBlur={handleRequireField}
                   ></input>
-                </p>
+                </div>
                 <div className={styles.errorContainer}>
                   {errors.username && <ErrorField message={errors.username} />}
                 </div>
               </div>
               <div className={styles.fieldWrapper}>
-                <p>
+                <div>
                   <label htmlFor="password">Password</label>
-                  <input
-                    type="password"
-                    placeholder="Password"
-                    id="password"
-                    name="password"
-                    required
-                    onBlur={handleOnBlurPw}
-                    onFocus={handleOnFocus}
-                  ></input>
-                </p>
+                  <div className={styles.passwordInputContainer}>
+                    <input
+                      type={isShowPw ? 'text' : 'password'}
+                      placeholder="Password"
+                      id="password"
+                      name="password"
+                      required
+                      onBlur={handleOnBlurPw}
+                      onFocus={handleOnFocus}
+                    ></input>
+                    <div onClick={() => setIsShowPw(!isShowPw)}>
+                      <ShowHidePassword isShowPw={isShowPw} />
+                    </div>
+                  </div>
+                </div>
                 <div className={styles.errorContainer}>
                   {errors.password &&
                     errors.password.map((message, idx) => (
-                      <ErrorField message={message} idx={idx}/>
+                      <ErrorField message={message} idx={idx} />
                     ))}
                 </div>
               </div>
               <div className={styles.fieldWrapper}>
-                <p>
+                <div>
                   <label htmlFor="confirmPassword">Confirm Password</label>
                   <input
                     type="password"
@@ -189,22 +199,22 @@ function RegisterPage(props) {
                     onFocus={handleOnFocus}
                     onBlur={handleRequireField}
                   ></input>
-                </p>
+                </div>
                 <div className={styles.errorContainer}>
                   {errors.confirmPassword && (
                     <ErrorField message={errors.confirmPassword} />
                   )}
                 </div>
               </div>
-              <p>
+              <div>
                 <input type="submit" id="register" value="SUBMIT"></input>
-              </p>
+              </div>
             </form>
             <div className={styles.loginWrapper}>
-              <p>
+              <div>
                 Already have an account?&nbsp;
                 <Link to="/login">Login</Link>
-              </p>
+              </div>
             </div>
           </div>
         </div>

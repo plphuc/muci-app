@@ -31,10 +31,20 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-}
 
-.usernameIcon {
-  margin-right: 8px;
+  & .usernameIcon {
+    margin-right: 8px;
+  }
+
+  & .usernameContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  & .username {
+    text-transform: capitalize;
+  }
 }
 
 .navList {

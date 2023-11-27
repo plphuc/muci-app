@@ -29,4 +29,4 @@ const isEqualBuff = (buff1, buff2) => {
   return str1 === str2;
 };
 
-export { digestPassword, buff_to_base64, isEqualBuff };
+export { digestPassword, buff_to_base64 };

@@ -1,5 +1,5 @@
 .wrapper {
-  height: 100%;
+  height: inherit;
   width: 5px;
   cursor: col-resize;
   user-select: none;

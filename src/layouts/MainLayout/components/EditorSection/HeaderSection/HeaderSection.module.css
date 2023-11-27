@@ -1,0 +1,85 @@
+.wrapper {
+  width: 100%;
+  height: var(--header-height);
+  background-color: white;
+  padding: 0 12px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btnContainer {
+  border-radius: 4px;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(55, 53, 47, 0.08);
+  }
+}
+
+.titleWrapper {
+  padding: 2px 5px;
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  align-items: center;
+}
+
+.titlePage {
+  font-size: 1.4rem;
+}
+
+.actionsWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.shareContainer {
+  height: 28px;
+  padding: 2px 8px 0 8px;
+  font-size: 1.4rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.toggleFavContainer {
+  height: 28px;
+  width: 33px;
+  margin-right: 2px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.onFavBtn {
+  color: rgb(246, 192, 80);
+}
+
+.moreActionsWrapper {
+  border-radius: 50%;
+}
+
+.moreActionsContainer {
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+
+  & .dropdownMenuWrapper {
+    position: absolute;
+    display: none;
+    top: calc(100% + 4px);
+    right: 0;
+  }
+
+  &:hover .dropdownMenuWrapper {
+    display: block;
+  }
+}

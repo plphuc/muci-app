@@ -1,9 +1,10 @@
-import ResizableBar from 'components/ResizableBar/ResizableBar';
-import SearchFeature from './SearchFeature/SearchFeature';
+import classNames from 'classnames';
+
+import ResizableBar from 'common/components/ResizableBar/ResizableBar';
+import SearchFeature from './SearchFeature/SearchFeature';  
 import UpdateFeature from './UpdateFeature/UpdateFeature';
 import SettingFeature from './SettingFeature/SettingFeature';
 import NewPageFeature from './NewPageFeature/NewPageFeature';
-import classNames from 'classnames';
 import TeamSpaceFeature from './TeamSpaceFeature/TeamSpaceFeature';
 import TemplatesFeature from './TemplatesFeature/TemplatesFeature';
 import ImportFeature from './ImportFeature/ImportFeature';
@@ -12,15 +13,21 @@ import TrashFeature from './TrashFeature/TrashFeature';
 import styles from './SidebarSection.module.css';
 import AddPageFeature from './AddPageFeature/AddPageFeature';
 import PageBlock from './PageBlock/PageBlock';
+import { useSelector } from 'react-redux';
+import { getUserInfo } from 'slices/userSlice';
 
 function SidebarSection(props) {
+  const userInfo = useSelector(getUserInfo)
   return (
     <aside className={styles.wrapper}>
       {/* nickname */}
       <div className={styles.usernameWrapper}>
         <div className={styles.usernameContent}>
           <div className={styles.usernameIcon}>🌱</div>
-          <div className={styles.usernameText}>Shoko's Notion</div>
+          <div className={styles.usernameContainer}>
+            <div className={styles.username}>{userInfo.user.username}</div>
+            <span>'s Notion</span>
+            </div>
         </div>
       </div>
       {/* nav items */}

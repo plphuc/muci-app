@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react';
 import EditorJS from '@editorjs/editorjs';
 
-import { DEFAULT_INITIAL_DATA } from 'utils/contants';
+import { DEFAULT_INITIAL_DATA } from 'common/utils/contants';
 import { EDITOR_JS_TOOLS } from 'config/editorConfigs';
+import HeaderSection from './HeaderSection/HeaderSection';
 
 import styles from './EditorSection.module.css';
 
@@ -46,6 +47,7 @@ function EditorSection(props) {
 
   return (
     <div className={styles.wrapper}>
+      <div className={styles.headerSectionWrapper}><HeaderSection /></div>
       <div id="editorjs"></div>
     </div>
   );

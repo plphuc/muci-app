@@ -1,4 +1,4 @@
-import WelcomeImage from 'assets/WelcomeImage';
+import WelcomeImage from 'assets/WelcomeImage.js';
 import styles from './WelcomePage.module.css';
 import { Link } from 'react-router-dom';
 
