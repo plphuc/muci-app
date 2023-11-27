@@ -1,18 +1,19 @@
 import SidebarSection from './components/SidebarSection/SidebarSection.js';
 import EditorSection from './components/EditorSection/EditorSection.js';
 import styles from './MainLayout.module.css';
-import { useGetDataQuery, useGetUserQuery } from 'slices/userSlice.js';
+import { useGetUserQuery } from 'slices/userSlice.js';
 import { useEffect } from 'react';
 
 function MainLayout(props) {
-  const { data: userInfo, refetch } = useGetUserQuery(localStorage.getItem('refreshToken'));
- console.log(userInfo);
+  const { data: userInfo, refetch } = useGetUserQuery(
+    localStorage.getItem('refreshToken')
+  );
   useEffect(() => {
-    if(!userInfo && localStorage.getItem('refreshToken')) {
-      refetch()
+    if (!userInfo) {
+      refetch();
     }
-  }, [userInfo])
-  return (
+  }, [userInfo]);
+  return userInfo ? (
     <div className={styles.wrapper}>
       <nav className={styles.navWrapper}>
         <SidebarSection />
@@ -21,6 +22,8 @@ function MainLayout(props) {
         <EditorSection />
       </main>
     </div>
+  ) : (
+    <></>
   );
 }
 

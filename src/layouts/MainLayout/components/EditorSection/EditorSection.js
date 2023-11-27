@@ -8,6 +8,7 @@ import HeaderSection from './HeaderSection/HeaderSection';
 import styles from './EditorSection.module.css';
 
 function EditorSection(props) {
+  const {userInfo} = props;
   const ejInstance = useRef();
 
   const initEditor = () => {

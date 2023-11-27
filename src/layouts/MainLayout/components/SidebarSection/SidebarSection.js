@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 
 import ResizableBar from 'common/components/ResizableBar/ResizableBar';
-import SearchFeature from './SearchFeature/SearchFeature';  
+import SearchFeature from './SearchFeature/SearchFeature';
 import UpdateFeature from './UpdateFeature/UpdateFeature';
 import SettingFeature from './SettingFeature/SettingFeature';
 import NewPageFeature from './NewPageFeature/NewPageFeature';
@@ -13,11 +13,10 @@ import TrashFeature from './TrashFeature/TrashFeature';
 import styles from './SidebarSection.module.css';
 import AddPageFeature from './AddPageFeature/AddPageFeature';
 import PageBlock from './PageBlock/PageBlock';
-import { useSelector } from 'react-redux';
-import { getUserInfo } from 'slices/userSlice';
+import { useGetUserQuery } from 'slices/userSlice';
 
 function SidebarSection(props) {
-  const userInfo = useSelector(getUserInfo)
+  const { data: userInfo } = useGetUserQuery(localStorage.getItem('refreshToken')); 
   return (
     <aside className={styles.wrapper}>
       {/* nickname */}
@@ -27,7 +26,7 @@ function SidebarSection(props) {
           <div className={styles.usernameContainer}>
             <div className={styles.username}>{userInfo.user.username}</div>
             <span>'s Notion</span>
-            </div>
+          </div>
         </div>
       </div>
       {/* nav items */}
@@ -40,7 +39,7 @@ function SidebarSection(props) {
       {/* nav pages */}
       <div className={styles.pagesWrapper}>
         <div className={styles.pageContainer}>
-          <PageBlock className={styles.navItem} icon='☁' title='Projects'/>
+          <PageBlock className={styles.navItem} icon="☁" title="Projects" />
           <AddPageFeature className={styles.navItem} />
         </div>
 

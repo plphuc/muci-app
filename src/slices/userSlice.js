@@ -18,7 +18,7 @@ const userSlice = createSlice({
     },
     logoutUser: (state, action) => {
       return initialState;
-    }
+    },
   },
 });
 
@@ -26,10 +26,13 @@ const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getUser: builder.query({
       query: (refreshToken) => ({
-        url: '/auth/user',
+        url: '/user/getUser',
         method: 'GET',
         headers: { Authorization: `Bearer ${refreshToken}` },
-      })
+      }),
+      transformResponse: (response, meta, arg) => {
+        return { user: response };
+      },
     }),
     loginUser: builder.mutation({
       query: (body) => ({
@@ -38,13 +41,13 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         body,
       }),
       transformResponse: (response, meta, arg) => {
-        const {_id: id, ...remainingInfo} = response.user;
+        const { _id: id, ...remainingInfo } = response.user;
         return {
           tokens: response.tokens,
           user: {
             id,
             ...remainingInfo,
-          }
+          },
         };
       },
       providesTags: ['User'],
@@ -57,13 +60,13 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         body,
       }),
       transformResponse: (response, meta, arg) => {
-        const {_id: id, ...remainingInfo} = response.user;
+        const { _id: id, ...remainingInfo } = response.user;
         return {
           tokens: response.tokens,
           user: {
             id,
             ...remainingInfo,
-          }
+          },
         };
       },
       invalidatesTags: ['User'],
@@ -74,15 +77,19 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         url: '/pages/data',
         method: 'GET',
         headers: { Authorization: `Bearer ${accessToken}` },
-      })
-    })
+      }),
+    }),
   }),
 });
 
-export const getUserInfo = state => state.user;
+export const getUserInfo = (state) => state.user;
 
-export const { useLoginUserMutation, useRegisterUserMutation, useGetDataQuery, useGetUserQuery } =
-  extendedApiSlice;
+export const {
+  useLoginUserMutation,
+  useRegisterUserMutation,
+  useGetDataQuery,
+  useGetUserQuery,
+} = extendedApiSlice;
 
 export const { setUser, logoutUser } = userSlice.actions;
 export default userSlice.reducer;
