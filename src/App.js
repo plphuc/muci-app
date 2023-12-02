@@ -1,11 +1,12 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 
 import WelcomePage from 'pages/WelcomePage/WelcomePage';
 import NotFoundPage from 'pages/NotFoundPage/NotFoundPage';
 import TopLayout from 'layouts/TopLayout/TopLayout';
 import LoginPage from 'pages/LoginPage/LoginPage';
 import RegisterPage from 'pages/RegisterPage/RegisterPage';
-import MainLayout from 'layouts/MainLayout/MainLayout';
+import HomePage from 'pages/HomePage/HomePage';
+
 // import styles from 'App.module.css';
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
           <Route path="register" element={<RegisterPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
-          <Route path="/:username" element={<MainLayout />} />
+          <Route path="/:username" element={<HomePage />} />
       </Routes>
     </BrowserRouter>
   );

@@ -16,7 +16,8 @@ import PageBlock from './PageBlock/PageBlock';
 import { useGetUserQuery } from 'slices/userSlice';
 
 function SidebarSection(props) {
-  const { data: userInfo } = useGetUserQuery(localStorage.getItem('refreshToken')); 
+  const { data: userInfo } = useGetUserQuery(JSON.parse(localStorage.getItem('refreshToken'))); 
+
   return (
     <aside className={styles.wrapper}>
       {/* nickname */}
@@ -24,7 +25,7 @@ function SidebarSection(props) {
         <div className={styles.usernameContent}>
           <div className={styles.usernameIcon}>🌱</div>
           <div className={styles.usernameContainer}>
-            <div className={styles.username}>{userInfo.user.username}</div>
+            <div className={styles.username}>{userInfo.username}</div>
             <span>'s Notion</span>
           </div>
         </div>

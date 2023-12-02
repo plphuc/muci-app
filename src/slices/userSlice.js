@@ -7,15 +7,6 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    setUser: (state, action) => {
-      localStorage.setItem(
-        'refreshToken',
-        JSON.stringify({
-          refreshToken: action.payload.tokens.refresh,
-        })
-      );
-      return action.payload;
-    },
     logoutUser: (state, action) => {
       return initialState;
     },
@@ -24,16 +15,28 @@ const userSlice = createSlice({
 
 const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    getDummy: builder.query({
+      query: () => '/',
+    }),
+
     getUser: builder.query({
-      query: (refreshToken) => ({
+      query: ({token}) => ({
         url: '/user/getUser',
         method: 'GET',
-        headers: { Authorization: `Bearer ${refreshToken}` },
-      }),
-      transformResponse: (response, meta, arg) => {
-        return { user: response };
+        headers: {Authorization: `Bearer ${JSON.stringify({token})}`}
+      })
+    }),
+
+    getData: builder.query({
+      query: ({ token }) => {
+        return {
+          url: '/pages/data',
+          method: 'GET',
+          headers: { Authorization: `Bearer ${JSON.stringify({ token })}` },
+        };
       },
     }),
+
     loginUser: builder.mutation({
       query: (body) => ({
         url: '/auth/login',
@@ -71,14 +74,6 @@ const extendedApiSlice = apiSlice.injectEndpoints({
       },
       invalidatesTags: ['User'],
     }),
-
-    getData: builder.query({
-      query: (accessToken) => ({
-        url: '/pages/data',
-        method: 'GET',
-        headers: { Authorization: `Bearer ${accessToken}` },
-      }),
-    }),
   }),
 });
 
@@ -89,7 +84,8 @@ export const {
   useRegisterUserMutation,
   useGetDataQuery,
   useGetUserQuery,
+  useGetDummyQuery,
 } = extendedApiSlice;
 
-export const { setUser, logoutUser } = userSlice.actions;
+export const { logoutUser } = userSlice.actions;
 export default userSlice.reducer;

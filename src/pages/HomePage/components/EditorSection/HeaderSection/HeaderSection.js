@@ -17,7 +17,6 @@ const samplePage = {
 function HeaderSection(props) {
   const [isFavPage, setIsFavPage] = useState(samplePage.isFavPage);
   function handleToggleFav() {
-    console.log(1);
     setIsFavPage(!isFavPage);
   }
 

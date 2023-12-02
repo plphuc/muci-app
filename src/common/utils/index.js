@@ -1,9 +1,9 @@
 import checkPasswordValidation from './checkPasswordValidation.js';
 import { digestPassword } from './digestPassword.js';
-import handleSaveTokens from './handleSaveTokens.js';
+import handleSaveToLocalStorage from './handleSaveToLocalStorage.js';
 
 export  {
   checkPasswordValidation,
   digestPassword,
-  handleSaveTokens,
+  handleSaveToLocalStorage,
 };

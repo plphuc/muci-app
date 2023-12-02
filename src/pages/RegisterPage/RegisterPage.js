@@ -1,11 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import validator from 'validator';
-import { useDispatch } from 'react-redux';
 
 import * as utils from 'common/utils/index.js';
 import ErrorField from 'common/components/ErrorField/ErrorField';
-import { setUser, useRegisterUserMutation } from 'slices/userSlice';
+import { useRegisterUserMutation } from 'slices/userSlice';
 import ShowHidePassword from 'common/components/ShowHidePassword/ShowHidePassword';
 
 import styles from './RegisterPage.module.css';
@@ -14,7 +13,6 @@ function RegisterPage(props) {
   const [isShowPw, setIsShowPw] = useState(false);
 
   const [errors, setErrors] = useState({});
-  const dispatch = useDispatch();
   const [
     registerUser,
     { data: registerResponse, isSuccess: isRegisterSuccess },
@@ -96,7 +94,7 @@ function RegisterPage(props) {
 
   useEffect(() => {
     if (isRegisterSuccess) {
-      dispatch(setUser(registerResponse));
+      utils.handleSaveToLocalStorage('refreshToken', registerResponse)
       navigate(`/${registerResponse.user.id}`);
     }
   }, [isRegisterSuccess]);

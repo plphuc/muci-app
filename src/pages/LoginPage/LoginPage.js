@@ -1,7 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { setUser, useLoginUserMutation } from 'slices/userSlice';
+import {  useLoginUserMutation } from 'slices/userSlice';
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
 import * as utils from 'common/utils/index.js';
 import styles from './LoginPage.module.css';
 import ShowHidePassword from 'common/components/ShowHidePassword/ShowHidePassword';
@@ -10,7 +9,6 @@ function LoginPage(props) {
   const [isShowPw, setIsShowPw] = useState(false);
   const [loginUser, { data: userInfo, isSuccess: isLoginSuccessful }] =
     useLoginUserMutation();
-  const dispatch = new useDispatch();
   const navigate = useNavigate();
 
   const handleSubmitLogin = async (e) => {
@@ -29,7 +27,7 @@ function LoginPage(props) {
 
   useEffect(() => {
     if (isLoginSuccessful) {
-      dispatch(setUser(userInfo));
+      utils.handleSaveToLocalStorage('refreshToken', userInfo)
       navigate(`/${userInfo.user.username}`);
     }
   });

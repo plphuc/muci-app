@@ -1,8 +1,8 @@
 import LogoSvg from 'assets/LogoSVG';
 import styles from './TopLayout.module.css';
 import classNames from 'classnames';
-import { useState } from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import DropdownMenu from 'common/components/DropdownMenu/DropdownMenu';
 import {
   productDropdownMenu,
@@ -12,9 +12,17 @@ import {
 
 function TopLayout(props) {
   const [isScrolled, setIsScrolled] = useState(false);
+  const navigate = useNavigate();
   window.onscroll = function () {
     setIsScrolled(document.documentElement.scrollTop > 1);
   };
+
+  useEffect(() => {
+    const tokenInfo = localStorage.getItem('refreshToken');
+    if (tokenInfo) {
+      navigate(`/${JSON.parse(tokenInfo).username}`)
+    }
+  })
 
   return (
     <div className={styles.wrapper}>
