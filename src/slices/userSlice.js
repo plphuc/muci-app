@@ -3,6 +3,7 @@ import apiSlice from './apiSlice';
 const { createSlice } = require('@reduxjs/toolkit');
 
 const initialState = null;
+
 const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -15,64 +16,47 @@ const userSlice = createSlice({
 
 const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getDummy: builder.query({
-      query: () => '/',
-    }),
-
     getUser: builder.query({
-      query: ({token}) => ({
+      query: (token) => {
+        return ({
         url: '/user/getUser',
         method: 'GET',
-        headers: {Authorization: `Bearer ${JSON.stringify({token})}`}
-      })
+        headers: { Authorization: `Bearer ${token}` },
+      })},
     }),
 
     getData: builder.query({
-      query: ({ token }) => {
+      query: (token) => {
         return {
           url: '/pages/data',
           method: 'GET',
-          headers: { Authorization: `Bearer ${JSON.stringify({ token })}` },
+          headers: { Authorization: `Bearer ${token}` },
         };
       },
     }),
 
-    loginUser: builder.mutation({
+    login: builder.mutation({
       query: (body) => ({
         url: '/auth/login',
         method: 'POST',
         body,
       }),
       transformResponse: (response, meta, arg) => {
-        const { _id: id, ...remainingInfo } = response.user;
-        return {
-          tokens: response.tokens,
-          user: {
-            id,
-            ...remainingInfo,
-          },
-        };
+        return response;
       },
-      providesTags: ['User'],
     }),
 
-    registerUser: builder.mutation({
+    register: builder.mutation({
       query: (body) => ({
         url: '/auth/register',
         method: 'POST',
         body,
       }),
       transformResponse: (response, meta, arg) => {
-        const { _id: id, ...remainingInfo } = response.user;
         return {
           tokens: response.tokens,
-          user: {
-            id,
-            ...remainingInfo,
-          },
         };
       },
-      invalidatesTags: ['User'],
     }),
   }),
 });
@@ -80,11 +64,10 @@ const extendedApiSlice = apiSlice.injectEndpoints({
 export const getUserInfo = (state) => state.user;
 
 export const {
-  useLoginUserMutation,
-  useRegisterUserMutation,
+  useLoginMutation,
+  useRegisterMutation,
   useGetDataQuery,
   useGetUserQuery,
-  useGetDummyQuery,
 } = extendedApiSlice;
 
 export const { logoutUser } = userSlice.actions;

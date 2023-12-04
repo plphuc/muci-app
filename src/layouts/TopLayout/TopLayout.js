@@ -9,20 +9,36 @@ import {
   instructDropdownMenu,
   downloadOptions,
 } from 'common/utils/contants';
+import { useGetUserQuery } from 'slices/userSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { saveToken, useGetAccessTokenQuery } from 'slices/tokenSlice';
 
 function TopLayout(props) {
   const [isScrolled, setIsScrolled] = useState(false);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const refreshToken = localStorage.getItem('refreshToken');
+  const {data: accessToken, refetch: getNewAccessToken} = useGetAccessTokenQuery(refreshToken, {skip: !refreshToken});
+  const {refetch: getUser} = useGetUserQuery(accessToken, {skip: !accessToken});
+  
+  
   window.onscroll = function () {
     setIsScrolled(document.documentElement.scrollTop > 1);
   };
 
   useEffect(() => {
-    const tokenInfo = localStorage.getItem('refreshToken');
-    if (tokenInfo) {
-      navigate(`/${JSON.parse(tokenInfo).username}`)
+    if (refreshToken) {
+      getNewAccessToken();
+      dispatch(saveToken({refreshToken, accessToken}))
     }
   })
+
+  useEffect(() => {
+    if (accessToken) {
+      getUser().unwrap().then((res) => {navigate(`${res.username}`)});
+    }
+  }, [accessToken])
 
   return (
     <div className={styles.wrapper}>

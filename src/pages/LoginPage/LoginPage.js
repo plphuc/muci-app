@@ -1,14 +1,20 @@
 import { Link, useNavigate } from 'react-router-dom';
-import {  useLoginUserMutation } from 'slices/userSlice';
+import { useGetUserQuery, useLoginMutation } from 'slices/userSlice';
 import { useEffect, useState } from 'react';
 import * as utils from 'common/utils/index.js';
 import styles from './LoginPage.module.css';
 import ShowHidePassword from 'common/components/ShowHidePassword/ShowHidePassword';
+import { useDispatch, useSelector } from 'react-redux';
+import { saveToken } from 'slices/tokenSlice';
 
 function LoginPage(props) {
+  const dispatch = useDispatch();
+  const accessToken = useSelector((state) => state.tokens?.accessToken);
   const [isShowPw, setIsShowPw] = useState(false);
-  const [loginUser, { data: userInfo, isSuccess: isLoginSuccessful }] =
-    useLoginUserMutation();
+  const [loginUser, { data: tokens, isSuccess: isLoginSuccessful }] = useLoginMutation();
+  const { refetch: getUser } = useGetUserQuery(accessToken, {
+    skip: !accessToken,
+  });
   const navigate = useNavigate();
 
   const handleSubmitLogin = async (e) => {
@@ -27,10 +33,20 @@ function LoginPage(props) {
 
   useEffect(() => {
     if (isLoginSuccessful) {
-      utils.handleSaveToLocalStorage('refreshToken', userInfo)
-      navigate(`/${userInfo.user.username}`);
+      utils.handleSaveToLocalStorage('refreshToken', tokens.refreshToken);
+      dispatch(saveToken(tokens));
     }
   });
+
+  useEffect(() => {
+    if (accessToken) {
+      getUser()
+        .unwrap()
+        .then((res) => {
+          navigate(`/${res.username}`);
+        });
+    }
+  }, [accessToken]);
 
   return (
     <div className={styles.wrapper}>
@@ -63,7 +79,7 @@ function LoginPage(props) {
                     required
                     pattern="^[^ ].+[^ ]$"
                   ></input>
-                  <div onClick={() =>setIsShowPw(!isShowPw)}>
+                  <div onClick={() => setIsShowPw(!isShowPw)}>
                     <ShowHidePassword isShowPw={isShowPw} />
                   </div>
                 </div>

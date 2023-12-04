@@ -14,9 +14,20 @@ import styles from './SidebarSection.module.css';
 import AddPageFeature from './AddPageFeature/AddPageFeature';
 import PageBlock from './PageBlock/PageBlock';
 import { useGetUserQuery } from 'slices/userSlice';
+import { useSelector } from 'react-redux';
+import { selectAccessToken } from 'slices/tokenSlice';
+import { useEffect } from 'react';
 
 function SidebarSection(props) {
-  const { data: userInfo } = useGetUserQuery(JSON.parse(localStorage.getItem('refreshToken'))); 
+  const accessToken = useSelector(selectAccessToken)
+  console.log(accessToken);
+  const { data: userInfo, refetch: getUser } = useGetUserQuery(accessToken, {skip: !accessToken}); 
+  
+  useEffect(() => {
+    if (accessToken) {
+      getUser();
+    }
+  }, [accessToken])
 
   return (
     <aside className={styles.wrapper}>
@@ -25,7 +36,7 @@ function SidebarSection(props) {
         <div className={styles.usernameContent}>
           <div className={styles.usernameIcon}>🌱</div>
           <div className={styles.usernameContainer}>
-            <div className={styles.username}>{userInfo.username}</div>
+            <div className={styles.username}>{userInfo?.username}</div>
             <span>'s Notion</span>
           </div>
         </div>

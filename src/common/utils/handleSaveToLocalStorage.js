@@ -1,9 +1,5 @@
-const handleSaveToLocalStorage = (storedName, userInfo) => {
-  localStorage.setItem(storedName, `${JSON.stringify({
-    token: userInfo.tokens.refresh.token,
-    expire: userInfo.tokens.refresh.expire,
-    username: userInfo.user.username
-  })}`)
+const handleSaveToLocalStorage = (storedName, value) => {
+  localStorage.setItem(storedName, value)
 }
 
 export default handleSaveToLocalStorage

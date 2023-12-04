@@ -6,18 +6,20 @@ import {
   useGetDataQuery
 } from 'slices/userSlice.js';
 import styles from './HomePage.module.css';
+import { useSelector } from 'react-redux';
+import { selectAccessToken } from 'slices/tokenSlice.js';
 
 function HomePage(props) {
-  const storedRefreshToken = JSON.parse(localStorage.getItem('refreshToken'));
-  const { data: userInfo, refetch: refetchUser } = useGetUserQuery(storedRefreshToken);
-  const {data: content, refetch: refetchData} = useGetDataQuery(storedRefreshToken);
-  
+  const accessToken = useSelector(selectAccessToken)
+  const { data: userInfo, refetch: getUser } = useGetUserQuery(accessToken, {
+    skip: !accessToken
+  });
+
   useEffect(() => {
-    if (!userInfo) {
-      refetchUser();
-      refetchData();
+    if (accessToken) {
+      getUser();
     }
-  }, [userInfo]);
+  }, [accessToken]);
 
   return userInfo ? (
     <div className={styles.wrapper}>

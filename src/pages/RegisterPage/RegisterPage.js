@@ -4,7 +4,7 @@ import validator from 'validator';
 
 import * as utils from 'common/utils/index.js';
 import ErrorField from 'common/components/ErrorField/ErrorField';
-import { useRegisterUserMutation } from 'slices/userSlice';
+import { useRegisterMutation } from 'slices/userSlice';
 import ShowHidePassword from 'common/components/ShowHidePassword/ShowHidePassword';
 
 import styles from './RegisterPage.module.css';
@@ -16,7 +16,7 @@ function RegisterPage(props) {
   const [
     registerUser,
     { data: registerResponse, isSuccess: isRegisterSuccess },
-  ] = useRegisterUserMutation();
+  ] = useRegisterMutation();
 
   const navigate = useNavigate();
   const handleOnFocus = (e) => {
