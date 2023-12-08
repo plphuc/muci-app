@@ -1,14 +1,11 @@
-import { useEffect, useRef } from 'react';
-import EditorJS from '@editorjs/editorjs';
+import { useRef, useEffect } from 'react';
 
+import EditorJS from '@editorjs/editorjs';
 import { DEFAULT_INITIAL_DATA } from 'common/utils/contants';
 import { EDITOR_JS_TOOLS } from 'config/editorConfigs';
-import HeaderSection from './HeaderSection/HeaderSection';
-
 import styles from './EditorSection.module.css';
 
 function EditorSection(props) {
-  const {userInfo} = props;
   const ejInstance = useRef();
 
   const initEditor = () => {
@@ -17,22 +14,10 @@ function EditorSection(props) {
       onReady: () => {
         ejInstance.current = editor;
       },
-      autofocus: true,
       data: DEFAULT_INITIAL_DATA,
-      onChange: async () => {
-        // let content = await editor.saver.save();
-        // console.log(content);
-      },
       tools: EDITOR_JS_TOOLS,
     });
   };
-
-  function handleOnChange(e) {
-    const fileInput = document.getElementById('img');
-    const file = fileInput.files[0];
-    const formData = new FormData();
-    formData.append('file', file);
-  }
 
   // This will run only once
   useEffect(() => {
@@ -48,7 +33,6 @@ function EditorSection(props) {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.headerSectionWrapper}><HeaderSection /></div>
       <div id="editorjs"></div>
     </div>
   );

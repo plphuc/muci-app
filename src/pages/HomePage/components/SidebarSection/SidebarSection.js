@@ -20,9 +20,7 @@ import { useEffect } from 'react';
 
 function SidebarSection(props) {
   const accessToken = useSelector(selectAccessToken)
-  console.log(accessToken);
   const { data: userInfo, refetch: getUser } = useGetUserQuery(accessToken, {skip: !accessToken}); 
-  
   useEffect(() => {
     if (accessToken) {
       getUser();

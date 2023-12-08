@@ -89,3 +89,13 @@
     color: rgb(129 129 129);
   }
 }
+
+.invalidFields {
+  color: red;
+  font-size: 1.1rem;
+  visibility: hidden;
+}
+
+.isInvalidLogin {
+  visibility: visible;
+}

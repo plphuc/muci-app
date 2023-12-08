@@ -1,0 +1,79 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: [full-start] 96px [content-start] 1fr [content-end] 96px [full-end];
+
+  &:hover .addItemContainer {
+    opacity: 1;
+  }
+}
+
+.container {
+  grid-column: content;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+}
+
+.addItemsContainer {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+  margin-top: 5px;
+}
+
+.addItemContainer {
+  min-width: 70px;
+  transition: opacity 100ms ease 0s;
+  opacity: 1;
+  color: rgba(55, 53, 47, 0.5);
+  flex-shrink: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.titleContainer {
+  width: 100%;
+  cursor: text;
+  padding-top: 40px;
+  font-size: 2.5rem;
+
+  & > h1 {
+    color: var(--title-page-color);
+  }
+
+  & h1:focus {
+    outline: none;
+  }
+}
+
+[contenteditable]:empty:after {
+  content: attr(placeholder);
+  color: rgb(55, 53, 47);
+  -webkit-text-fill-color: rgba(55, 53, 47, 0.15);
+}
+
+.removeCoverBtn {
+  opacity: 0;
+  font-size: 20px;
+  color: var(--text-color);
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  transition: all .1s ease-in-out;
+  cursor: pointer;
+}
+
+.coverContainer {
+  grid-column: full;
+  height: 30vh;
+  width: 100%;
+  margin-top: -80px;
+  position: relative;
+  
+  &:hover .removeCoverBtn {
+    opacity: 1;
+  }
+}

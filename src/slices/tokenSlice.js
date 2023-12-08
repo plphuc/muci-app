@@ -11,6 +11,9 @@ const tokenSlice = createSlice({
     saveToken: (state, action) => {
       return action.payload;
     },
+    resetToken: (state) => {
+      return initialState;
+    },
   },
 });
 
@@ -29,10 +32,11 @@ const extendedApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const selectAccessToken = (state) => state.tokens?.accessToken;
-export const selectRefreshToken = (state) => state.tokens?.refreshToken;
+export const selectAccessToken = (state) => {
+  return state.token;
+};
 
 export const { useGetAccessTokenQuery } = extendedApiSlice;
 
-export const { saveToken } = tokenSlice.actions;
+export const { saveToken, resetToken } = tokenSlice.actions;
 export default tokenSlice.reducer;

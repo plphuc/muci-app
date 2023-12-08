@@ -3,6 +3,7 @@
   min-width: 220px;
   height: inherit;
   font-size: 1.4rem;
+  font-family: var(--default-font);
 
   background-color: var(--background-color);
   position: relative;

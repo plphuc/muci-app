@@ -6,7 +6,7 @@ import { faStar } from '@fortawesome/free-regular-svg-icons';
 
 import DropdownMenu from 'common/components/DropdownMenu/DropdownMenu';
 
-import styles from './HeaderSection.module.css';
+import styles from './TopbarSection.module.css';
 import MoreOptionsMenu from './MoreOptionsMenu/MoreOptionsMenu';
 
 const samplePage = {
@@ -14,7 +14,7 @@ const samplePage = {
   icon: '💚',
   isFavPage: false,
 };
-function HeaderSection(props) {
+function TopbarSection(props) {
   const [isFavPage, setIsFavPage] = useState(samplePage.isFavPage);
   function handleToggleFav() {
     setIsFavPage(!isFavPage);
@@ -66,4 +66,4 @@ function HeaderSection(props) {
   );
 }
 
-export default HeaderSection;
+export default TopbarSection;

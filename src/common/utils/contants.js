@@ -3,15 +3,6 @@ import { faBook, faBullseye, faFile } from '@fortawesome/free-solid-svg-icons';
 
 const DEFAULT_INITIAL_DATA = {
   time: new Date().getTime(),
-  blocks: [
-    {
-      type: 'header',
-      data: {
-        text: 'This is my awesome editor!',
-        level: 1,
-      },
-    },
-  ],
 };
 
 const productDropdownMenu = [

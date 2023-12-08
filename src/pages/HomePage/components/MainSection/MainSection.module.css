@@ -1,0 +1,27 @@
+.wrapper {
+  height: inherit;
+  overflow-y: scroll;
+  font-family: var(--default-font);
+}
+
+.topbarSectionWrapper {
+  height: var(--header-height);
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+.mainSectionWrapper {
+  display: grid;
+  grid-template-columns: [full-start] 96px [content-start] 1fr [content-end] 96px [full-end];
+}
+
+.headerSectionWrapper { 
+  grid-column: full;
+  margin-top: 80px;
+  margin-bottom: 4px;
+}
+
+.editorSectionWrapper {
+  grid-column: content;
+}

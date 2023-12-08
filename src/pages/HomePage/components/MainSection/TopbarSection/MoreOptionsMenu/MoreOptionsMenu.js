@@ -3,6 +3,7 @@ import styles from './MoreOptionsMenu.module.css';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logoutUser } from 'slices/userSlice';
+import { resetToken } from 'slices/tokenSlice';
 
 function MoreOptionsMenu(props) {
   const navigate = useNavigate();
@@ -11,8 +12,10 @@ function MoreOptionsMenu(props) {
   const handleLogout = () => {
     localStorage.removeItem('refreshToken');
     dispatch(logoutUser());
+    dispatch(resetToken())
     navigate('/')
   };
+  
   return (
     <div className={styles.wrapper}>
       <div className={styles.stylesWrapper}>

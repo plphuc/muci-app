@@ -13,6 +13,7 @@ font-family: 'Raleway', sans-serif; */
   --hover-color: rgb(234, 234, 232);
   --icon-color: rgba(55, 53, 47, 0.45);
   --text-color: rgba(25, 23, 17, 0.6);
+  --title-page-color: rgb(55, 53, 47);
   --text-description-color: #979797;
   --divider-color: rgba(0,0,0,.1);
   --dropdown-shadow-color: 0px 4px 18px rgb(0 0 0/4%),0px 2.025px 7.84688px rgba(0,0,0,.027),0px 0.8px 2.925px rgb(0 0 0/2%),0px 0.175px 1.04062px rgba(0,0,0,.013);
@@ -26,7 +27,7 @@ html {
 * {
   margin: 0;
   padding: 0;
-  font-family: var(--default-font);
+  font-family: inherit;
   box-sizing: border-box;
   list-style-type: none;
   text-decoration: none;
@@ -57,4 +58,14 @@ html {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
+}
+
+.ce-toolbar__content, .ce-block__content {
+  max-width: unset;
+}
+
+.no-border-button {
+  border: none;
+  background: transparent;
+  cursor: pointer;
 }

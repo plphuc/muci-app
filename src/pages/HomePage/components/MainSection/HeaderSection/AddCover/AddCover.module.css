@@ -1,0 +1,19 @@
+.wrapper {
+  height: 28px;
+  padding-left: 6px;
+  padding-right: 8px;
+  border-radius: 3px;
+
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 6px;
+
+  &:hover {
+    background-color: rgba(55, 53, 47, 0.08);
+  }
+}
+
+.container {
+  color: inherit;
+}

@@ -5,13 +5,16 @@ import * as utils from 'common/utils/index.js';
 import styles from './LoginPage.module.css';
 import ShowHidePassword from 'common/components/ShowHidePassword/ShowHidePassword';
 import { useDispatch, useSelector } from 'react-redux';
-import { saveToken } from 'slices/tokenSlice';
+import { saveToken, selectAccessToken } from 'slices/tokenSlice';
+import classNames from 'classnames';
 
 function LoginPage(props) {
   const dispatch = useDispatch();
-  const accessToken = useSelector((state) => state.tokens?.accessToken);
+  const accessToken = useSelector(selectAccessToken);
+  const [isValidLogin, setIsValidLogin] = useState(true);
   const [isShowPw, setIsShowPw] = useState(false);
-  const [loginUser, { data: tokens, isSuccess: isLoginSuccessful }] = useLoginMutation();
+  const [loginUser, { data: tokens, isSuccess: isLoginSuccessful }] =
+    useLoginMutation();
   const { refetch: getUser } = useGetUserQuery(accessToken, {
     skip: !accessToken,
   });
@@ -25,18 +28,17 @@ function LoginPage(props) {
       await loginUser({
         email: dataForm.get('email'),
         password,
-      }).unwrap();
+      })
+        .unwrap()
+        .then((res) => {
+          setIsValidLogin(true);
+          utils.handleSaveToLocalStorage('refreshToken', res.refreshToken);
+          dispatch(saveToken(res.accessToken));
+        });
     } catch (e) {
-      console.log(e.data.message);
+      setIsValidLogin(false);
     }
   };
-
-  useEffect(() => {
-    if (isLoginSuccessful) {
-      utils.handleSaveToLocalStorage('refreshToken', tokens.refreshToken);
-      dispatch(saveToken(tokens));
-    }
-  });
 
   useEffect(() => {
     if (accessToken) {
@@ -85,6 +87,13 @@ function LoginPage(props) {
                 </div>
               </div>
               <div>
+              <div
+                className={classNames(styles.invalidFields, {
+                  [`${styles.isInvalidLogin}`]: !isValidLogin,
+                })}
+              >
+                Incorrect email or password
+              </div>
                 <input type="submit" id="login" value="SUBMIT"></input>
               </div>
             </form>
