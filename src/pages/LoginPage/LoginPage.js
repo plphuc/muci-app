@@ -13,8 +13,7 @@ function LoginPage(props) {
   const accessToken = useSelector(selectAccessToken);
   const [isValidLogin, setIsValidLogin] = useState(true);
   const [isShowPw, setIsShowPw] = useState(false);
-  const [loginUser, { data: tokens, isSuccess: isLoginSuccessful }] =
-    useLoginMutation();
+  const [loginUser] = useLoginMutation();
   const { refetch: getUser } = useGetUserQuery(accessToken, {
     skip: !accessToken,
   });

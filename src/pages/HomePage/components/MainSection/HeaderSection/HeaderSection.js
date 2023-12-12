@@ -21,7 +21,7 @@ function HeaderSection(props) {
       {cover && (
         <div className={styles.coverContainer}>
           <img
-            src="http://localhost:8080/page/img"
+          src={cover}
             style={{ width: '100%', height: '100%' }}
           ></img>
           <button
@@ -38,11 +38,9 @@ function HeaderSection(props) {
           <div className={styles.addItemContainer}>
             <AddIcon />
           </div>
-          {!cover && (
-            <div className={styles.addItemContainer}>
-              <AddCover handleSetCover={setCover} />
-            </div>
-          )}
+          <div className={styles.addItemContainer}>
+            <AddCover cover={cover} handleSetCover={setCover} />
+          </div>
         </div>
         <div className={styles.titleContainer}>
           <h1

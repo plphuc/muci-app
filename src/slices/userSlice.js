@@ -23,6 +23,10 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         method: 'GET',
         headers: { Authorization: `Bearer ${token}` },
       })},
+      transformResponse: (response, meta, arg) => {
+        console.log("response in slice", response);
+        return response
+      }
     }),
 
     getData: builder.query({

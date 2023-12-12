@@ -14,6 +14,7 @@ const samplePage = {
   icon: '💚',
   isFavPage: false,
 };
+
 function TopbarSection(props) {
   const [isFavPage, setIsFavPage] = useState(samplePage.isFavPage);
   function handleToggleFav() {

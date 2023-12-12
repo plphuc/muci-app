@@ -7,19 +7,17 @@ import EditorSection from './EditorSection/EditorSection';
 import { useSavePageMutation } from 'slices/pageSlice';
 import { selectAccessToken } from 'slices/tokenSlice';
 import { useGetUserQuery } from 'slices/userSlice';
-
+import { useGetPagesQuery  } from 'slices/pageSlice';
 import styles from './MainSection.module.css';
 
 function MainSection(props) {
-  const [savePage] = useSavePageMutation();
   const accessToken = useSelector(selectAccessToken);
-  const { data: userInfo } = useGetUserQuery(accessToken);
 
   // useEffect(() => {
   //   const saveData = async () => {
   //     try {
   //       const content = await ejInstance.current?.save();
-  //       await savePage({content, accessToken, userId: userInfo.id})
+  //       await savePage({content, accessToken})
   //     } catch (err) {
   //       console.log(err);
   //     }

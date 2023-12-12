@@ -1,8 +1,7 @@
 .wrapper {
   height: 28px;
-  padding-left: 6px;
-  padding-right: 8px;
   border-radius: 3px;
+  box-sizing: content-box;
 
   display: flex;
   justify-content: flex-start;
@@ -16,4 +15,19 @@
 
 .container {
   color: inherit;
+  height: 100%;
+
+  & label {
+    height: 100%;
+    cursor: pointer;
+    padding-left: 6px;
+    padding-right: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  & input[type='file'] {
+    display: none;
+  }
 }

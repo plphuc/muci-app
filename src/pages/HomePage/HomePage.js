@@ -2,10 +2,11 @@ import { useEffect } from 'react';
 import SidebarSection from './components/SidebarSection/SidebarSection.js';
 import { useGetUserQuery } from 'slices/userSlice.js';
 import styles from './HomePage.module.css';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   resetToken,
   saveToken,
+  selectAccessToken,
   useGetAccessTokenQuery,
 } from 'slices/tokenSlice.js';
 import { useNavigate } from 'react-router-dom';
@@ -15,32 +16,19 @@ function HomePage(props) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const refreshToken = localStorage.getItem('refreshToken');
-  const { data: accessToken, refetch: getAccessToken} = useGetAccessTokenQuery(refreshToken, { skip: !refreshToken });
-
-  const { data: userInfo, refetch: getUser } = useGetUserQuery(accessToken?.accessToken,
-    { skip: !accessToken }
-  );
+  const accessToken = useSelector(selectAccessToken);
+  const { data: userInfo, refetch: getUser } = useGetUserQuery(accessToken);
 
   useEffect(() => {
-    if (accessToken) {
-      getUser();
-    } else {
-      if (refreshToken) {
-        getAccessToken().unwrap()
-          .then((res) => {
-            dispatch(saveToken(res.accessToken));
-          })
-      }
-    }
+    getUser()
+      .unwrap()
+      .then()
+      .catch((err) => {
+        dispatch(resetToken());
+        console.log(err);
+        navigate('/');
+      });
   }, [accessToken]);
-
-  useEffect(() => {
-    if (!refreshToken) {
-      dispatch(resetToken())
-      navigate('/');
-    }
-  }, [refreshToken]) 
 
   return userInfo ? (
     <div className={styles.wrapper}>
@@ -52,7 +40,7 @@ function HomePage(props) {
       </main>
     </div>
   ) : (
-    <></>
+    <>Hi</>
   );
 }
 

@@ -41,10 +41,10 @@
   font-size: 21px;
   font-weight: 600;
   background: #121212;
-  padding: 5px 10px;
   border-radius: 10px;
   margin-top: 20px;
   cursor: pointer;
+  padding: 5px 10px;
 
   display: flex;
   justify-content: center;
@@ -57,4 +57,5 @@
 
 .authenBtn {
   color: white;
+
 }

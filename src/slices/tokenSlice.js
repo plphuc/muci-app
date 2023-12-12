@@ -12,6 +12,7 @@ const tokenSlice = createSlice({
       return action.payload;
     },
     resetToken: (state) => {
+      localStorage.removeItem('refreshToken');
       return initialState;
     },
   },
