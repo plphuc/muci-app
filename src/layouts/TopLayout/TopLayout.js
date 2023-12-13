@@ -12,7 +12,7 @@ import {
 import { useGetUserQuery } from 'slices/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  saveToken,
+  saveAccessToken,
   selectAccessToken,
 } from 'slices/tokenSlice';
 
@@ -36,7 +36,7 @@ function TopLayout(props) {
     getUser()
       .unwrap()
       .then((res) => {
-        dispatch(saveToken(res.accessToken));
+        dispatch(saveAccessToken(res.accessToken));
         navigate(`${res.username}`);
       })
       .catch((err) => {});

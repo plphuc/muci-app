@@ -6,6 +6,7 @@ import TopLayout from 'layouts/TopLayout/TopLayout';
 import LoginPage from 'pages/LoginPage/LoginPage';
 import RegisterPage from 'pages/RegisterPage/RegisterPage';
 import HomePage from 'pages/HomePage/HomePage';
+import MainSection from 'pages/HomePage/components/MainSection/MainSection';
 
 // import styles from 'App.module.css';
 
@@ -19,7 +20,8 @@ function App() {
           <Route path="register" element={<RegisterPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
-          <Route path="/:username" element={<HomePage />} />
+        <Route path="/:username" element={<HomePage />} />
+        <Route path="/:username/:pageid" element={<HomePage />} />
       </Routes>
     </BrowserRouter>
   );

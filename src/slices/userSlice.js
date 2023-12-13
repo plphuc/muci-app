@@ -54,11 +54,6 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         method: 'POST',
         body,
       }),
-      transformResponse: (response, meta, arg) => {
-        return {
-          tokens: response.tokens,
-        };
-      },
     }),
   }),
 });
@@ -69,8 +64,6 @@ export const {
   useGetDataQuery,
   useGetUserQuery,
 } = extendedApiSlice;
-
-export const getUserInfo = (state) => state.user;
 
 export const { logoutUser } = userSlice.actions;
 export default userSlice.reducer;

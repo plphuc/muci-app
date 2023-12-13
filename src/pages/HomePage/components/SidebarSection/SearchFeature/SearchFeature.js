@@ -1,5 +1,5 @@
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DisplayFeature from '../DisplayFeature/DisplayFeature';
 
 import styles from './SearchFeature.module.css';
@@ -8,7 +8,7 @@ function SearchFeature(props) {
   const { className } = props;
   return (
     <div className={className}>
-      <DisplayFeature iconName={faMagnifyingGlass} title='Search'/>
+      <DisplayFeature icon={<FontAwesomeIcon icon={faMagnifyingGlass}/>} title='Search'/>
     </div>
   );
 }

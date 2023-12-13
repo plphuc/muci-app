@@ -6,7 +6,7 @@ const tokenSlice = createSlice({
   name: 'tokens',
   initialState,
   reducers: {
-    saveToken: (state, action) => {
+    saveAccessToken: (state, action) => {
       return action.payload;
     },
     resetToken: (state) => {
@@ -20,5 +20,5 @@ export const selectAccessToken = (state) => {
   return state.token;
 };
 
-export const { saveToken, resetToken } = tokenSlice.actions;
+export const { saveAccessToken, resetToken } = tokenSlice.actions;
 export default tokenSlice.reducer;

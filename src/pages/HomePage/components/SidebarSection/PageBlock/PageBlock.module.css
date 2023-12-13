@@ -22,5 +22,9 @@
 
 .pageInfo {
   display: flex;
-  gap: 8px;
+  gap: 5px;
+}
+
+.childrenContainer {
+  margin-left: 20px;
 }

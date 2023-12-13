@@ -1,24 +1,31 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import validator from 'validator';
+import { useDispatch, useSelector } from 'react-redux';
 
 import * as utils from 'common/utils/index.js';
+import { useGetUserQuery, useRegisterMutation } from 'slices/userSlice';
+import { selectAccessToken } from 'slices/tokenSlice';
+import { saveAccessToken } from 'slices/tokenSlice';
+
 import ErrorField from 'common/components/ErrorField/ErrorField';
-import { useRegisterMutation } from 'slices/userSlice';
 import ShowHidePassword from 'common/components/ShowHidePassword/ShowHidePassword';
 
 import styles from './RegisterPage.module.css';
+import { useAddPageMutation } from 'slices/pageSlice';
 
 function RegisterPage(props) {
-  const [isShowPw, setIsShowPw] = useState(false);
-
-  const [errors, setErrors] = useState({});
-  const [
-    registerUser,
-    { data: registerResponse, isSuccess: isRegisterSuccess },
-  ] = useRegisterMutation();
-
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const accessToken = useSelector(selectAccessToken);
+
+  const [isShowPw, setIsShowPw] = useState(false);
+  const [errors, setErrors] = useState({});
+  const { refetch: getUser } = useGetUserQuery(accessToken);
+
+  const [registerUser] = useRegisterMutation();
+  const [addPage] = useAddPageMutation();
+
   const handleOnFocus = (e) => {
     setErrors({
       ...errors,
@@ -68,7 +75,7 @@ function RegisterPage(props) {
     e.preventDefault();
     const dataForm = new FormData(e.target);
 
-    if (!dataForm.get('confirmPassword') === dataForm.get('password')) {
+    if (!(dataForm.get('confirmPassword') === dataForm.get('password'))) {
       setErrors({
         ...errors,
         confirmPassword: 'Confirm password does not match',
@@ -84,20 +91,31 @@ function RegisterPage(props) {
       const { confirmPassword, ...registerData } = data;
 
       try {
-        await registerUser(registerData).unwrap();
+        const resRegister = await registerUser(registerData).unwrap();
+        dispatch(saveAccessToken(resRegister.accessToken));
+        utils.handleSaveToLocalStorage(
+          'refreshToken',
+          resRegister.refreshToken
+        );
       } catch (err) {
-        console.log(err.data.message);
-        // handle annouce not valid data
+        console.log(err.message);
       }
     }
   };
 
   useEffect(() => {
-    if (isRegisterSuccess) {
-      utils.handleSaveToLocalStorage('refreshToken', registerResponse)
-      navigate(`/${registerResponse.user.id}`);
+    if (accessToken) {
+      getUser()
+        .unwrap()
+        .then((res) => {
+          addPage(accessToken).unwrap();
+          navigate(`/${res.id}`);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-  }, [isRegisterSuccess]);
+  }, [accessToken]);
 
   return (
     <div className={styles.wrapper}>
@@ -185,10 +203,10 @@ function RegisterPage(props) {
                 </div>
               </div>
               <div className={styles.fieldWrapper}>
-                <div>
-                  <label htmlFor="confirmPassword">Confirm Password</label>
+                <label htmlFor="confirmPassword">Confirm Password</label>
+                <div className={styles.passwordInputContainer}>
                   <input
-                    type="password"
+                    type={isShowPw ? 'text' : 'password'}
                     placeholder="Confirm password"
                     id="confirmPassword"
                     name="confirmPassword"
@@ -197,6 +215,9 @@ function RegisterPage(props) {
                     onFocus={handleOnFocus}
                     onBlur={handleRequireField}
                   ></input>
+                  <div onClick={() => setIsShowPw(!isShowPw)}>
+                    <ShowHidePassword isShowPw={isShowPw} />
+                  </div>
                 </div>
                 <div className={styles.errorContainer}>
                   {errors.confirmPassword && (

@@ -1,5 +1,5 @@
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DisplayFeature from '../DisplayFeature/DisplayFeature';
 
 import styles from './TrashFeature.module.css';
@@ -8,7 +8,7 @@ function TrashFeature(props) {
   const { className } = props;
   return (
     <div className={className}>
-      <DisplayFeature iconName={faTrash} title='Trash'/>
+      <DisplayFeature icon={<FontAwesomeIcon icon={faTrash}/>} title='Trash'/>
     </div>
   );
 }

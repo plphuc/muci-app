@@ -62,7 +62,7 @@
   font-weight: 600;
 
   display: flex;
-  gap: 8px;
+  gap: 5px;
   &:hover {
     cursor: pointer;
     background-color: var(--hover-color);
@@ -71,8 +71,7 @@
 
 .pagesWrapper {
   width: 100%;
-  padding-top: 6px;
-  padding-bottom: 20px;
+  padding: 6px 4px 20px 4px;
 }
 
 .pageOptions {

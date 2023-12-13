@@ -7,7 +7,14 @@ const initialState = null;
 const pageSlice = createSlice({
   name: 'page',
   initialState,
-  reducers: {},
+  reducers: {
+    savePages: (state, action) => {
+      return action.payload;
+    },
+    saveCurrentPage: (state, action) => {
+      return action.payload;
+    },
+  },
 });
 
 const extendedApiSlice = apiSlice.injectEndpoints({
@@ -20,42 +27,59 @@ const extendedApiSlice = apiSlice.injectEndpoints({
           method: 'GET',
         };
       },
+      transformResponse: (response) => {
+        return response.pages;
+      },
+      providesTags: (result = [], error, arg) => [
+        'Page',
+        result.map(({ id }) => ({ type: 'Post', id })),
+      ],
     }),
-    
+
     getPage: builder.query({
-      query: ({accessToken, pageId}) => {
+      query: ({ accessToken, pageId }) => {
         return {
-          url: '/page/getId',
+          url: '/page/getPageById',
           headers: { authorization: `Bearer ${accessToken}` },
           method: 'GET',
-          body: {pageId}
+          params: { pageId },
         };
       },
+      providesTags: (result, error, arg) => [{ type: 'Post', id: arg.id }],
     }),
-    savePage: builder.mutation({
-      query: ({content, accessToken}) => {
+
+    addPage: builder.mutation({
+      query: (accessToken) => {
         return {
-          url: '/page/save',
+          url: '/page/add',
           headers: { authorization: `Bearer ${accessToken}` },
           method: 'POST',
-          body: {content},
         };
       },
+      invalidatesTags: ['Page'],
     }),
+
     editPage: builder.mutation({
-      query: ({content, accessToken}) => {
+      query: ({ content, accessToken }) => {
         return {
           url: '/page/edit',
           headers: { authorization: `Bearer ${accessToken}` },
           method: 'POST',
-          body: {content},
+          body: { content },
         };
       },
+      invalidatesTags: (result, error, arg) => [{ type: 'Post', id: arg.id }],
     }),
   }),
 });
 
-export const { useEditPageMutation, useGetPageQuery, useSavePageMutation, useGetPagesQuery } = extendedApiSlice;
+export const {
+  useEditPageMutation,
+  useGetPageQuery,
+  useLazyGetPageQuery,
+  useAddPageMutation,
+  useGetPagesQuery,
+} = extendedApiSlice;
 
 // export const {  } = userSlice.actions;
 export default pageSlice.reducer;

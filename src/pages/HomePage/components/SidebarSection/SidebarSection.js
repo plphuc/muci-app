@@ -9,6 +9,7 @@ import TeamSpaceFeature from './TeamSpaceFeature/TeamSpaceFeature';
 import TemplatesFeature from './TemplatesFeature/TemplatesFeature';
 import ImportFeature from './ImportFeature/ImportFeature';
 import TrashFeature from './TrashFeature/TrashFeature';
+import DisplayFeature from './DisplayFeature/DisplayFeature';
 
 import AddPageFeature from './AddPageFeature/AddPageFeature';
 import PageBlock from './PageBlock/PageBlock';
@@ -22,8 +23,19 @@ import styles from './SidebarSection.module.css';
 function SidebarSection(props) {
   const accessToken = useSelector(selectAccessToken);
 
-  const {data: allPages} = useGetPagesQuery(accessToken)
-  const { data: userInfo} = useGetUserQuery(accessToken); 
+  const { data: allPages } = useGetPagesQuery(accessToken);
+  const { data: userInfo } = useGetUserQuery(accessToken);
+  const displayAllPages = allPages?.map((page) => {
+    return (
+      <PageBlock
+        key={page.id}
+        id={page.id}
+        parentClass={styles.navItem}
+        icon={page.icon ? page.icon : '📃'}
+        title={page.title}
+      />
+    );
+  });
 
   return (
     <aside className={styles.wrapper}>
@@ -46,17 +58,18 @@ function SidebarSection(props) {
       </div>
       {/* nav pages */}
       <div className={styles.pagesWrapper}>
-        <div className={styles.pageContainer}>
-          <PageBlock className={styles.navItem} icon="☁" title="Projects" />
-          <AddPageFeature className={styles.navItem} />
+        <div className={classNames(styles.pageContainer, styles.navItem)}>
+          <DisplayFeature icon="☁" title="Projects" />
         </div>
+        {displayAllPages}
+        <AddPageFeature className={styles.navItem} />
+      </div>
 
-        <div className={classNames(styles.pageOptions, styles.navList)}>
-          <TeamSpaceFeature className={styles.navItem} />
-          <TemplatesFeature className={styles.navItem} />
-          <ImportFeature className={styles.navItem} />
-          <TrashFeature className={styles.navItem} />
-        </div>
+      <div className={classNames(styles.pageOptions, styles.navList)}>
+        <TeamSpaceFeature className={styles.navItem} />
+        <TemplatesFeature className={styles.navItem} />
+        <ImportFeature className={styles.navItem} />
+        <TrashFeature className={styles.navItem} />
       </div>
 
       {/* close sidebar button absolute with wrapper */}

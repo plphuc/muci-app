@@ -1,11 +1,10 @@
-import { useNavigate } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 
 import SidebarSection from './components/SidebarSection/SidebarSection.js';
 import { useGetUserQuery } from 'slices/userSlice.js';
 import {
-  resetToken,
   selectAccessToken,
 } from 'slices/tokenSlice.js';
 import MainSection from './components/MainSection/MainSection.js';
@@ -20,7 +19,7 @@ function HomePage(props) {
   const { data: userInfo, refetch: getUser } = useGetUserQuery(accessToken);
 
   useEffect(() => {
-    getUser()
+    getUser();
   }, [accessToken]);
 
   return userInfo ? (

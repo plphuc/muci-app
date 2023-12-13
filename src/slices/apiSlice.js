@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { resetToken, saveToken } from './tokenSlice';
+import { resetToken, saveAccessToken } from './tokenSlice';
 
 const baseQuery = fetchBaseQuery({ baseUrl: 'http://localhost:8080/' });
 
@@ -25,7 +25,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
 
       if (refreshResult.data.accessToken) {
-        api.dispatch(saveToken(refreshResult.data.accessToken));
+        api.dispatch(saveAccessToken(refreshResult.data.accessToken));
         // re-request the failed request with the new token
         const newResult = await baseQuery(args, api, extraOptions);
         return { ...newResult };
@@ -42,7 +42,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryWithReauth,
-  tagTypes: ['User'],
+  tagTypes: ['User', 'Page'],
   endpoints: (builder) => ({}),
 });
 

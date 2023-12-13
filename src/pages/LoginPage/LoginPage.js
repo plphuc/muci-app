@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import * as utils from 'common/utils/index.js';
 import ShowHidePassword from 'common/components/ShowHidePassword/ShowHidePassword';
-import { saveToken, selectAccessToken } from 'slices/tokenSlice';
+import { saveAccessToken, selectAccessToken } from 'slices/tokenSlice';
 import { useGetUserQuery, useLoginMutation } from 'slices/userSlice';
 
 import styles from './LoginPage.module.css';
@@ -34,7 +34,7 @@ function LoginPage(props) {
         .then((res) => {
           setIsValidLogin(true);
           utils.handleSaveToLocalStorage('refreshToken', res.refreshToken);
-          dispatch(saveToken(res.accessToken));
+          dispatch(saveAccessToken(res.accessToken));
         });
     } catch (e) {
       setIsValidLogin(false);
