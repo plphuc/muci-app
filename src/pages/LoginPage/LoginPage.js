@@ -1,12 +1,14 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { useGetUserQuery, useLoginMutation } from 'slices/userSlice';
-import { useEffect, useState } from 'react';
-import * as utils from 'common/utils/index.js';
-import styles from './LoginPage.module.css';
-import ShowHidePassword from 'common/components/ShowHidePassword/ShowHidePassword';
-import { useDispatch, useSelector } from 'react-redux';
-import { saveToken, selectAccessToken } from 'slices/tokenSlice';
 import classNames from 'classnames';
+import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+
+import * as utils from 'common/utils/index.js';
+import ShowHidePassword from 'common/components/ShowHidePassword/ShowHidePassword';
+import { saveToken, selectAccessToken } from 'slices/tokenSlice';
+import { useGetUserQuery, useLoginMutation } from 'slices/userSlice';
+
+import styles from './LoginPage.module.css';
 
 function LoginPage(props) {
   const dispatch = useDispatch();

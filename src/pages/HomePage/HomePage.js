@@ -1,16 +1,16 @@
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
+
 import SidebarSection from './components/SidebarSection/SidebarSection.js';
 import { useGetUserQuery } from 'slices/userSlice.js';
-import styles from './HomePage.module.css';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   resetToken,
-  saveToken,
   selectAccessToken,
-  useGetAccessTokenQuery,
 } from 'slices/tokenSlice.js';
-import { useNavigate } from 'react-router-dom';
 import MainSection from './components/MainSection/MainSection.js';
+
+import styles from './HomePage.module.css';
 
 function HomePage(props) {
   const dispatch = useDispatch();
@@ -21,13 +21,6 @@ function HomePage(props) {
 
   useEffect(() => {
     getUser()
-      .unwrap()
-      .then()
-      .catch((err) => {
-        dispatch(resetToken());
-        console.log(err);
-        navigate('/');
-      });
   }, [accessToken]);
 
   return userInfo ? (
@@ -45,3 +38,4 @@ function HomePage(props) {
 }
 
 export default HomePage;
+ 

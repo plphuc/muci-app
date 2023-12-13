@@ -1,5 +1,4 @@
 import apiSlice from './apiSlice';
-
 const { createSlice } = require('@reduxjs/toolkit');
 
 const initialState = null;
@@ -24,7 +23,6 @@ const extendedApiSlice = apiSlice.injectEndpoints({
         headers: { Authorization: `Bearer ${token}` },
       })},
       transformResponse: (response, meta, arg) => {
-        console.log("response in slice", response);
         return response
       }
     }),
@@ -65,14 +63,14 @@ const extendedApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const getUserInfo = (state) => state.user;
-
 export const {
   useLoginMutation,
   useRegisterMutation,
   useGetDataQuery,
   useGetUserQuery,
 } = extendedApiSlice;
+
+export const getUserInfo = (state) => state.user;
 
 export const { logoutUser } = userSlice.actions;
 export default userSlice.reducer;

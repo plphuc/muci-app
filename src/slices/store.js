@@ -7,11 +7,11 @@ import coverReducer from './coverSlice.js';
 
 const store = configureStore({
   reducer: {
+    [apiSlice.reducerPath]: apiSlice.reducer,
     token: tokenReducer,
     user: userReducer,
     page: pageReducer,
     cover: coverReducer,
-    [apiSlice.reducerPath]: apiSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware),

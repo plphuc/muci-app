@@ -1,8 +1,8 @@
 import LogoSvg from 'assets/LogoSVG';
-import styles from './TopLayout.module.css';
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
+
 import DropdownMenu from 'common/components/DropdownMenu/DropdownMenu';
 import {
   productDropdownMenu,
@@ -14,8 +14,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   saveToken,
   selectAccessToken,
-  useGetAccessTokenQuery,
 } from 'slices/tokenSlice';
+
+import styles from './TopLayout.module.css';
 
 function TopLayout(props) {
   const refreshToken = localStorage.getItem('refreshToken');

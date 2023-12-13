@@ -10,30 +10,20 @@ import TemplatesFeature from './TemplatesFeature/TemplatesFeature';
 import ImportFeature from './ImportFeature/ImportFeature';
 import TrashFeature from './TrashFeature/TrashFeature';
 
-import styles from './SidebarSection.module.css';
 import AddPageFeature from './AddPageFeature/AddPageFeature';
 import PageBlock from './PageBlock/PageBlock';
-import { useGetUserQuery } from 'slices/userSlice';
 import { useGetPagesQuery } from 'slices/pageSlice';
 import { useSelector } from 'react-redux';
 import { selectAccessToken } from 'slices/tokenSlice';
-import { useEffect } from 'react';
+import { useGetUserQuery } from 'slices/userSlice';
+
+import styles from './SidebarSection.module.css';
 
 function SidebarSection(props) {
   const accessToken = useSelector(selectAccessToken);
 
   const {data: allPages} = useGetPagesQuery(accessToken)
   const { data: userInfo} = useGetUserQuery(accessToken); 
-  console.log(allPages);
-  console.log(userInfo);
-  
-  // useEffect(() => {
-  //   if (accessToken) {
-  //     console.log(1124);
-  //     getUser();
-  //     getAllPages();
-  //   }
-  // }, [accessToken])
 
   return (
     <aside className={styles.wrapper}>
@@ -42,7 +32,7 @@ function SidebarSection(props) {
         <div className={styles.usernameContent}>
           <div className={styles.usernameIcon}>🌱</div>
           <div className={styles.usernameContainer}>
-            {/* <div className={styles.username}>{userInfo?.username}</div> */}
+            <div className={styles.username}>{userInfo?.username}</div>
             <span>'s Notion</span>
           </div>
         </div>

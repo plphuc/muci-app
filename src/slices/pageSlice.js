@@ -13,7 +13,7 @@ const pageSlice = createSlice({
 const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getPages: builder.query({
-      query: ({accessToken}) => {
+      query: (accessToken) => {
         return {
           url: '/page/getAllPages',
           headers: { authorization: `Bearer ${accessToken}` },
