@@ -25,6 +25,7 @@ function SidebarSection(props) {
 
   const { data: allPages } = useGetPagesQuery(accessToken);
   const { data: userInfo } = useGetUserQuery(accessToken);
+
   const displayAllPages = allPages?.map((page) => {
     return (
       <PageBlock
@@ -37,10 +38,14 @@ function SidebarSection(props) {
     );
   });
 
+  const handleTurnToHomepage = () => {
+    window.location.href = `/${userInfo?.username}`;
+  }
+
   return (
     <aside className={styles.wrapper}>
       {/* nickname */}
-      <div className={styles.usernameWrapper}>
+      <div className={styles.usernameWrapper} onClick={handleTurnToHomepage}>
         <div className={styles.usernameContent}>
           <div className={styles.usernameIcon}>🌱</div>
           <div className={styles.usernameContainer}>

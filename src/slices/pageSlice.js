@@ -32,7 +32,7 @@ const extendedApiSlice = apiSlice.injectEndpoints({
       },
       providesTags: (result = [], error, arg) => [
         'Page',
-        result.map(({ id }) => ({ type: 'Post', id })),
+        result.map(({ id }) => ({ type: 'Page', id })),
       ],
     }),
 
@@ -45,30 +45,39 @@ const extendedApiSlice = apiSlice.injectEndpoints({
           params: { pageId },
         };
       },
-      providesTags: (result, error, arg) => [{ type: 'Post', id: arg.id }],
+      transformResponse: (response) => {
+        return response.page;
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: 'Page', id: arg.pageId }];
+      },
     }),
 
     addPage: builder.mutation({
       query: (accessToken) => {
         return {
-          url: '/page/add',
+          url: '/page',
           headers: { authorization: `Bearer ${accessToken}` },
           method: 'POST',
         };
       },
       invalidatesTags: ['Page'],
+      transformResponse: (response) => {
+        return response.id;
+      },
     }),
 
     editPage: builder.mutation({
-      query: ({ content, accessToken }) => {
+      query: ({ accessToken, pageId, content }) => {
         return {
-          url: '/page/edit',
+          url: '/page',
           headers: { authorization: `Bearer ${accessToken}` },
-          method: 'POST',
-          body: { content },
+          method: 'PUT',
+          params: { pageId },
+          body: { ...content },
         };
       },
-      invalidatesTags: (result, error, arg) => [{ type: 'Post', id: arg.id }],
+      invalidatesTags: (result, error, arg) => [{ type: 'Page', id: arg.id }],
     }),
   }),
 });

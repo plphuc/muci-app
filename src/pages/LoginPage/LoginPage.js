@@ -33,8 +33,8 @@ function LoginPage(props) {
         .unwrap()
         .then((res) => {
           setIsValidLogin(true);
-          utils.handleSaveToLocalStorage('refreshToken', res.refreshToken);
-          dispatch(saveAccessToken(res.accessToken));
+          utils.handleSaveToLocalStorage('refreshToken', res.tokens.refreshToken);
+          dispatch(saveAccessToken(res.tokens.accessToken));
         });
     } catch (e) {
       setIsValidLogin(false);
@@ -49,7 +49,7 @@ function LoginPage(props) {
           navigate(`/${res.username}`);
         });
     }
-  }, [accessToken]);
+  }, [accessToken])
 
   return (
     <div className={styles.wrapper}>
@@ -88,13 +88,13 @@ function LoginPage(props) {
                 </div>
               </div>
               <div>
-              <div
-                className={classNames(styles.invalidFields, {
-                  [`${styles.isInvalidLogin}`]: !isValidLogin,
-                })}
-              >
-                Incorrect email or password
-              </div>
+                <div
+                  className={classNames(styles.invalidFields, {
+                    [`${styles.isInvalidLogin}`]: !isValidLogin,
+                  })}
+                >
+                  Incorrect email or password
+                </div>
                 <input type="submit" id="login" value="SUBMIT"></input>
               </div>
             </form>

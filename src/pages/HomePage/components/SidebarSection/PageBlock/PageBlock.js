@@ -1,31 +1,35 @@
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { createSearchParams } from 'react-router-dom';
 
 import styles from './PageBlock.module.css';
 import { useLazyGetPageQuery } from 'slices/pageSlice';
 import { useSelector } from 'react-redux';
 import { selectAccessToken } from 'slices/tokenSlice';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useGetUserQuery } from 'slices/userSlice';
 
 function PageBlock(props) {
   const { parentClass, id, title, icon, children } = props;
-  const [isToggle, setIsToggle] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const [isToggle, setIsToggle] = useState(false);
   const accessToken = useSelector(selectAccessToken)
 
   const [getPage, {data: pageInfo, isSuccess}] = useLazyGetPageQuery();
-  const { data: userInfo} = useGetUserQuery(accessToken);
 
   const handleChoosePage = () => {
     setIsToggle(!isToggle);
-    getPage({accessToken, pageId: id});
-  }
-
-  if (isSuccess) {
-    navigate(`/${userInfo.username}/${pageInfo.id}`);
+    getPage({accessToken, pageId: id}).unwrap().then((res) => {
+      navigate({
+        pathname: location.pathname,
+        search: createSearchParams({
+            id: `${res.id}`
+        }).toString()
+    });
+    });
   }
 
   return (

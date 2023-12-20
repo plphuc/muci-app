@@ -1,10 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { resetToken, saveAccessToken } from './tokenSlice';
+import { logoutUser } from './userSlice';
 
 const baseQuery = fetchBaseQuery({ baseUrl: 'http://localhost:8080/' });
 
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   const result = await baseQuery(args, api, extraOptions);
+
   if (result.error) {
     if (result.error.status === 401) {
       const refreshToken = localStorage.getItem('refreshToken');
@@ -23,7 +25,6 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
         extraOptions
       );
 
-
       if (refreshResult.data.accessToken) {
         api.dispatch(saveAccessToken(refreshResult.data.accessToken));
         // re-request the failed request with the new token
@@ -32,6 +33,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
       } else {
         // we can't refresh the token, so logout the user
         api.dispatch(resetToken())
+        api.dispatch(logoutUser());
         throw result.error;
       }
     }
@@ -42,7 +44,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryWithReauth,
-  tagTypes: ['User', 'Page'],
+  tagTypes: ['User', 'Page', 'Cover'],
   endpoints: (builder) => ({}),
 });
 

@@ -6,6 +6,36 @@ import styles from './AddPageFeature.module.css';
 import { useAddPageMutation } from 'slices/pageSlice';
 import { useSelector } from 'react-redux';
 import { selectAccessToken } from 'slices/tokenSlice';
+import { toast } from 'react-toastify';
+
+
+export const notifySuccess = (message) =>
+  toast(<p style={{ fontSize: 16 }}>{message}</p>, {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    newestOnTop: false,
+    closeOnClick: true,
+    rtl: false,
+    pauseOnFocusLoss: true,
+    draggable: true,
+    pauseOnHover: true,
+    type: "success"
+  });
+
+export const notifyError = (message) =>
+  toast(<p style={{ fontSize: 16 }}>{message}</p>, {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    newestOnTop: false,
+    closeOnClick: true,
+    rtl: false,
+    pauseOnFocusLoss: true,
+    draggable: true,
+    pauseOnHover: true,
+    type: "error"
+  });
 
 function AddPageFeature(props) {
   const { className } = props;
@@ -13,7 +43,9 @@ function AddPageFeature(props) {
   const [addPage] = useAddPageMutation();
 
   const handleAddPage = async () => {
-    await addPage(accessToken)
+    await addPage(accessToken).unwrap().catch((err) => {
+      notifyError("Cannot add page");
+    })
   }
 
   return (  

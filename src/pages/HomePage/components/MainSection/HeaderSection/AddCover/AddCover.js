@@ -3,26 +3,22 @@ import styles from './AddCover.module.css';
 import { useSaveCoverMutation } from 'slices/coverSlice';
 import { useSelector } from 'react-redux';
 import { selectAccessToken } from 'slices/tokenSlice';
+import { useSearchParams } from 'react-router-dom';
 
 function AddCover(props) {
-  const { handleSetCover, cover } = props;
+  const [params, setParams] = useSearchParams();
   const [saveCover] = useSaveCoverMutation();
   const accessToken = useSelector(selectAccessToken)
 
   const handleUploadCover = async (e) => {
-    if (cover) {
-      URL.revokeObjectURL(cover);
-    }
     if (e.target.files[0]) {
-      const src = URL.createObjectURL(e.target.files[0]);
-      handleSetCover(src);
-
       const formData = new FormData();
       formData.append('file', e.target.files[0]);
       await saveCover({
         cover: formData,
+        pageId: params.get('id'),
         accessToken
-      }).unwrap().then(res => {console.log('OK');}).catch(err => {console.log(err);});
+      })
     }
   };
 

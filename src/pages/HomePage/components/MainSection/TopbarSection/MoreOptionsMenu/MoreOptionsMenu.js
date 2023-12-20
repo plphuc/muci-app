@@ -10,7 +10,6 @@ function MoreOptionsMenu(props) {
   const dispatch = useDispatch();
 
   const handleLogout = () => {
-    localStorage.removeItem('refreshToken');
     dispatch(logoutUser());
     dispatch(resetToken())
     navigate('/')

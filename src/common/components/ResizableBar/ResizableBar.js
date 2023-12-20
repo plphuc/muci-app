@@ -5,7 +5,9 @@ import styles from './ResizableBar.module.css';
 
 function ResizableBar(props) {
   const { className } = props;
+  
   function handleResizeWidth(e) {
+    e.preventDefault();
     const resizableSidebar = e.target.parentElement;
 
     document.addEventListener('mousemove', resize);

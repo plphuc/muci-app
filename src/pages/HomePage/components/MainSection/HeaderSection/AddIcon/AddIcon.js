@@ -1,14 +1,23 @@
 import classNames from 'classnames';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 
+import { useEditPageMutation, useLazyGetPageQuery } from 'slices/pageSlice';
 import styles from './AddIcon.module.css';
 import DropdownMenu from 'common/components/DropdownMenu/DropdownMenu';
+import { useSelector } from 'react-redux';
+import { selectAccessToken } from 'slices/tokenSlice';
+import { useSearchParams } from 'react-router-dom';
 
 function AddIcon(props) {
   const [isShowEmojiPicker, setIsShowEmojiPicker] = useState(false);
-  const [emoji, setEmoji] = useState('');
+  const accessToken = useSelector(selectAccessToken);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const pageId = searchParams.get('id');
+
+  const [getPage, { data: pageInfo }] = useLazyGetPageQuery();
+  const [editPage] = useEditPageMutation();
 
   const handleAddIcon = (e) => {
     e.stopPropagation();
@@ -22,14 +31,20 @@ function AddIcon(props) {
   };
 
   const handleChooseEmoji = (emojiData) => {
-    setEmoji(emojiData.native);
+    editPage({accessToken, pageId, content: {icon: emojiData.native}});
   };
+
+  useEffect(() => {
+    if (pageId && accessToken) {
+      getPage({ accessToken, pageId });
+    }
+  }, [pageId, accessToken]);
 
   return (
     <div className={styles.wrapper}>
-      {emoji ? (
+      {pageInfo?.icon ? (
         <div className={styles.iconContainer} >
-          {emoji}
+          {pageInfo?.icon}
           <div className={styles.emojiOptionsMenuWrapper}>
             <DropdownMenu>
               <div
@@ -40,7 +55,7 @@ function AddIcon(props) {
               </div>
               <div
                 className={styles.emojiOptionContainer}
-                onClick={() =>setEmoji('')}
+                onClick={() => editPage({icon: '', accessToken, pageId})}
               >
                 Remove
               </div>
