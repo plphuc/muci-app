@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DisplayFeature from '../DisplayFeature/DisplayFeature';
 
 import styles from './AddPageFeature.module.css';
-import { useAddPageMutation } from 'slices/pageSlice';
+import { useAddPageMutation } from 'slices/pageApiSlice';
 import { useSelector } from 'react-redux';
 import { selectAccessToken } from 'slices/tokenSlice';
 import { toast } from 'react-toastify';

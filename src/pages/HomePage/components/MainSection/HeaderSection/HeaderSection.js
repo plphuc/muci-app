@@ -6,14 +6,16 @@ import { selectAccessToken } from 'slices/tokenSlice';
 import {
   useEditPageMutation,
   useGetPageQuery,
-  useLazyGetPageQuery,
-} from 'slices/pageSlice';
+} from 'slices/pageApiSlice';
 import AddCover from './AddCover/AddCover';
 import AddIcon from './AddIcon/AddIcon';
 
 import styles from './HeaderSection.module.css';
 import classNames from 'classnames';
-import { useLazyGetCoverQuery, useRemoveCoverMutation } from 'slices/coverSlice';
+import {
+  useLazyGetCoverQuery,
+  useRemoveCoverMutation,
+} from 'slices/coverSlice';
 
 function HeaderSection(props) {
   const accessToken = useSelector(selectAccessToken);
@@ -21,34 +23,40 @@ function HeaderSection(props) {
 
   const pageId = searchParams.get('id');
   const [removeCover] = useRemoveCoverMutation();
-  const { refetch: getPage, data: pageInfo, isSuccess } = useGetPageQuery({accessToken, pageId}, {skip: !accessToken});
+  const {
+    refetch: getPage,
+    data: pageInfo,
+    isSuccess,
+  } = useGetPageQuery({ accessToken, pageId }, { skip: !accessToken });
   const [getCover, { data: coverInfo }] = useLazyGetCoverQuery();
-
   const [editPage] = useEditPageMutation();
 
   const handleRemoveCover = () => {
-    removeCover({pageId, coverId: pageInfo.cover, accessToken})
-  }
+    removeCover({ pageId, coverId: pageInfo.cover, accessToken });
+  };
 
   useEffect(() => {
     if (isSuccess && pageInfo.cover) {
-        getCover({ pageId, coverId: pageInfo.cover, accessToken })
+      getCover({ pageId, coverId: pageInfo.cover, accessToken });
     }
-  }, [isSuccess, pageInfo?.cover])
+  }, [isSuccess, pageInfo?.cover]);
 
   useEffect(() => {
     if (pageId && accessToken) {
-      getPage()
+      getPage();
     }
   }, [pageId, accessToken]);
 
   const handleInputTitle = (e) => {
-    e.preventDefault();
     if (e.code === 'Enter') {
-      editPage({ title: e.target.innerText, accessToken, pageId });
+      editPage({ accessToken, pageId, content: {title: e.target.innerText} });
       e.target.blur();
       return;
     }
+  };
+
+  const handleBlurTitle = (e) => {
+    editPage({ accessToken, pageId, content: {title: e.target.innerText} });
   };
 
   return (
@@ -83,6 +91,7 @@ function HeaderSection(props) {
             contentEditable
             suppressContentEditableWarning={true}
             onKeyDown={handleInputTitle}
+            onBlur={handleBlurTitle}
           >
             {pageInfo?.title}
           </h1>

@@ -1,4 +1,5 @@
 .wrapper {
+  height: 100%;
   width: inherit;
   display: flex;
   justify-content: flex-start;

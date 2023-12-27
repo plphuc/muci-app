@@ -12,7 +12,7 @@ import ErrorField from 'common/components/ErrorField/ErrorField';
 import ShowHidePassword from 'common/components/ShowHidePassword/ShowHidePassword';
 
 import styles from './RegisterPage.module.css';
-import { useAddPageMutation } from 'slices/pageSlice';
+import { useAddPageMutation } from 'slices/pageApiSlice';
 
 function RegisterPage(props) {
   const dispatch = useDispatch();

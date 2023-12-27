@@ -27,16 +27,6 @@ const extendedApiSlice = apiSlice.injectEndpoints({
       }
     }),
 
-    getData: builder.query({
-      query: (token) => {
-        return {
-          url: '/pages/data',
-          method: 'GET',
-          headers: { Authorization: `Bearer ${token}` },
-        };
-      },
-    }),
-
     login: builder.mutation({
       query: (body) => ({
         url: '/auth/login',
@@ -61,7 +51,6 @@ const extendedApiSlice = apiSlice.injectEndpoints({
 export const {
   useLoginMutation,
   useRegisterMutation,
-  useGetDataQuery,
   useGetUserQuery,
 } = extendedApiSlice;
 

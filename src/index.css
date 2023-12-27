@@ -53,12 +53,12 @@ html {
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: #9d9c9c;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: #818080;
 }
 
 .ce-toolbar__content, .ce-block__content {

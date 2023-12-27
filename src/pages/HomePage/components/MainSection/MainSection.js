@@ -7,7 +7,6 @@ import EditorSection from './EditorSection/EditorSection';
 import styles from './MainSection.module.css';
 
 function MainSection(props) {
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.topbarSectionWrapper}>

@@ -29,10 +29,13 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
         api.dispatch(saveAccessToken(refreshResult.data.accessToken));
         // re-request the failed request with the new token
         const newResult = await baseQuery(args, api, extraOptions);
-        return { ...newResult };
+        if (newResult.error) {
+          throw newResult.error
+        }
+        return newResult;
       } else {
         // we can't refresh the token, so logout the user
-        api.dispatch(resetToken())
+        api.dispatch(resetToken());
         api.dispatch(logoutUser());
         throw result.error;
       }

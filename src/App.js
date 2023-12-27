@@ -22,6 +22,7 @@ function App() {
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
             <Route path="*" element={<NotFoundPage />} />
+            <Route path="/404" element={<NotFoundPage />} />
           </Route>
           <Route path="/:username" element={<HomePage />} />
           {/* <Route path="/:username/:pageid" element={<HomePage />} /> */}

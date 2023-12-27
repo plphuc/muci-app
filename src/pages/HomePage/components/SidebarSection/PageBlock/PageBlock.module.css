@@ -20,11 +20,33 @@
   transform: rotate(90deg);
 }
 
+.pageContainer {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+}
+
 .pageInfo {
   display: flex;
   gap: 5px;
 }
 
+.trashContainer {
+  margin-top: 2px;
+  margin-bottom: 2px;
+  margin-right: 10px;
+  padding: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  visibility: hidden;
+}
+
+.wrapper:hover .trashContainer {
+  visibility: visible;
+}
+
 .childrenContainer {
   margin-left: 20px;
 }
+

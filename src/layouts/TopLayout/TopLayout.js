@@ -46,7 +46,7 @@ function TopLayout(props) {
     <div className={styles.wrapper}>
       <nav
         className={classNames(styles.navWrapper, {
-          [`${styles.isScrolled}`]: isScrolled,
+          [styles.isScrolled]: isScrolled,
         })}
       >
         <div className={styles.leftWrapper}>

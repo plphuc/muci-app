@@ -2,7 +2,6 @@ import classNames from 'classnames';
 
 import ResizableBar from 'common/components/ResizableBar/ResizableBar';
 import SearchFeature from './SearchFeature/SearchFeature';
-import UpdateFeature from './UpdateFeature/UpdateFeature';
 import SettingFeature from './SettingFeature/SettingFeature';
 import NewPageFeature from './NewPageFeature/NewPageFeature';
 import TeamSpaceFeature from './TeamSpaceFeature/TeamSpaceFeature';
@@ -13,7 +12,7 @@ import DisplayFeature from './DisplayFeature/DisplayFeature';
 
 import AddPageFeature from './AddPageFeature/AddPageFeature';
 import PageBlock from './PageBlock/PageBlock';
-import { useGetPagesQuery } from 'slices/pageSlice';
+import { useGetPagesQuery } from 'slices/pageApiSlice';
 import { useSelector } from 'react-redux';
 import { selectAccessToken } from 'slices/tokenSlice';
 import { useGetUserQuery } from 'slices/userSlice';
@@ -40,7 +39,7 @@ function SidebarSection(props) {
 
   const handleTurnToHomepage = () => {
     window.location.href = `/${userInfo?.username}`;
-  }
+  };
 
   return (
     <aside className={styles.wrapper}>
@@ -57,16 +56,15 @@ function SidebarSection(props) {
       {/* nav items */}
       <div className={styles.navList}>
         <SearchFeature className={styles.navItem} />
-        <UpdateFeature className={styles.navItem} />
         <SettingFeature className={styles.navItem} />
         <NewPageFeature className={styles.navItem} />
       </div>
       {/* nav pages */}
       <div className={styles.pagesWrapper}>
-        <div className={classNames(styles.pageContainer, styles.navItem)}>
+        <div className={classNames(styles.titlePageContainer, styles.navItem)}>
           <DisplayFeature icon="☁" title="Projects" />
         </div>
-        {displayAllPages}
+        <div className={styles.pagesContainer}>{displayAllPages}</div>
         <AddPageFeature className={styles.navItem} />
       </div>
 

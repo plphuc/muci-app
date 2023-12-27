@@ -90,7 +90,7 @@ function LoginPage(props) {
               <div>
                 <div
                   className={classNames(styles.invalidFields, {
-                    [`${styles.isInvalidLogin}`]: !isValidLogin,
+                    [styles.isInvalidLogin]: !isValidLogin,
                   })}
                 >
                   Incorrect email or password
