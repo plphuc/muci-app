@@ -25,17 +25,20 @@ function LoginPage(props) {
     e.preventDefault();
     const dataForm = new FormData(e.target);
     const password = await utils.digestPassword(dataForm.get('password'));
+    
     try {
-      await loginUser({
+      const loginResult = await loginUser({
         email: dataForm.get('email'),
         password,
-      })
-        .unwrap()
-        .then((res) => {
-          setIsValidLogin(true);
-          utils.handleSaveToLocalStorage('refreshToken', res.tokens.refreshToken);
-          dispatch(saveAccessToken(res.tokens.accessToken));
-        });
+      }).unwrap();
+
+      setIsValidLogin(true);
+      utils.handleSaveToLocalStorage(
+        'refreshToken',
+        loginResult.tokens.refreshToken
+      );
+
+      dispatch(saveAccessToken(loginResult.tokens.accessToken));
     } catch (e) {
       setIsValidLogin(false);
     }
@@ -49,7 +52,7 @@ function LoginPage(props) {
           navigate(`/${res.username}`);
         });
     }
-  }, [accessToken])
+  }, [accessToken]);
 
   return (
     <div className={styles.wrapper}>

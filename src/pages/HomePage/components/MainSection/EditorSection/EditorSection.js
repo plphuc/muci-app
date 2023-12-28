@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import {
   useEditPageMutation,
@@ -11,15 +11,17 @@ import EditorJS from '@editorjs/editorjs';
 import { DEFAULT_INITIAL_DATA } from 'common/utils/contants';
 import { EDITOR_JS_TOOLS } from 'config/editorConfigs';
 import styles from './EditorSection.module.css';
+import { notifyError } from 'common/utils/toastMessage';
 
 function EditorSection(props) {
   const ejInstance = useRef();
   const accessToken = useSelector(selectAccessToken);
-
   const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   const pageId = searchParams.get('id');
+  
   const [editPage] = useEditPageMutation();
-  const [getPage, { data: pageInfo }] = useLazyGetPageQuery();
+  const [getPage] = useLazyGetPageQuery();
 
   const initEditor = (content) => {
     const editor = new EditorJS({
@@ -40,7 +42,7 @@ function EditorSection(props) {
           const content = await ejInstance.current?.save();
           await editPage({ accessToken, pageId, content: {...content}})
         } catch (err) {
-          console.log(err);
+          notifyError('Something went wrong, cannot auto save content')
         }
       };
       
@@ -51,7 +53,7 @@ function EditorSection(props) {
     return () => clearInterval(intervalId);
   }, [accessToken, pageId]);
 
-  // This will run only once
+  // This will run only once in initial
   useEffect(() => {
     if (accessToken && pageId) {
       getPage({accessToken, pageId}).unwrap().then(res => {
@@ -60,7 +62,7 @@ function EditorSection(props) {
         }
       })
       .catch(err => {
-        console.log("err", err);
+        navigate('/404');
       })
     }
 

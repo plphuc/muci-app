@@ -1,5 +1,6 @@
 const { createSlice } = require('@reduxjs/toolkit');
 
+// store contains access token and refresh token is stored in localStorage
 const initialState = null;
 
 const tokenSlice = createSlice({

@@ -2,40 +2,12 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DisplayFeature from '../DisplayFeature/DisplayFeature';
 
-import styles from './AddPageFeature.module.css';
 import { useAddPageMutation } from 'slices/pageApiSlice';
 import { useSelector } from 'react-redux';
 import { selectAccessToken } from 'slices/tokenSlice';
-import { toast } from 'react-toastify';
 
-
-export const notifySuccess = (message) =>
-  toast(<p style={{ fontSize: 16 }}>{message}</p>, {
-    position: "top-right",
-    autoClose: 5000,
-    hideProgressBar: false,
-    newestOnTop: false,
-    closeOnClick: true,
-    rtl: false,
-    pauseOnFocusLoss: true,
-    draggable: true,
-    pauseOnHover: true,
-    type: "success"
-  });
-
-export const notifyError = (message) =>
-  toast(<p style={{ fontSize: 16 }}>{message}</p>, {
-    position: "top-right",
-    autoClose: 5000,
-    hideProgressBar: false,
-    newestOnTop: false,
-    closeOnClick: true,
-    rtl: false,
-    pauseOnFocusLoss: true,
-    draggable: true,
-    pauseOnHover: true,
-    type: "error"
-  });
+import styles from './AddPageFeature.module.css';
+import { notifyError } from 'common/utils/toastMessage';
 
 function AddPageFeature(props) {
   const { className } = props;

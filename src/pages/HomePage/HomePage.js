@@ -1,37 +1,37 @@
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import SidebarSection from './components/SidebarSection/SidebarSection.js';
-import { logoutUser, useGetUserQuery } from 'slices/userSlice.js';
-import { resetToken, selectAccessToken } from 'slices/tokenSlice.js';
 import MainSection from './components/MainSection/MainSection.js';
 
 import styles from './HomePage.module.css';
 import NoSelectedPage from 'pages/NoSelectedPage/NoSelectedPage.js';
 import classNames from 'classnames';
 import { ToastContainer } from 'react-toastify';
-import DropdownMenu from 'common/components/DropdownMenu/DropdownMenu.js';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { saveAccessToken, selectAccessToken } from 'slices/tokenSlice.js';
+import { useGetAccessTokenQuery } from 'slices/tokenApiSlice.js';
 
 function HomePage(props) {
-  const accessToken = useSelector(selectAccessToken);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
   const [searchParams, setSearchParams] = useSearchParams();
-  const { refetch: getUser } = useGetUserQuery(accessToken);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const accessToken = useSelector(selectAccessToken);
+  const refreshToken = localStorage.getItem('refreshToken');
+
+  const { refetch: getAccessToken } = useGetAccessTokenQuery(refreshToken);
 
   useEffect(() => {
-    const refreshToken = localStorage.getItem('refreshToken');
-
-    if (accessToken || refreshToken) {
-      getUser();
-    } else {
+    // request new access token when reload
+    if (!accessToken && refreshToken) {
+      getAccessToken().unwrap().then(res => {
+        dispatch(saveAccessToken(res.accessToken))
+      })
+    }
+    if (!refreshToken) {
       navigate('/');
     }
-  }, [accessToken]);
+  }, [refreshToken]);
 
   return (
     <div className={styles.wrapper}>
@@ -47,7 +47,7 @@ function HomePage(props) {
           <MainSection />
         </main>
       ) : (
-          <NoSelectedPage />
+        <NoSelectedPage />
       )}
       <div className={styles.toastContainer}>
         <ToastContainer />

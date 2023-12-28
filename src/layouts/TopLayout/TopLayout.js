@@ -10,11 +10,7 @@ import {
   downloadOptions,
 } from 'common/utils/contants';
 import { useGetUserQuery } from 'slices/userSlice';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  saveAccessToken,
-  selectAccessToken,
-} from 'slices/tokenSlice';
+import { useDispatch } from 'react-redux';
 
 import styles from './TopLayout.module.css';
 
@@ -22,25 +18,23 @@ function TopLayout(props) {
   const refreshToken = localStorage.getItem('refreshToken');
 
   const [isScrolled, setIsScrolled] = useState(false);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const accessToken = useSelector(selectAccessToken);
-  const { refetch: getUser } = useGetUserQuery(accessToken);
+  const { refetch: getUser } = useGetUserQuery(refreshToken, {skip: !refreshToken});
 
   window.onscroll = function () {
     setIsScrolled(document.documentElement.scrollTop > 1);
   };
 
   useEffect(() => {
-    getUser()
-      .unwrap()
-      .then((res) => {
-        dispatch(saveAccessToken(res.accessToken));
-        navigate(`${res.username}`);
-      })
-      .catch((err) => {});
-  }, [accessToken, refreshToken]);
+    if (refreshToken) {
+      getUser()
+        .unwrap()
+        .then((res) => {
+          navigate(`${res.username}`);
+        });
+    }
+  }, [refreshToken]);
 
   return (
     <div className={styles.wrapper}>

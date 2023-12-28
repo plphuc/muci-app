@@ -13,6 +13,7 @@ import ShowHidePassword from 'common/components/ShowHidePassword/ShowHidePasswor
 
 import styles from './RegisterPage.module.css';
 import { useAddPageMutation } from 'slices/pageApiSlice';
+import { notifyError } from 'common/utils/toastMessage';
 
 function RegisterPage(props) {
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ function RegisterPage(props) {
 
   const [isShowPw, setIsShowPw] = useState(false);
   const [errors, setErrors] = useState({});
-  const { refetch: getUser } = useGetUserQuery(accessToken);
+  const { refetch: getUser } = useGetUserQuery(accessToken, { skip: !accessToken });
 
   const [registerUser] = useRegisterMutation();
   const [addPage] = useAddPageMutation();
@@ -91,31 +92,22 @@ function RegisterPage(props) {
       const { confirmPassword, ...registerData } = data;
 
       try {
-        const resRegister = await registerUser(registerData).unwrap();
-        dispatch(saveAccessToken(resRegister.accessToken));
+        const registerResult = await registerUser(registerData).unwrap();
+
+        dispatch(saveAccessToken(registerResult.tokens.accessToken));
         utils.handleSaveToLocalStorage(
           'refreshToken',
-          resRegister.refreshToken
+          registerResult.tokens.refreshToken
         );
+
+        // auto add 1st page for user
+        addPage(registerResult.tokens.accessToken).unwrap();
+        navigate(`/${registerResult.username}`);
       } catch (err) {
-        console.log(err.message);
+        notifyError(err.data.message);
       }
     }
   };
-
-  useEffect(() => {
-    if (accessToken) {
-      getUser()
-        .unwrap()
-        .then((res) => {
-          addPage(accessToken).unwrap();
-          navigate(`/${res.id}`);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [accessToken]);
 
   return (
     <div className={styles.wrapper}>

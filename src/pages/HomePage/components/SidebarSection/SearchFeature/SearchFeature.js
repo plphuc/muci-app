@@ -19,7 +19,7 @@ function SearchFeature(props) {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { data: allPages } = useGetPagesQuery(accessToken);
+  const { data: allPages } = useGetPagesQuery(accessToken, {skip: !accessToken});
   const [getPage] = useLazyGetPageQuery();
 
 

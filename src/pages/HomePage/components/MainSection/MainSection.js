@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import TopbarSection from './TopbarSection/TopbarSection';
 import HeaderSection from './HeaderSection/HeaderSection';
 import EditorSection from './EditorSection/EditorSection';

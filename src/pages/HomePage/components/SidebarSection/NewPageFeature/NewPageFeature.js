@@ -6,7 +6,7 @@ import styles from './NewPageFeature.module.css';
 import { useSelector } from 'react-redux';
 import { selectAccessToken } from 'slices/tokenSlice';
 import { useAddPageMutation } from 'slices/pageApiSlice';
-import { notifyError } from '../AddPageFeature/AddPageFeature';
+import { notifyError } from 'common/utils/toastMessage';
 
 function NewPageFeature(props) {
   const { className } = props;

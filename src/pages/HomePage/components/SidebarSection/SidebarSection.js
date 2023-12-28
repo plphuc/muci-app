@@ -22,8 +22,8 @@ import styles from './SidebarSection.module.css';
 function SidebarSection(props) {
   const accessToken = useSelector(selectAccessToken);
 
-  const { data: allPages } = useGetPagesQuery(accessToken);
-  const { data: userInfo } = useGetUserQuery(accessToken);
+  const { data: allPages } = useGetPagesQuery(accessToken, {skip: !accessToken});
+  const { data: userInfo } = useGetUserQuery(accessToken, {skip: !accessToken});
 
   const displayAllPages = allPages?.map((page) => {
     return (

@@ -20,8 +20,8 @@ import {
 function HeaderSection(props) {
   const accessToken = useSelector(selectAccessToken);
   const [searchParams, setSearchParams] = useSearchParams();
-
   const pageId = searchParams.get('id');
+  
   const [removeCover] = useRemoveCoverMutation();
   const {
     refetch: getPage,
