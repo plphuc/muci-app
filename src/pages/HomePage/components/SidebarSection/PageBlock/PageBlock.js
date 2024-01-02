@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
-import { createSearchParams } from 'react-router-dom';
+import { createSearchParams, redirect } from 'react-router-dom';
 
 import styles from './PageBlock.module.css';
 import { useDeletePageMutation, useLazyGetPageQuery } from 'slices/pageApiSlice';

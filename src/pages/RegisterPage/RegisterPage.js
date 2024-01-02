@@ -22,7 +22,6 @@ function RegisterPage(props) {
 
   const [isShowPw, setIsShowPw] = useState(false);
   const [errors, setErrors] = useState({});
-  const { refetch: getUser } = useGetUserQuery(accessToken, { skip: !accessToken });
 
   const [registerUser] = useRegisterMutation();
   const [addPage] = useAddPageMutation();

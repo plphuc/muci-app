@@ -9,7 +9,7 @@ import {
   instructDropdownMenu,
   downloadOptions,
 } from 'common/utils/contants';
-import { useGetUserQuery } from 'slices/userSlice';
+import { saveUserInfo, useGetUserQuery } from 'slices/userSlice';
 import { useDispatch } from 'react-redux';
 
 import styles from './TopLayout.module.css';
@@ -19,6 +19,7 @@ function TopLayout(props) {
 
   const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const { refetch: getUser } = useGetUserQuery(refreshToken, {skip: !refreshToken});
 
@@ -31,6 +32,7 @@ function TopLayout(props) {
       getUser()
         .unwrap()
         .then((res) => {
+          dispatch(saveUserInfo(res))
           navigate(`${res.username}`);
         });
     }

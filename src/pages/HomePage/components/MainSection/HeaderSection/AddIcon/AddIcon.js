@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 
@@ -9,12 +9,14 @@ import DropdownMenu from 'common/components/DropdownMenu/DropdownMenu';
 import { useSelector } from 'react-redux';
 import { selectAccessToken } from 'slices/tokenSlice';
 import { useSearchParams } from 'react-router-dom';
+import { OwnerContext } from '../../MainSection';
 
 function AddIcon(props) {
+  const isOwner = useContext(OwnerContext)
   const [isShowEmojiPicker, setIsShowEmojiPicker] = useState(false);
   const accessToken = useSelector(selectAccessToken);
-  const [searchParams, setSearchParams] = useSearchParams();
-  const pageId = searchParams.get('id');
+  const [searchParams] = useSearchParams();
+  const pageId = searchParams.get('id')
 
   const [getPage, { data: pageInfo }] = useLazyGetPageQuery();
   const [editPage] = useEditPageMutation();
@@ -31,7 +33,8 @@ function AddIcon(props) {
   };
 
   const handleChooseEmoji = (emojiData) => {
-    editPage({accessToken, pageId, content: {icon: emojiData.native}});
+    if (isOwner)
+      editPage({ accessToken, pageId, content: { icon: emojiData.native } });
   };
 
   useEffect(() => {
@@ -43,7 +46,7 @@ function AddIcon(props) {
   return (
     <div className={styles.wrapper}>
       {pageInfo?.icon ? (
-        <div className={styles.iconContainer} >
+        <div className={styles.iconContainer}>
           {pageInfo?.icon}
           <div className={styles.emojiOptionsMenuWrapper}>
             <DropdownMenu>
@@ -55,7 +58,11 @@ function AddIcon(props) {
               </div>
               <div
                 className={styles.emojiOptionContainer}
-                onClick={() => editPage({icon: '', accessToken, pageId})}
+                onClick={() => {
+                  if (isOwner) {
+                    editPage({ icon: '', accessToken, pageId });
+                  }
+                }}
               >
                 Remove
               </div>

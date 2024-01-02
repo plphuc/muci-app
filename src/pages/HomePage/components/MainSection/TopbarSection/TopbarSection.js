@@ -1,31 +1,50 @@
-import { useState } from 'react';
+import { useContext } from 'react';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
-import { faStar } from '@fortawesome/free-regular-svg-icons';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { faStar as regularFaStar } from '@fortawesome/free-regular-svg-icons';
 
 import DropdownMenu from 'common/components/DropdownMenu/DropdownMenu';
 
 import styles from './TopbarSection.module.css';
 import MoreOptionsMenu from './MoreOptionsMenu/MoreOptionsMenu';
-
-const samplePage = {
-  title: 'My Links',
-  icon: '💚',
-  isFavPage: false,
-};
+import { useSelector } from 'react-redux';
+import { selectAccessToken } from 'slices/tokenSlice';
+import { useEditPageMutation, useGetPageQuery } from 'slices/pageApiSlice';
+import { OwnerContext } from '../MainSection';
+import { useSearchParams } from 'react-router-dom';
 
 function TopbarSection(props) {
-  const [isFavPage, setIsFavPage] = useState(samplePage.isFavPage);
+  const isOwner = useContext(OwnerContext);
+  const accessToken = useSelector(selectAccessToken);
+  const [searchParams] = useSearchParams();
+  const pageId = searchParams.get('id');
+
+  const [editPage] = useEditPageMutation();
+  const { data: pageInfo } = useGetPageQuery(
+    {
+      accessToken,
+      pageId,
+    },
+    { skip: !accessToken }
+  );
+
   function handleToggleFav() {
-    setIsFavPage(!isFavPage);
+    if (isOwner) {
+      editPage({
+        accessToken,
+        pageId,
+        content: { isFavPage: !pageInfo?.isFavPage },
+      });
+    }
   }
 
   return (
     <header className={styles.wrapper}>
       <div className={classNames(styles.titleWrapper, styles.btnContainer)}>
-        <div className={styles.iconPage}>{samplePage.icon}</div>
-        <div className={styles.titlePage}>{samplePage.title}</div>
+        <div className={styles.iconPage}>{pageInfo?.icon}</div>
+        <div className={styles.titlePage}>{pageInfo?.title}</div>
       </div>
       <div className={styles.actionsWrapper}>
         <div className={classNames(styles.btnContainer)}>
@@ -35,24 +54,26 @@ function TopbarSection(props) {
           className={classNames(styles.btnContainer)}
           onClick={handleToggleFav}
         >
-          {isFavPage ? (
+          {pageInfo?.isFavPage ? (
             <div
               className={classNames(
                 styles.toggleFavContainer,
-                styles.offFavBtn
+                styles.onFavBtn
               )}
             >
               <FontAwesomeIcon icon={faStar} width="20px" height="20px" />
             </div>
           ) : (
             <div
-              className={classNames(styles.toggleFavContainer, styles.onFavBtn)}
+              className={classNames(styles.toggleFavContainer, styles.offFavBtn)}
             >
-              <FontAwesomeIcon icon={faStar} width="20px" height="20px" />
+              <FontAwesomeIcon icon={regularFaStar} width="20px" height="20px" />
             </div>
           )}
         </div>
-        <div className={classNames(styles.btnContainer, styles.moreActionsWrapper)}>
+        <div
+          className={classNames(styles.btnContainer, styles.moreActionsWrapper)}
+        >
           <div className={styles.moreActionsContainer}>
             <FontAwesomeIcon icon={faEllipsis} width="18px" height="18px" />
             <div className={styles.dropdownMenuWrapper}>

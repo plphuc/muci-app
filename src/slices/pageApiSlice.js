@@ -1,4 +1,4 @@
-import apiSlice from "./apiSlice";
+import apiSlice from './apiSlice';
 
 const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -59,18 +59,8 @@ const extendedApiSlice = apiSlice.injectEndpoints({
           body: { ...content },
         };
       },
-      invalidatesTags: (result, error, arg) => [{ type: 'Page', id: arg.id }],
-    }),
-
-    updateContent: builder.mutation({
-      query: ({ accessToken, pageId, content }) => {
-        return {
-          url: '/page/updateContent',
-          headers: { authorization: `Bearer ${accessToken}` },
-          method: 'PUT',
-          params: { pageId },
-          body: { ...content },
-        };
+      invalidatesTags: (result, error, arg) => {
+        return [{ type: 'Page', id: arg.id }];
       },
     }),
 

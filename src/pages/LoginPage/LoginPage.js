@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import * as utils from 'common/utils/index.js';
 import ShowHidePassword from 'common/components/ShowHidePassword/ShowHidePassword';
 import { saveAccessToken, selectAccessToken } from 'slices/tokenSlice';
-import { useGetUserQuery, useLoginMutation } from 'slices/userSlice';
+import { saveUserInfo, useGetUserQuery, useLoginMutation } from 'slices/userSlice';
 
 import styles from './LoginPage.module.css';
 
@@ -49,6 +49,7 @@ function LoginPage(props) {
       getUser()
         .unwrap()
         .then((res) => {
+          dispatch(saveUserInfo(res))
           navigate(`/${res.username}`);
         });
     }

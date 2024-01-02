@@ -15,15 +15,15 @@ import PageBlock from './PageBlock/PageBlock';
 import { useGetPagesQuery } from 'slices/pageApiSlice';
 import { useSelector } from 'react-redux';
 import { selectAccessToken } from 'slices/tokenSlice';
-import { useGetUserQuery } from 'slices/userSlice';
+import { selectUserInfo } from 'slices/userSlice';
 
 import styles from './SidebarSection.module.css';
 
 function SidebarSection(props) {
   const accessToken = useSelector(selectAccessToken);
+  const userInfo = useSelector(selectUserInfo)
 
   const { data: allPages } = useGetPagesQuery(accessToken, {skip: !accessToken});
-  const { data: userInfo } = useGetUserQuery(accessToken, {skip: !accessToken});
 
   const displayAllPages = allPages?.map((page) => {
     return (

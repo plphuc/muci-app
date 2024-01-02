@@ -34,8 +34,8 @@ function NoSelectedPage(props) {
       </div>
       <div className={styles.wrapper}>
         <img
-          src="https://i.ibb.co/VS85yRJ/welcome-Login-Transparent.png"
-          alt="404"
+          src="https://i.ibb.co/Xkjr69x/background.png"
+          alt="no selected page"
         />
       </div>
     </>

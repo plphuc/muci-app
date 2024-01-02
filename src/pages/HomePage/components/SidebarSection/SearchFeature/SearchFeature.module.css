@@ -16,7 +16,7 @@
 .searchbarWrapper {
   min-height: 48px;
   display: flex;
-    align-items: center;
+  align-items: center;
   padding: 0px 16px 0px 12px;
   background: transparent;
   font-size: 18px;
@@ -61,8 +61,8 @@
   flex: 1;
   padding: 10px 12px;
   display: flex;
-    flex-direction: column;
-    overflow: auto;
+  flex-direction: column;
+  overflow: auto;
 }
 
 .pagesListContainer {
@@ -72,6 +72,7 @@
 }
 
 .titleContainer {
+  margin-bottom: 5px;
   font-weight: 700;
   color: var(--text-color);
 }
@@ -90,4 +91,9 @@
   &:hover {
     background-color: rgba(55, 53, 47, 0.08);
   }
+}
+
+.iconPageItem {
+  width: 20px;
+  height: 20px;
 }

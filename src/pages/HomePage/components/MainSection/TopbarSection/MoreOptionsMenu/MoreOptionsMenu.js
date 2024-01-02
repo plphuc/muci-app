@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styles from './MoreOptionsMenu.module.css';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,15 +15,36 @@ import {
   faSliders,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
-import { useDeletePageMutation } from 'slices/pageApiSlice';
+import {
+  useDeletePageMutation,
+  useEditPageMutation,
+} from 'slices/pageApiSlice';
+import { FontContext, OwnerContext } from '../../MainSection';
 
 function MoreOptionsMenu(props) {
+  const isOwner = useContext(OwnerContext);
+  const {setFontName} = useContext(FontContext)
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [params, setParams] = useSearchParams();
+
+  const [searchParams, setSearchParams] = useSearchParams();
   const accessToken = useSelector(selectAccessToken);
 
   const [deletePage] = useDeletePageMutation();
+  const [editPage] = useEditPageMutation();
+
+  const handleSetFont = (e) => {
+    setFontName(e.currentTarget.style.fontFamily)
+    if (isOwner) {
+      editPage({
+        accessToken,
+        pageId: searchParams.get('id'),
+        content: { fontName: e.currentTarget.style.fontFamily },
+      });
+    }
+  };
+
   const handleLogout = () => {
     dispatch(logoutUser());
     dispatch(resetToken());
@@ -31,10 +52,14 @@ function MoreOptionsMenu(props) {
   };
 
   const handleDeletePage = () => {
-    deletePage({ accessToken, pageId: params.get('id') }).unwrap().then(() => {
-      params.delete('id');
-      setParams(params);
-    })
+    if (isOwner) {
+      deletePage({ accessToken, pageId: searchParams.get('id') })
+        .unwrap()
+        .then(() => {
+          searchParams.delete('id');
+          setSearchParams(searchParams);
+        });
+    }
   };
 
   return (
@@ -42,31 +67,28 @@ function MoreOptionsMenu(props) {
       <div className={styles.stylesWrapper}>
         <div className={styles.titleStylesContainer}>Styles</div>
         <div className={styles.stylesContainer}>
-          <div className={styles.styleItem}>
-            <div
-              className={styles.styleDescription}
-              style={{ fontFamily: 'var(--default-font)' }}
-            >
-              Ag
-            </div>
+          <div
+            className={styles.styleItem}
+            style={{ fontFamily: 'var(--default-font)' }}
+            onClick={handleSetFont}
+          >
+            <div className={styles.styleDescription}>Ag</div>
             <div className={styles.styleName}>Default - Raleway</div>
           </div>
-          <div className={styles.styleItem}>
-            <div
-              className={styles.styleDescription}
-              style={{ fontFamily: 'var(--optional-font)' }}
-            >
-              Ag
-            </div>
+          <div
+            className={styles.styleItem}
+            style={{ fontFamily: 'var(--optional-font)' }}
+            onClick={handleSetFont}
+          >
+            <div className={styles.styleDescription}>Ag</div>
             <div className={styles.styleName}>Patrick Hand</div>
           </div>
-          <div className={styles.styleItem}>
-            <div
-              className={styles.styleDescription}
-              style={{ fontFamily: 'var(--optional-font-2)' }}
-            >
-              Ag
-            </div>
+          <div
+            style={{ fontFamily: 'var(--optional-font-2)' }}
+            className={styles.styleItem}
+            onClick={handleSetFont}
+          >
+            <div className={styles.styleDescription}>Ag</div>
             <div className={styles.styleName}>IBM Plex Mono</div>
           </div>
         </div>

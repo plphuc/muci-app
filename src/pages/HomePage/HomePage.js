@@ -11,22 +11,34 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveAccessToken, selectAccessToken } from 'slices/tokenSlice.js';
 import { useGetAccessTokenQuery } from 'slices/tokenApiSlice.js';
+import { saveUserInfo, useLazyGetUserQuery } from 'slices/userSlice.js';
 
 function HomePage(props) {
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
+  const pageId = searchParams.get('id');
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const accessToken = useSelector(selectAccessToken);
   const refreshToken = localStorage.getItem('refreshToken');
 
   const { refetch: getAccessToken } = useGetAccessTokenQuery(refreshToken);
+  const [getUserInfo] = useLazyGetUserQuery();
 
   useEffect(() => {
     // request new access token when reload
     if (!accessToken && refreshToken) {
-      getAccessToken().unwrap().then(res => {
-        dispatch(saveAccessToken(res.accessToken))
-      })
+      getAccessToken()
+        .unwrap()
+        .then((res) => {
+          dispatch(saveAccessToken(res.accessToken));
+
+          getUserInfo(res.accessToken)
+            .unwrap()
+            .then((res) => {
+              dispatch(saveUserInfo(res));
+            });
+        });
     }
     if (!refreshToken) {
       navigate('/');
@@ -35,14 +47,10 @@ function HomePage(props) {
 
   return (
     <div className={styles.wrapper}>
-      <nav
-        className={classNames(styles.navWrapper, {
-          [styles.backgroundSidebar]: !searchParams.get('id'),
-        })}
-      >
+      <nav className={classNames(styles.navWrapper)}>
         <SidebarSection />
       </nav>
-      {searchParams.get('id') ? (
+      {pageId ? (
         <main className={styles.editorSectionWrapper}>
           <MainSection />
         </main>

@@ -7,6 +7,9 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    saveUserInfo: (state, action) => {
+      return action.payload;
+    },
     logoutUser: (state, action) => {
       return initialState;
     },
@@ -17,14 +20,15 @@ const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getUser: builder.query({
       query: (token) => {
-        return ({
-        url: '/user/getUser',
-        method: 'GET',
-        headers: { Authorization: `Bearer ${token}` },
-      })},
+        return {
+          url: '/user/getUser',
+          method: 'GET',
+          headers: { Authorization: `Bearer ${token}` },
+        };
+      },
       transformResponse: (response, meta, arg) => {
-        return response
-      }
+        return response;
+      },
     }),
 
     login: builder.mutation({
@@ -48,11 +52,13 @@ const extendedApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
+export const selectUserInfo = (state) => state.user;
 export const {
   useLoginMutation,
   useRegisterMutation,
   useGetUserQuery,
+  useLazyGetUserQuery,
 } = extendedApiSlice;
 
-export const { logoutUser } = userSlice.actions;
+export const { logoutUser, saveUserInfo } = userSlice.actions;
 export default userSlice.reducer;

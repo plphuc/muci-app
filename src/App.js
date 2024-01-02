@@ -12,7 +12,6 @@ import { ToastContainer } from 'react-toastify';
 // import styles from 'App.module.css';
 
 function App() {
-  
   return (
     <>
       <BrowserRouter>
@@ -21,11 +20,11 @@ function App() {
             <Route index element={<WelcomePage />} />
             <Route path="login" element={<LoginPage />} />
             <Route path="register" element={<RegisterPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-            <Route path="/404" element={<NotFoundPage />} />
           </Route>
-          <Route path="/:username" element={<HomePage />} />
-          {/* <Route path="/:username/:pageid" element={<HomePage />} /> */}
+
+          <Route path="/:username" element={<HomePage />}></Route>
+
+          <Route path="/*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
     </>

@@ -9,10 +9,6 @@
   background-color: var(--background-color);
 }
 
-.backgroundSidebar {
-  background-image: url(https://i.ibb.co/48CjGNb/background-Transparent.png);
-}
-
 .editorSectionWrapper {
   height: inherit;
   flex: 1;

@@ -22,6 +22,9 @@ function SearchFeature(props) {
   const { data: allPages } = useGetPagesQuery(accessToken, {skip: !accessToken});
   const [getPage] = useLazyGetPageQuery();
 
+  const handleSearchPage = (e) => {
+    console.log(e.target.value);
+  }
 
   const handleChoosePage = (id) => {
     setIsSearchModalOpen(false);
@@ -57,7 +60,7 @@ function SearchFeature(props) {
                 <FontAwesomeIcon icon={faMagnifyingGlass} size="lg" />
               </div>
               <div className={styles.searchInputContainer}>
-                <input type="text" placeholder="Search in Notion" />
+                <input type="text" placeholder="Search in Notion" onChange={handleSearchPage}/>
               </div>
             </div>
             <div className={styles.pageListWrapper}>
@@ -71,7 +74,7 @@ function SearchFeature(props) {
                         key={page.id}
                         onClick={() => handleChoosePage(page.id)}
                       >
-                        <div>{page.icon || '📃'}</div>
+                        <div className={styles.iconPageItem}>{page.icon || '📃'}</div>
                         <div>{page.title}</div>
                       </div>
                     );

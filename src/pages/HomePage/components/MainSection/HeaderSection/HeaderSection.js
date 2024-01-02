@@ -1,12 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { selectAccessToken } from 'slices/tokenSlice';
-import {
-  useEditPageMutation,
-  useGetPageQuery,
-} from 'slices/pageApiSlice';
+import { useEditPageMutation, useLazyGetPageQuery } from 'slices/pageApiSlice';
 import AddCover from './AddCover/AddCover';
 import AddIcon from './AddIcon/AddIcon';
 
@@ -16,48 +13,57 @@ import {
   useLazyGetCoverQuery,
   useRemoveCoverMutation,
 } from 'slices/coverSlice';
+import { OwnerContext } from '../MainSection';
 
 function HeaderSection(props) {
+  const isOwner = useContext(OwnerContext);
   const accessToken = useSelector(selectAccessToken);
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const pageId = searchParams.get('id');
-  
+
   const [removeCover] = useRemoveCoverMutation();
-  const {
-    refetch: getPage,
-    data: pageInfo,
-    isSuccess,
-  } = useGetPageQuery({ accessToken, pageId }, { skip: !accessToken });
+  const [getPage, { data: pageInfo, isSuccess }] = useLazyGetPageQuery();
+
   const [getCover, { data: coverInfo }] = useLazyGetCoverQuery();
   const [editPage] = useEditPageMutation();
 
   const handleRemoveCover = () => {
-    removeCover({ pageId, coverId: pageInfo.cover, accessToken });
+    if (isOwner) {
+      removeCover({ pageId, coverId: pageInfo?.cover, accessToken });
+    }
   };
-
-  useEffect(() => {
-    if (isSuccess && pageInfo.cover) {
-      getCover({ pageId, coverId: pageInfo.cover, accessToken });
-    }
-  }, [isSuccess, pageInfo?.cover]);
-
-  useEffect(() => {
-    if (pageId && accessToken) {
-      getPage();
-    }
-  }, [pageId, accessToken]);
 
   const handleInputTitle = (e) => {
     if (e.code === 'Enter') {
-      editPage({ accessToken, pageId, content: {title: e.target.innerText} });
+      if (isOwner) {
+        editPage({
+          accessToken,
+          pageId,
+          content: { title: e.target.innerText },
+        });
+      }
       e.target.blur();
       return;
     }
   };
 
   const handleBlurTitle = (e) => {
-    editPage({ accessToken, pageId, content: {title: e.target.innerText} });
+    if (isOwner) {
+      editPage({ accessToken, pageId, content: { title: e.target.innerText } });
+    }
   };
+
+  useEffect(() => {
+    if (isSuccess && pageInfo?.cover) {
+      getCover({ pageId, coverId: pageInfo?.cover, accessToken });
+    }
+  }, [isSuccess, pageInfo?.cover]);
+
+  useEffect(() => {
+    if (pageId && accessToken) {
+      getPage({ accessToken, pageId });
+    }
+  }, [pageId, accessToken]);
 
   return (
     <div className={styles.wrapper}>
@@ -77,7 +83,10 @@ function HeaderSection(props) {
       )}
 
       <div className={styles.container}>
-        <div className={styles.addItemsContainer}>
+        <div
+          className={styles.addItemsContainer}
+          style={{ fontFamily: 'var(--default-font)' }}
+        >
           <div className={styles.addItemContainer}>
             <AddIcon />
           </div>

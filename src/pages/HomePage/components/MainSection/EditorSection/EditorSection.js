@@ -1,25 +1,26 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
-import {
-  useEditPageMutation,
-  useLazyGetPageQuery,
-} from 'slices/pageApiSlice';
+import { useEditPageMutation, useLazyGetPageQuery } from 'slices/pageApiSlice';
 import { selectAccessToken } from 'slices/tokenSlice';
 import EditorJS from '@editorjs/editorjs';
 import { DEFAULT_INITIAL_DATA } from 'common/utils/contants';
 import { EDITOR_JS_TOOLS } from 'config/editorConfigs';
 import styles from './EditorSection.module.css';
 import { notifyError } from 'common/utils/toastMessage';
+import { selectUserInfo } from 'slices/userSlice';
+import { OwnerContext } from '../MainSection';
 
 function EditorSection(props) {
   const ejInstance = useRef();
+  const isOwner = useContext(OwnerContext);
+
   const accessToken = useSelector(selectAccessToken);
-  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const pageId = searchParams.get('id');
-  
+
   const [editPage] = useEditPageMutation();
   const [getPage] = useLazyGetPageQuery();
 
@@ -36,16 +37,21 @@ function EditorSection(props) {
 
   // auto save
   useEffect(() => {
+    console.log(pageId);
     const intervalId = setInterval(async () => {
       const saveData = async () => {
         try {
           const content = await ejInstance.current?.save();
-          await editPage({ accessToken, pageId, content: {...content}})
+
+          // only save if user is owner of the page
+          if (isOwner) {
+            await editPage({ accessToken, pageId, content: { ...content } });
+          }
         } catch (err) {
-          notifyError('Something went wrong, cannot auto save content')
+          notifyError('Something went wrong, cannot auto save content');
         }
       };
-      
+
       if (accessToken) {
         await saveData();
       }
@@ -56,14 +62,16 @@ function EditorSection(props) {
   // This will run only once in initial
   useEffect(() => {
     if (accessToken && pageId) {
-      getPage({accessToken, pageId}).unwrap().then(res => {
-        if (ejInstance.current === null) {
-          initEditor(res.content);
-        }
-      })
-      .catch(err => {
-        navigate('/404');
-      })
+      getPage({ accessToken, pageId })
+        .unwrap()
+        .then((res) => {
+          if (ejInstance.current === null) {
+            initEditor(res.content);
+          }
+        })
+        .catch((err) => {
+          navigate('/404');
+        });
     }
 
     return () => {
