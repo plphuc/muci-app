@@ -1,48 +1,48 @@
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { createSearchParams, redirect } from 'react-router-dom';
 
 import styles from './PageBlock.module.css';
-import { useDeletePageMutation, useLazyGetPageQuery } from 'slices/pageApiSlice';
+import {
+  useDeletePageMutation,
+  useLazyGetPageQuery,
+} from 'slices/pageApiSlice';
 import { useSelector } from 'react-redux';
 import { selectAccessToken } from 'slices/tokenSlice';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { selectUserInfo } from 'slices/userSlice';
 
 function PageBlock(props) {
   const { parentClass, id, title, icon, children } = props;
+
   const navigate = useNavigate();
   const location = useLocation();
+
   const [isToggle, setIsToggle] = useState(false);
   const accessToken = useSelector(selectAccessToken);
 
-  const [getPage] = useLazyGetPageQuery();
   const [deletePage] = useDeletePageMutation();
 
   const handleChoosePage = () => {
     setIsToggle(!isToggle);
-    getPage({ accessToken, pageId: id })
-      .unwrap()
-      .then((res) => {
-        navigate({
-          pathname: location.pathname,
-          search: createSearchParams({
-            id: `${res.id}`,
-          }).toString(),
-        });
-      });
+    navigate({
+      pathname: location.pathname,
+      search: createSearchParams({ id }).toString(),
+    });
   };
 
   const handleDeletePage = (e) => {
     // avoid trigger handleChoosePage
     e.stopPropagation();
+
     deletePage({ accessToken, pageId: id })
       .unwrap()
       .then(() => {
         navigate({
           pathname: location.pathname,
-        })
+        });
       });
   };
 

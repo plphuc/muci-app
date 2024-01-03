@@ -13,6 +13,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
   if (result?.error) {
     if (result.error.status === 401) {
+      let newAccessToken;
       // prevent multiple calls to '/refreshToken' when multiple calls fail with 401
       if (!mutex.isLocked()) {
         const release = await mutex.acquire();
@@ -38,9 +39,17 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
           if (refreshResult.data.accessToken) {
             api.dispatch(saveAccessToken(refreshResult.data.accessToken));
+            newAccessToken = refreshResult.data.accessToken;
 
             // re-request the failed request with the new token
-            const newResult = await baseQuery(args, api, extraOptions);
+            const newResult = await baseQuery(
+              {
+                ...args,
+                headers: { authorization: `Bearer ${newAccessToken}` },
+              },
+              api,
+              extraOptions
+            );
             return newResult;
           }
         } catch {
@@ -53,7 +62,11 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
         // await until the mutex is available, it means new access token is available
         await mutex.waitForUnlock();
         try {
-          const newResult = await baseQuery(args, api, extraOptions);
+          const newResult = await baseQuery(
+            { ...args, headers: { authorization: `Bearer ${newAccessToken}` } },
+            api,
+            extraOptions
+          );
           return newResult;
         } catch {
           api.dispatch(resetToken());

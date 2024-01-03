@@ -9,7 +9,6 @@ import { DEFAULT_INITIAL_DATA } from 'common/utils/contants';
 import { EDITOR_JS_TOOLS } from 'config/editorConfigs';
 import styles from './EditorSection.module.css';
 import { notifyError } from 'common/utils/toastMessage';
-import { selectUserInfo } from 'slices/userSlice';
 import { OwnerContext } from '../MainSection';
 
 function EditorSection(props) {
@@ -37,7 +36,6 @@ function EditorSection(props) {
 
   // auto save
   useEffect(() => {
-    console.log(pageId);
     const intervalId = setInterval(async () => {
       const saveData = async () => {
         try {
@@ -55,7 +53,7 @@ function EditorSection(props) {
       if (accessToken) {
         await saveData();
       }
-    }, 30000);
+    }, 10000);
     return () => clearInterval(intervalId);
   }, [accessToken, pageId]);
 
