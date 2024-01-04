@@ -12,7 +12,7 @@ import DisplayFeature from './DisplayFeature/DisplayFeature';
 
 import AddPageFeature from './AddPageFeature/AddPageFeature';
 import PageBlock from './PageBlock/PageBlock';
-import { useGetPagesQuery } from 'slices/pageApiSlice';
+import { useGetTitlePagesQuery } from 'slices/pageApiSlice';
 import { useSelector } from 'react-redux';
 import { selectAccessToken } from 'slices/tokenSlice';
 import { selectUserInfo } from 'slices/userSlice';
@@ -23,7 +23,7 @@ function SidebarSection(props) {
   const accessToken = useSelector(selectAccessToken);
   const userInfo = useSelector(selectUserInfo)
 
-  const { data: allPages } = useGetPagesQuery(accessToken, {skip: !accessToken});
+  const { data: allPages } = useGetTitlePagesQuery(accessToken, {skip: !accessToken});
 
   const displayAllPages = allPages?.map((page) => {
     return (

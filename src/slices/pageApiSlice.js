@@ -2,10 +2,10 @@ import apiSlice from './apiSlice';
 
 const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getPages: builder.query({
+    getTitlePages: builder.query({
       query: (accessToken) => {
         return {
-          url: '/page/getAllPages',
+          url: '/page/getTitleAllPages',
           headers: { authorization: `Bearer ${accessToken}` },
           method: 'GET',
         };
@@ -84,5 +84,5 @@ export const {
   useLazyGetPageQuery,
   useAddPageMutation,
   useDeletePageMutation,
-  useGetPagesQuery,
+  useGetTitlePagesQuery,
 } = extendedApiSlice;

@@ -36,24 +36,24 @@ function EditorSection(props) {
 
   // auto save
   useEffect(() => {
-    const intervalId = setInterval(async () => {
-      const saveData = async () => {
-        try {
-          const content = await ejInstance.current?.save();
+    const saveData = async () => {
+      try {
+        const content = await ejInstance.current?.save();
 
-          // only save if user is owner of the page
-          if (isOwner) {
-            await editPage({ accessToken, pageId, content: { ...content } });
-          }
-        } catch (err) {
-          notifyError('Something went wrong, cannot auto save content');
+        // only save if user is owner of the page
+        if (isOwner) {
+          await editPage({ accessToken, pageId, content: { ...content } });
         }
-      };
+      } catch (err) {
+        notifyError('Something went wrong, cannot auto save content');
+      }
+    };
 
+    const intervalId = setInterval(async () => {
       if (accessToken) {
         await saveData();
       }
-    }, 10000);
+    }, 30000);
     return () => clearInterval(intervalId);
   }, [accessToken, pageId]);
 

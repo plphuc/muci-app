@@ -9,6 +9,7 @@ const mutex = new Mutex();
 const baseQueryWithReauth = async (args, api, extraOptions) => {
   // wait until the mutex is available without locking it
   await mutex.waitForUnlock();
+
   const result = await baseQuery(args, api, extraOptions);
 
   if (result?.error) {
@@ -75,7 +76,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
       }
     }
   }
-  return result;
+  return result
 };
 
 const apiSlice = createApi({
