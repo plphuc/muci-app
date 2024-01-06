@@ -6,6 +6,7 @@ import { createSearchParams, redirect } from 'react-router-dom';
 
 import styles from './PageBlock.module.css';
 import {
+  useAddPageMutation,
   useDeletePageMutation,
 } from 'slices/pageApiSlice';
 import { useSelector } from 'react-redux';
@@ -22,6 +23,7 @@ function PageBlock(props) {
   const accessToken = useSelector(selectAccessToken);
 
   const [deletePage] = useDeletePageMutation();
+  const [addPage] = useAddPageMutation();
 
   const handleChoosePage = () => {
     setIsToggle(!isToggle);
@@ -30,6 +32,12 @@ function PageBlock(props) {
       search: createSearchParams({ id }).toString(),
     });
   };
+
+  const handleAddPage = (e) => {
+    // avoid trigger handleChoosePage
+    e.stopPropagation();
+    
+  }
 
   const handleDeletePage = (e) => {
     // avoid trigger handleChoosePage
