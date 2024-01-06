@@ -38,7 +38,6 @@ function EditorSection(props) {
     const saveData = async () => {
       try {
         const content = await ejInstance.current?.save();
-
         // only save if user is owner of the page
         await editPage({ accessToken, pageId, content: { ...content } });
       } catch (err) {

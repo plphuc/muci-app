@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { selectAccessToken } from 'slices/tokenSlice';
-import { useEditPageMutation, useLazyGetPageQuery } from 'slices/pageApiSlice';
+import { useEditPageMutation } from 'slices/pageApiSlice';
 import AddCover from './AddCover/AddCover';
 import AddIcon from './AddIcon/AddIcon';
 

@@ -13,8 +13,6 @@ import { useSelector } from 'react-redux';
 import { selectAccessToken } from 'slices/tokenSlice';
 import {
   useEditPageMutation,
-  useGetPageQuery,
-  useLazyGetPageQuery,
 } from 'slices/pageApiSlice';
 import { OwnerContext, PageContext } from '../MainSection';
 import { useSearchParams } from 'react-router-dom';

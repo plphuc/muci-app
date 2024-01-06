@@ -1,18 +1,16 @@
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { useState } from 'react';
 import { createSearchParams, redirect } from 'react-router-dom';
 
 import styles from './PageBlock.module.css';
 import {
   useDeletePageMutation,
-  useLazyGetPageQuery,
 } from 'slices/pageApiSlice';
 import { useSelector } from 'react-redux';
 import { selectAccessToken } from 'slices/tokenSlice';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { selectUserInfo } from 'slices/userSlice';
 
 function PageBlock(props) {
   const { parentClass, id, title, icon, children } = props;
@@ -62,6 +60,9 @@ function PageBlock(props) {
           <div className={styles.pageInfo}>
             <div className={styles.pageIcon}>{icon}</div>
             <div className={styles.pageName}>{title}</div>
+          </div>
+          <div className={styles.addPageContainer} onClick={handleAddPage}>
+            <FontAwesomeIcon icon={faPlus} />
           </div>
           <div className={styles.trashContainer} onClick={handleDeletePage}>
             <FontAwesomeIcon icon={faTrash} />
