@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
@@ -11,24 +11,23 @@ import styles from './TopbarSection.module.css';
 import MoreOptionsMenu from './MoreOptionsMenu/MoreOptionsMenu';
 import { useSelector } from 'react-redux';
 import { selectAccessToken } from 'slices/tokenSlice';
-import { useEditPageMutation, useGetPageQuery } from 'slices/pageApiSlice';
-import { OwnerContext } from '../MainSection';
+import {
+  useEditPageMutation,
+  useGetPageQuery,
+  useLazyGetPageQuery,
+} from 'slices/pageApiSlice';
+import { OwnerContext, PageContext } from '../MainSection';
 import { useSearchParams } from 'react-router-dom';
 
 function TopbarSection(props) {
+  const pageInfo = useContext(PageContext);
   const isOwner = useContext(OwnerContext);
+  
   const accessToken = useSelector(selectAccessToken);
   const [searchParams] = useSearchParams();
   const pageId = searchParams.get('id');
 
   const [editPage] = useEditPageMutation();
-  const { data: pageInfo } = useGetPageQuery(
-    {
-      accessToken,
-      pageId,
-    },
-    { skip: !accessToken }
-  );
 
   function handleToggleFav() {
     if (isOwner) {
@@ -56,18 +55,22 @@ function TopbarSection(props) {
         >
           {pageInfo?.isFavPage ? (
             <div
-              className={classNames(
-                styles.toggleFavContainer,
-                styles.onFavBtn
-              )}
+              className={classNames(styles.toggleFavContainer, styles.onFavBtn)}
             >
               <FontAwesomeIcon icon={faStar} width="20px" height="20px" />
             </div>
           ) : (
             <div
-              className={classNames(styles.toggleFavContainer, styles.offFavBtn)}
+              className={classNames(
+                styles.toggleFavContainer,
+                styles.offFavBtn
+              )}
             >
-              <FontAwesomeIcon icon={regularFaStar} width="20px" height="20px" />
+              <FontAwesomeIcon
+                icon={regularFaStar}
+                width="20px"
+                height="20px"
+              />
             </div>
           )}
         </div>

@@ -62,6 +62,9 @@ const extendedApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: (result, error, arg) => {
         return [{ type: 'Page', id: arg.id }];
       },
+      transformErrorResponse: (err => {
+        console.log("err", err);
+      })
     }),
 
     deletePage: builder.mutation({

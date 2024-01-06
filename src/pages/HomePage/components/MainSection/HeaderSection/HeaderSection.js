@@ -13,16 +13,17 @@ import {
   useLazyGetCoverQuery,
   useRemoveCoverMutation,
 } from 'slices/coverSlice';
-import { OwnerContext } from '../MainSection';
+import { OwnerContext, PageContext } from '../MainSection';
 
 function HeaderSection(props) {
   const isOwner = useContext(OwnerContext);
+  const pageInfo = useContext(PageContext);
+
   const accessToken = useSelector(selectAccessToken);
   const [searchParams] = useSearchParams();
   const pageId = searchParams.get('id');
 
   const [removeCover] = useRemoveCoverMutation();
-  const [getPage, { data: pageInfo, isSuccess }] = useLazyGetPageQuery();
 
   const [getCover, { data: coverInfo }] = useLazyGetCoverQuery();
   const [editPage] = useEditPageMutation();
@@ -54,16 +55,10 @@ function HeaderSection(props) {
   };
 
   useEffect(() => {
-    if (isSuccess && pageInfo?.cover) {
+    if (pageInfo?.cover) {
       getCover({ pageId, coverId: pageInfo?.cover, accessToken });
     }
-  }, [isSuccess, pageInfo?.cover]);
-
-  useEffect(() => {
-    if (pageId && accessToken) {
-      getPage({ accessToken, pageId });
-    }
-  }, [pageId, accessToken]);
+  }, [pageInfo?.cover]);
 
   return (
     <div className={styles.wrapper}>

@@ -38,6 +38,7 @@ function SidebarSection(props) {
   });
 
   const handleTurnToHomepage = () => {
+    
     window.location.href = `/${userInfo?.username}`;
   };
 

@@ -1,27 +1,26 @@
-import { useRef, useEffect, useContext } from 'react';
+import { useRef, useEffect, useContext, version } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
-import { useEditPageMutation, useLazyGetPageQuery } from 'slices/pageApiSlice';
+import { useEditPageMutation } from 'slices/pageApiSlice';
 import { selectAccessToken } from 'slices/tokenSlice';
 import EditorJS from '@editorjs/editorjs';
 import { DEFAULT_INITIAL_DATA } from 'common/utils/contants';
 import { EDITOR_JS_TOOLS } from 'config/editorConfigs';
 import styles from './EditorSection.module.css';
 import { notifyError } from 'common/utils/toastMessage';
-import { OwnerContext } from '../MainSection';
+import { OwnerContext, PageContext } from '../MainSection';
 
 function EditorSection(props) {
   const ejInstance = useRef();
   const isOwner = useContext(OwnerContext);
+  const pageInfo = useContext(PageContext);
 
   const accessToken = useSelector(selectAccessToken);
-  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const pageId = searchParams.get('id');
 
   const [editPage] = useEditPageMutation();
-  const [getPage] = useLazyGetPageQuery();
 
   const initEditor = (content) => {
     const editor = new EditorJS({
@@ -41,42 +40,37 @@ function EditorSection(props) {
         const content = await ejInstance.current?.save();
 
         // only save if user is owner of the page
-        if (isOwner) {
-          await editPage({ accessToken, pageId, content: { ...content } });
-        }
+        await editPage({ accessToken, pageId, content: { ...content } });
       } catch (err) {
         notifyError('Something went wrong, cannot auto save content');
       }
     };
 
-    const intervalId = setInterval(async () => {
-      if (accessToken) {
+    if (accessToken && isOwner) {
+      const intervalId = setInterval(async () => {
         await saveData();
-      }
-    }, 30000);
-    return () => clearInterval(intervalId);
-  }, [accessToken, pageId]);
+      }, 10000);
+      return () => clearInterval(intervalId);
+    }
+  }, [accessToken, pageId, isOwner]);
 
   // This will run only once in initial
   useEffect(() => {
-    if (accessToken && pageId) {
-      getPage({ accessToken, pageId })
-        .unwrap()
-        .then((res) => {
-          if (ejInstance.current === null) {
-            initEditor(res.content);
-          }
-        })
-        .catch((err) => {
-          navigate('/404');
-        });
+    if (pageInfo) {
+      const content = {
+        time: pageInfo.time,
+        blocks: pageInfo.blocks,
+        version: pageInfo.version,
+      };
+      if (ejInstance.current === null) {
+        initEditor(content);
+      }
     }
-
     return () => {
       ejInstance?.current?.destroy();
       ejInstance.current = null;
     };
-  }, [accessToken, pageId]);
+  }, [pageInfo?.id]);
 
   return (
     <div className={styles.wrapper}>

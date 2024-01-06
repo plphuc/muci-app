@@ -1,8 +1,6 @@
 const { createSlice } = require('@reduxjs/toolkit');
 
-const initialState = {
-  statusCode: 200,
-};
+const initialState = null;
 
 const pageSlice = createSlice({
   name: 'page',

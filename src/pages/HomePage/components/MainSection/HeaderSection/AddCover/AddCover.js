@@ -9,6 +9,7 @@ import { useSearchParams } from 'react-router-dom';
 
 function AddCover(props) {
   const isOwner = useContext(OwnerContext);
+  
   const [searchParams] = useSearchParams();
   const pageId = searchParams.get('id');
   

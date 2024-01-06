@@ -9,16 +9,17 @@ import DropdownMenu from 'common/components/DropdownMenu/DropdownMenu';
 import { useSelector } from 'react-redux';
 import { selectAccessToken } from 'slices/tokenSlice';
 import { useSearchParams } from 'react-router-dom';
-import { OwnerContext } from '../../MainSection';
+import { OwnerContext, PageContext } from '../../MainSection';
 
 function AddIcon(props) {
-  const isOwner = useContext(OwnerContext)
+  const isOwner = useContext(OwnerContext);
+  const pageInfo = useContext(PageContext);
+
   const [isShowEmojiPicker, setIsShowEmojiPicker] = useState(false);
   const accessToken = useSelector(selectAccessToken);
   const [searchParams] = useSearchParams();
-  const pageId = searchParams.get('id')
+  const pageId = searchParams.get('id');
 
-  const [getPage, { data: pageInfo }] = useLazyGetPageQuery();
   const [editPage] = useEditPageMutation();
 
   const handleAddIcon = (e) => {
@@ -36,12 +37,6 @@ function AddIcon(props) {
     if (isOwner)
       editPage({ accessToken, pageId, content: { icon: emojiData.native } });
   };
-
-  useEffect(() => {
-    if (pageId && accessToken) {
-      getPage({ accessToken, pageId });
-    }
-  }, [pageId, accessToken]);
 
   return (
     <div className={styles.wrapper}>

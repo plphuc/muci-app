@@ -11,7 +11,11 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveAccessToken, selectAccessToken } from 'slices/tokenSlice.js';
 import { useGetAccessTokenQuery } from 'slices/tokenApiSlice.js';
-import { saveUserInfo, useLazyGetUserQuery } from 'slices/userSlice.js';
+import {
+  saveUserInfo,
+  selectUserInfo,
+  useLazyGetUserQuery,
+} from 'slices/userSlice.js';
 
 function HomePage(props) {
   const [searchParams] = useSearchParams();
@@ -20,6 +24,8 @@ function HomePage(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const accessToken = useSelector(selectAccessToken);
+  const userInfo = useSelector(selectUserInfo);
+
   const refreshToken = localStorage.getItem('refreshToken');
 
   const { refetch: getAccessToken } = useGetAccessTokenQuery(refreshToken);
@@ -46,21 +52,23 @@ function HomePage(props) {
   }, [refreshToken]);
 
   return (
-    <div className={styles.wrapper}>
-      <nav className={classNames(styles.navWrapper)}>
-        <SidebarSection />
-      </nav>
-      {pageId ? (
-        <main className={styles.editorSectionWrapper}>
-          <MainSection />
-        </main>
-      ) : (
-        <NoSelectedPage />
-      )}
-      <div className={styles.toastContainer}>
-        <ToastContainer />
+    userInfo && (
+      <div className={styles.wrapper}>
+        <nav className={classNames(styles.navWrapper)}>
+          <SidebarSection />
+        </nav>
+        {pageId ? (
+          <main className={styles.editorSectionWrapper}>
+            <MainSection />
+          </main>
+        ) : (
+          <NoSelectedPage />
+        )}
+        <div className={styles.toastContainer}>
+          <ToastContainer />
+        </div>
       </div>
-    </div>
+    )
   );
 }
 
