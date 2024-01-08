@@ -6,7 +6,7 @@ import styles from './SearchFeature.module.css';
 import ModalFeature from '../ModalFeature/ModalFeature';
 import { sortListWord } from 'common/utils';
 import {
-  useGetTitlePagesQuery,
+  useGetMetaAllPagesQuery,
   useLazyGetPageQuery,
 } from 'slices/pageApiSlice';
 import { useSelector } from 'react-redux';
@@ -19,7 +19,7 @@ function SearchFeature(props) {
   const { className } = props;
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const accessToken = useSelector(selectAccessToken);
-  const { data: allPages } = useGetTitlePagesQuery(accessToken, {
+  const { data: allPages } = useGetMetaAllPagesQuery(accessToken, {
     skip: !accessToken,
   });
   const [searchResult, setSearchResult] = useState([]);

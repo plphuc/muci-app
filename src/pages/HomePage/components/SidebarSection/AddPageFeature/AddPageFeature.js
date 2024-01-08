@@ -15,7 +15,7 @@ function AddPageFeature(props) {
   const [addPage] = useAddPageMutation();
 
   const handleAddPage = async () => {
-    await addPage(accessToken).unwrap().catch((err) => {
+    await addPage({accessToken}).unwrap().catch((err) => {
       notifyError("Cannot add page");
     })
   }

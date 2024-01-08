@@ -37,7 +37,7 @@ function MainSection(props) {
     if (accessToken && pageId) {
       getPage({ accessToken, pageId });
     }
-  }, [accessToken, pageId]);
+  }, [accessToken, pageId, getPage]);
 
   useEffect(() => {
     if (userInfo && pageInfo && pageInfo?.fontName) {

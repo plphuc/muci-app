@@ -2,10 +2,10 @@ import apiSlice from './apiSlice';
 
 const extendedApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getTitlePages: builder.query({
+    getMetaAllPages: builder.query({
       query: (accessToken) => {
         return {
-          url: '/page/getTitleAllPages',
+          url: '/page/getMetaAllPages ',
           headers: { authorization: `Bearer ${accessToken}` },
           method: 'GET',
         };
@@ -15,6 +15,23 @@ const extendedApiSlice = apiSlice.injectEndpoints({
       },
       providesTags: (result = [], error, arg) => {
         return ['Page', result.map(({ id }) => ({ type: 'Page', id }))];
+      },
+    }),
+
+    getMetaPage: builder.query({
+      query: ({ accessToken, pageId }) => {
+        return {
+          url: '/page/getMetaPage',
+          headers: { authorization: `Bearer ${accessToken}` },
+          method: 'GET',
+          params: { pageId },
+        };
+      },
+      transformResponse: (response) => {
+        return response.page;
+      },
+      providesTags: (result, error, arg) => {
+        return [{ type: 'Page', id: arg.pageId }];
       },
     }),
 
@@ -36,11 +53,12 @@ const extendedApiSlice = apiSlice.injectEndpoints({
     }),
 
     addPage: builder.mutation({
-      query: (accessToken) => {
+      query: ({ accessToken, parentId=null }) => {
         return {
           url: '/page',
           headers: { authorization: `Bearer ${accessToken}` },
           method: 'POST',
+          params: parentId ? { parentId } : {},
         };
       },
       invalidatesTags: ['Page'],
@@ -62,9 +80,9 @@ const extendedApiSlice = apiSlice.injectEndpoints({
       invalidatesTags: (result, error, arg) => {
         return [{ type: 'Page', id: arg.id }];
       },
-      transformErrorResponse: (err => {
-        console.log("err", err);
-      })
+      transformErrorResponse: (err) => {
+        console.log('err', err);
+      },
     }),
 
     deletePage: builder.mutation({
@@ -87,5 +105,6 @@ export const {
   useLazyGetPageQuery,
   useAddPageMutation,
   useDeletePageMutation,
-  useGetTitlePagesQuery,
+  useGetMetaAllPagesQuery,
+  useLazyGetMetaPageQuery,
 } = extendedApiSlice;

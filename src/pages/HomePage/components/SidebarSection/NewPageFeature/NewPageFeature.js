@@ -13,8 +13,8 @@ function NewPageFeature(props) {
   const accessToken = useSelector(selectAccessToken);
   const [addPage] = useAddPageMutation();
 
-  const handleAddPage = async () => {
-    await addPage(accessToken)
+  const handleAddPage = () => {
+    addPage(accessToken)
       .unwrap()
       .catch((err) => {
         notifyError('Cannot add page');

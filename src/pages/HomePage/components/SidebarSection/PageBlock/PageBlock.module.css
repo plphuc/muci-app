@@ -1,3 +1,7 @@
+.wrapper {
+  width: 100%;  
+}
+
 .iconWrapper {
   width: 20px;
   height: 20px;
@@ -31,22 +35,26 @@
   gap: 5px;
 }
 
-.trashContainer {
-  margin-top: 2px;
-  margin-bottom: 2px;
-  margin-right: 10px;
-  padding: 3px;
+.actionsPageWrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  visibility: hidden;
+  gap: 5px;
 }
 
-.wrapper:hover .trashContainer {
+.actionPageItem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  visibility: hidden;
+  border-radius: 3px;
+}
+
+.actionPageItem:hover {
+  background-color: rgb(217, 217, 214);
+}
+
+.wrapper:hover .actionPageItem {
   visibility: visible;
 }
-
-.childrenContainer {
-  margin-left: 20px;
-}
-

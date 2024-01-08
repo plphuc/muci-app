@@ -11,34 +11,22 @@ import TrashFeature from './TrashFeature/TrashFeature';
 import DisplayFeature from './DisplayFeature/DisplayFeature';
 
 import AddPageFeature from './AddPageFeature/AddPageFeature';
-import PageBlock from './PageBlock/PageBlock';
-import { useGetTitlePagesQuery } from 'slices/pageApiSlice';
+import { useGetMetaAllPagesQuery } from 'slices/pageApiSlice';
 import { useSelector } from 'react-redux';
 import { selectAccessToken } from 'slices/tokenSlice';
 import { selectUserInfo } from 'slices/userSlice';
 
 import styles from './SidebarSection.module.css';
+import DisplayListFeature from './DisplayListFeature/DisplayListFeature';
 
 function SidebarSection(props) {
+  const userInfo = useSelector(selectUserInfo);
   const accessToken = useSelector(selectAccessToken);
-  const userInfo = useSelector(selectUserInfo)
 
-  const { data: allPages } = useGetTitlePagesQuery(accessToken, {skip: !accessToken});
-
-  const displayAllPages = allPages?.map((page) => {
-    return (
-      <PageBlock
-        key={page.id}
-        id={page.id}
-        parentClass={styles.navItem}
-        icon={page.icon ? page.icon : '📃'}
-        title={page.title}
-      />
-    );
+  const { data: allPages } = useGetMetaAllPagesQuery(accessToken, {
+    skip: !accessToken,
   });
-
   const handleTurnToHomepage = () => {
-    
     window.location.href = `/${userInfo?.username}`;
   };
 
@@ -65,7 +53,9 @@ function SidebarSection(props) {
         <div className={classNames(styles.titlePageContainer, styles.navItem)}>
           <DisplayFeature icon="☁" title="Projects" />
         </div>
-        <div className={styles.pagesContainer}>{displayAllPages}</div>
+        <div className={styles.pagesContainer}>
+          <DisplayListFeature pages={allPages}/>
+        </div>
         <AddPageFeature className={styles.navItem} />
       </div>
 

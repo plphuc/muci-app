@@ -100,7 +100,7 @@ function RegisterPage(props) {
         );
 
         // auto add 1st page for user
-        addPage(registerResult.tokens.accessToken).unwrap();
+        addPage(registerResult.tokens.accessToken);
         navigate(`/${registerResult.username}`);
       } catch (err) {
         notifyError(err.data.message);

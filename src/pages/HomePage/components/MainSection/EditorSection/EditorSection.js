@@ -39,7 +39,7 @@ function EditorSection(props) {
       try {
         const content = await ejInstance.current?.save();
         // only save if user is owner of the page
-        await editPage({ accessToken, pageId, content: { ...content } });
+        await editPage({ accessToken, pageId, content: { ...content } }).unwrap();
       } catch (err) {
         notifyError('Something went wrong, cannot auto save content');
       }
@@ -48,7 +48,7 @@ function EditorSection(props) {
     if (accessToken && isOwner) {
       const intervalId = setInterval(async () => {
         await saveData();
-      }, 10000);
+      }, 30000);
       return () => clearInterval(intervalId);
     }
   }, [accessToken, pageId, isOwner]);

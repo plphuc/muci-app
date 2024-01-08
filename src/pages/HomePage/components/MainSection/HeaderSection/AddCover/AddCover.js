@@ -16,11 +16,11 @@ function AddCover(props) {
   const [saveCover] = useSaveCoverMutation();
   const accessToken = useSelector(selectAccessToken);
 
-  const handleUploadCover = async (e) => {
+  const handleUploadCover = (e) => {
     if (e.target.files[0] && isOwner) {
       const formData = new FormData();
       formData.append('file', e.target.files[0]);
-      await saveCover({
+      saveCover({
         cover: formData,
         pageId,
         accessToken,

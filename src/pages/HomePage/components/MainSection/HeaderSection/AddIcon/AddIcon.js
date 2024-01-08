@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from 'react';
 import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 
-import { useEditPageMutation, useLazyGetPageQuery } from 'slices/pageApiSlice';
+import { useEditPageMutation } from 'slices/pageApiSlice';
 import styles from './AddIcon.module.css';
 import DropdownMenu from 'common/components/DropdownMenu/DropdownMenu';
 import { useSelector } from 'react-redux';
