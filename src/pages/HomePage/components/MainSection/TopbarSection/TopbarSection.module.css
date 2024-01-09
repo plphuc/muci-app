@@ -3,6 +3,7 @@
   height: var(--header-height);
   background-color: white;
   padding: 0 12px;
+  font-size: 1.4rem;
 
   display: flex;
   justify-content: space-between;
@@ -20,13 +21,27 @@
 .titleWrapper {
   padding: 2px 5px;
   display: flex;
-  gap: 6px;
   justify-content: center;
   align-items: center;
 }
 
-.titlePage {
-  font-size: 1.4rem;
+.divider {
+  cursor: default;
+  padding: 0 1px;
+  color: var(--text-description-color);
+}
+
+.pathWrapper {
+  display: flex;
+  align-items: center;
+}
+
+.pathContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1px 4px;
+  margin: 0 2px;
 }
 
 .actionsWrapper {

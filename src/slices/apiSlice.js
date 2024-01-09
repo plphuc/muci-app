@@ -60,16 +60,13 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
         }
       } else {
         // await until the mutex is available, it means new access token is available
-        await mutex.waitForUnlock();
+        await mutex.waitForUnlock();    
         try {
           const newResult = await baseQuery(
             {
               ...args,
               headers: { authorization: `Bearer ${newAccessToken}` },
-            },
-            api,
-            extraOptions
-          );
+            }, api, extraOptions);
           return newResult;
         } catch {
           api.dispatch(resetToken());

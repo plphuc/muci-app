@@ -22,10 +22,10 @@ import DisplayListFeature from './DisplayListFeature/DisplayListFeature';
 function SidebarSection(props) {
   const userInfo = useSelector(selectUserInfo);
   const accessToken = useSelector(selectAccessToken);
-
   const { data: allPages } = useGetMetaAllPagesQuery(accessToken, {
     skip: !accessToken,
   });
+
   const handleTurnToHomepage = () => {
     window.location.href = `/${userInfo?.username}`;
   };
@@ -54,7 +54,7 @@ function SidebarSection(props) {
           <DisplayFeature icon="☁" title="Projects" />
         </div>
         <div className={styles.pagesContainer}>
-          <DisplayListFeature pages={allPages}/>
+          <DisplayListFeature pages={allPages?.filter(page => page.level === 0)}/>
         </div>
         <AddPageFeature className={styles.navItem} />
       </div>

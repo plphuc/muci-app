@@ -3,7 +3,7 @@ import styles from './NotFoundPage.module.css'
 function NotFoundPage(props) {
   return (
     <div className={styles.wrapper}>
-      <img src='https://i.ibb.co/H27BNFW/404.png'></img>
+      <img src='https://i.ibb.co/5vmKpmX/404.png' alt='404'></img>
     </div>
   );
 }

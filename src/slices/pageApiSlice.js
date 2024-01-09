@@ -35,6 +35,19 @@ const extendedApiSlice = apiSlice.injectEndpoints({
       },
     }),
 
+    getPathPage: builder.query({
+      query: (pageId) => {
+        return {
+          url: '/page/getPathPage',
+          method: 'GET',
+          params: { pageId },
+        };
+      },
+      transformResponse: (response) => {
+        return response.path;
+      },
+    }),
+
     getPage: builder.query({
       query: ({ accessToken, pageId }) => {
         return {
@@ -103,6 +116,7 @@ export const {
   useEditPageMutation,
   useGetPageQuery,
   useLazyGetPageQuery,
+  useGetPathPageQuery,
   useAddPageMutation,
   useDeletePageMutation,
   useGetMetaAllPagesQuery,

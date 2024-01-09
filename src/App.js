@@ -22,7 +22,8 @@ function App() {
             <Route path="register" element={<RegisterPage />} />
           </Route>
 
-          <Route path="/:username" element={<HomePage />}></Route>
+          <Route path="/:username" element={<HomePage />}>
+          </Route>
 
           <Route path="/*" element={<NotFoundPage />} />
         </Routes>

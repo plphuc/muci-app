@@ -4,11 +4,12 @@ import EditorSection from './EditorSection/EditorSection';
 
 import styles from './MainSection.module.css';
 import { useLazyGetPageQuery } from 'slices/pageApiSlice';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectAccessToken } from 'slices/tokenSlice';
 import { createContext, useEffect, useState } from 'react';
 import { selectUserInfo } from 'slices/userSlice';
+import NotFoundPage from 'pages/NotFoundPage/NotFoundPage';
 
 export const OwnerContext = createContext();
 export const FontContext = createContext();
@@ -19,6 +20,7 @@ function MainSection(props) {
   const [fontName, setFontName] = useState("'Raleway', monospace");
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const userInfo = useSelector(selectUserInfo);
   const accessToken = useSelector(selectAccessToken);
@@ -26,12 +28,6 @@ function MainSection(props) {
   const pageId = searchParams.get('id');
 
   const [getPage, { data: pageInfo, isError }] = useLazyGetPageQuery();
-
-  useEffect(() => {
-    if (isError) {
-      navigate('/404');
-    }
-  });
 
   useEffect(() => {
     if (accessToken && pageId) {
@@ -50,6 +46,9 @@ function MainSection(props) {
     }
   }, [userInfo, pageInfo]);
 
+  if (isError) {
+    return <NotFoundPage />;
+  }
   return (
     <OwnerContext.Provider value={isOwner}>
       <FontContext.Provider value={{ fontName, setFontName }}>

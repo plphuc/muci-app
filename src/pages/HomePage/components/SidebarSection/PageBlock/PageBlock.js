@@ -6,7 +6,7 @@ import {
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
-import { createSearchParams } from 'react-router-dom';
+import { createSearchParams, useSearchParams } from 'react-router-dom';
 import {
   useAddPageMutation,
   useDeletePageMutation,
@@ -26,6 +26,8 @@ function PageBlock(props) {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const pageId = searchParams.get('id');
 
   const [isToggle, setIsToggle] = useState(false);
   const [children, setChildren] = useState([]);
@@ -43,6 +45,7 @@ function PageBlock(props) {
       search: createSearchParams({ id: page.id }).toString(),
     });
   };
+
   const handleAddPage = (e) => {
     // avoid trigger handleChoosePage
     e.stopPropagation();
@@ -62,9 +65,14 @@ function PageBlock(props) {
     deletePage({ accessToken, pageId: page.id })
       .unwrap()
       .then(() => {
-        navigate({
-          pathname: location.pathname,
-        });
+        if(isToggle) {
+          navigate(location.pathname)
+        }
+      })
+      .catch((err) => {
+        if (err.status === 400) {
+          notifyError(err.data.message);
+        }
       });
   };
 
@@ -81,6 +89,7 @@ function PageBlock(props) {
       }
       return childrenPage;
     };
+
     if (isToggle && page.pageChildren) {
       fetchChildren().then((res) => {
         setChildren(res);
@@ -92,7 +101,10 @@ function PageBlock(props) {
 
   return (
     <div className={classNames(styles.wrapper)} onClick={handleChoosePage}>
-      <div style={{paddingLeft: `${10 + page.level*10}px`}} className={classNames(styles.pageInfoContainer, parentClass)}>
+      <div
+        style={{ paddingLeft: `${10 + page.level * 10}px`, backgroundColor: `${pageId === page.id ? '#e6e6e6' : ''}`}}
+        className={classNames(styles.pageInfoContainer, parentClass)}
+      >
         <div className={styles.iconWrapper}>
           <div
             className={classNames(styles.toggleIcon, {

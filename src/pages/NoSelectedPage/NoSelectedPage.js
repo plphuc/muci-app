@@ -25,9 +25,9 @@ function NoSelectedPage(props) {
       >
         <div className={styles.moreActionsContainer}>
           <FontAwesomeIcon icon={faEllipsis} width="18px" height="18px" />
-          <div className={styles.dropdownMenuWrapper} onClick={handleLogout}>
+          <div className={styles.dropdownMenuWrapper} >
             <DropdownMenu>
-              <div className={styles.dropdownItem}>Logout</div>
+              <div className={styles.dropdownItem} onClick={handleLogout}>Logout</div>
             </DropdownMenu>
           </div>
         </div>

@@ -11,7 +11,7 @@ img {
 
 
 .btnContainer {
-  border-radius: 4px;
+  margin-top: 10px;
   cursor: pointer;
   position: absolute;
   right: 10px;

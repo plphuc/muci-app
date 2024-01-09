@@ -55,6 +55,6 @@
   background-color: rgb(217, 217, 214);
 }
 
-.wrapper:hover .actionPageItem {
+.pageInfoContainer:hover .actionPageItem{
   visibility: visible;
 }
