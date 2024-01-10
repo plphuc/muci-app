@@ -5,7 +5,7 @@ import {
   faPlus,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { createSearchParams, useSearchParams } from 'react-router-dom';
 import {
   useAddPageMutation,
@@ -19,9 +19,12 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import styles from './PageBlock.module.css';
 import DisplayListFeature from '../DisplayListFeature/DisplayListFeature';
 import { notifyError } from 'common/utils/toastMessage';
+import { MetaPageContext } from '../SidebarSection';
 
 function PageBlock(props) {
-  const { parentClass, page } = props;
+  const { parentClass, page: currentPage } = props;
+  const allPages = useContext(MetaPageContext)
+  const children = allPages?.filter(page => page.parent === currentPage.id)
   const accessToken = useSelector(selectAccessToken);
 
   const navigate = useNavigate();
@@ -30,11 +33,9 @@ function PageBlock(props) {
   const pageId = searchParams.get('id');
 
   const [isToggle, setIsToggle] = useState(false);
-  const [children, setChildren] = useState([]);
 
   const [deletePage] = useDeletePageMutation();
   const [addPage] = useAddPageMutation();
-  const [getMetaPage] = useLazyGetMetaPageQuery();
 
   const handleChoosePage = (e) => {
     e.stopPropagation();
@@ -42,14 +43,14 @@ function PageBlock(props) {
 
     navigate({
       pathname: location.pathname,
-      search: createSearchParams({ id: page.id }).toString(),
+      search: createSearchParams({ id: currentPage.id }).toString(),
     });
   };
 
   const handleAddPage = (e) => {
     // avoid trigger handleChoosePage
     e.stopPropagation();
-    addPage({ accessToken, parentId: page.id })
+    addPage({ accessToken, parentId: currentPage.id })
       .unwrap()
       .catch((err) => {
         if (err.status === 400) {
@@ -62,7 +63,7 @@ function PageBlock(props) {
     // avoid trigger handleChoosePage
     e.stopPropagation();
 
-    deletePage({ accessToken, pageId: page.id })
+    deletePage({ accessToken, pageId: currentPage.id })
       .unwrap()
       .then(() => {
         if(isToggle) {
@@ -76,33 +77,10 @@ function PageBlock(props) {
       });
   };
 
-  useEffect(() => {
-    const fetchChildren = async () => {
-      const childrenPage = [];
-
-      for (const child of page.pageChildren) {
-        const metaPage = await getMetaPage({
-          accessToken,
-          pageId: child,
-        }).unwrap();
-        childrenPage.push(metaPage);
-      }
-      return childrenPage;
-    };
-
-    if (isToggle && page.pageChildren) {
-      fetchChildren().then((res) => {
-        setChildren(res);
-      });
-    } else {
-      setChildren([]);
-    }
-  }, [isToggle, page.pageChildren]);
-
   return (
     <div className={classNames(styles.wrapper)} onClick={handleChoosePage}>
       <div
-        style={{ paddingLeft: `${10 + page.level * 10}px`, backgroundColor: `${pageId === page.id ? '#e6e6e6' : ''}`}}
+        style={{ paddingLeft: `${10 + currentPage.level * 10}px`, backgroundColor: `${pageId === currentPage.id ? '#e6e6e6' : ''}`}}
         className={classNames(styles.pageInfoContainer, parentClass)}
       >
         <div className={styles.iconWrapper}>
@@ -116,8 +94,8 @@ function PageBlock(props) {
         </div>
         <div className={styles.pageContainer}>
           <div className={styles.pageInfo}>
-            <div className={styles.pageIcon}>{page?.icon || '📃'}</div>
-            <div className={styles.pageName}>{page?.title}</div>
+            <div className={styles.pageIcon}>{currentPage?.icon || '📃'}</div>
+            <div className={styles.pageName}>{currentPage?.title}</div>
           </div>
           <div className={styles.actionsPageWrapper}>
             <div

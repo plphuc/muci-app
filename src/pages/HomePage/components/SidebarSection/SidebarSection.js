@@ -18,6 +18,9 @@ import { selectUserInfo } from 'slices/userSlice';
 
 import styles from './SidebarSection.module.css';
 import DisplayListFeature from './DisplayListFeature/DisplayListFeature';
+import { createContext } from 'react';
+
+export const MetaPageContext = createContext();
 
 function SidebarSection(props) {
   const userInfo = useSelector(selectUserInfo);
@@ -31,44 +34,46 @@ function SidebarSection(props) {
   };
 
   return (
-    <aside className={styles.wrapper}>
-      {/* nickname */}
-      <div className={styles.usernameWrapper} onClick={handleTurnToHomepage}>
-        <div className={styles.usernameContent}>
-          <div className={styles.usernameIcon}>🌱</div>
-          <div className={styles.usernameContainer}>
-            <div className={styles.username}>{userInfo?.username}</div>
-            <span>'s Notion</span>
+    <MetaPageContext.Provider value={allPages}>
+      <aside className={styles.wrapper}>
+        {/* nickname */}
+        <div className={styles.usernameWrapper} onClick={handleTurnToHomepage}>
+          <div className={styles.usernameContent}>
+            <div className={styles.usernameIcon}>🌱</div>
+            <div className={styles.usernameContainer}>
+              <div className={styles.username}>{userInfo?.username}</div>
+              <span>'s Notion</span>
+            </div>
           </div>
         </div>
-      </div>
-      {/* nav items */}
-      <div className={styles.navList}>
-        <SearchFeature className={styles.navItem} />
-        <SettingFeature className={styles.navItem} />
-        <NewPageFeature className={styles.navItem} />
-      </div>
-      {/* nav pages */}
-      <div className={styles.pagesWrapper}>
-        <div className={classNames(styles.titlePageContainer, styles.navItem)}>
-          <DisplayFeature icon="☁" title="Projects" />
+        {/* nav items */}
+        <div className={styles.navList}>
+          <SearchFeature className={styles.navItem} />
+          <SettingFeature className={styles.navItem} />
+          <NewPageFeature className={styles.navItem} />
         </div>
-        <div className={styles.pagesContainer}>
-          <DisplayListFeature pages={allPages?.filter(page => page.level === 0)}/>
+        {/* nav pages */}
+        <div className={styles.pagesWrapper}>
+          <div className={classNames(styles.titlePageContainer, styles.navItem)}>
+            <DisplayFeature icon="☁" title="Projects" />
+          </div>
+          <div className={styles.pagesContainer}>
+            <DisplayListFeature pages={allPages?.filter(page => page.level === 0)}/>
+          </div>
+          <AddPageFeature className={styles.navItem} />
         </div>
-        <AddPageFeature className={styles.navItem} />
-      </div>
-
-      <div className={classNames(styles.pageOptions, styles.navList)}>
-        <TeamSpaceFeature className={styles.navItem} />
-        <TemplatesFeature className={styles.navItem} />
-        <ImportFeature className={styles.navItem} />
-        <TrashFeature className={styles.navItem} />
-      </div>
-
-      {/* close sidebar button absolute with wrapper */}
-      <ResizableBar />
-    </aside>
+  
+        <div className={classNames(styles.pageOptions, styles.navList)}>
+          <TeamSpaceFeature className={styles.navItem} />
+          <TemplatesFeature className={styles.navItem} />
+          <ImportFeature className={styles.navItem} />
+          <TrashFeature className={styles.navItem} />
+        </div>
+  
+        {/* close sidebar button absolute with wrapper */}
+        <ResizableBar />
+      </aside>
+    </MetaPageContext.Provider>
   );
 }
 
