@@ -1,4 +1,4 @@
-import { useRef, useEffect, useContext, version } from 'react';
+import { useRef, useEffect, useContext, version, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 
@@ -33,18 +33,24 @@ function EditorSection(props) {
     });
   };
 
+  const saveData = async () => {
+    try {
+      const content = await ejInstance.current?.save();
+      // only save if user is owner of the page
+      await editPage({ accessToken, pageId, content: { ...content } }).unwrap();
+    } catch (err) {
+      notifyError('Something went wrong, cannot auto save content');
+    }
+  };
+
+  const handleSaveContent = async (e) => {
+    if (e.ctrlKey && e.key === 's' || e.keyCode === 13 ) {
+      await saveData();
+    }
+  }
+
   // auto save
   useEffect(() => {
-    const saveData = async () => {
-      try {
-        const content = await ejInstance.current?.save();
-        // only save if user is owner of the page
-        await editPage({ accessToken, pageId, content: { ...content } }).unwrap();
-      } catch (err) {
-        notifyError('Something went wrong, cannot auto save content');
-      }
-    };
-
     if (accessToken && isOwner) {
       const intervalId = setInterval(async () => {
         await saveData();
@@ -72,7 +78,7 @@ function EditorSection(props) {
   }, [pageInfo?.id]);
 
   return (
-    <div className={styles.wrapper}>
+    <div className={styles.wrapper} onKeyDown={handleSaveContent}>
       <div id="editorjs"></div>
     </div>
   );
