@@ -5,12 +5,11 @@ import {
   faPlus,
   faTrash,
 } from '@fortawesome/free-solid-svg-icons';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { createSearchParams, useSearchParams } from 'react-router-dom';
 import {
   useAddPageMutation,
   useDeletePageMutation,
-  useLazyGetMetaPageQuery,
 } from 'slices/pageApiSlice';
 import { useSelector } from 'react-redux';
 import { selectAccessToken } from 'slices/tokenSlice';

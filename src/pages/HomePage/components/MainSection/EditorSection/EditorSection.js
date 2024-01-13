@@ -1,4 +1,4 @@
-import { useRef, useEffect, useContext, version, useState } from 'react';
+import { useRef, useEffect, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 
@@ -44,7 +44,7 @@ function EditorSection(props) {
   };
 
   const handleSaveContent = async (e) => {
-    if (e.ctrlKey && e.key === 's' || e.keyCode === 13 ) {
+    if ((e.ctrlKey && e.key === 's') || e.keyCode === 13 ) {
       await saveData();
     }
   }

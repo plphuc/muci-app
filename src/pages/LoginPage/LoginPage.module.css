@@ -54,6 +54,7 @@
 
   & input {
     width: 100%;
+    display: block;
     padding: 10px;
     border: none;
     border-radius: 5px;
@@ -62,8 +63,6 @@
     &:focus-visible {
       outline: none;
     }
-
-
   }
 
   & input[type='submit'] {

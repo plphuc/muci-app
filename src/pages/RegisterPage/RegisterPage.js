@@ -4,7 +4,7 @@ import validator from 'validator';
 import { useDispatch, useSelector } from 'react-redux';
 
 import * as utils from 'common/utils/index.js';
-import { useGetUserQuery, useRegisterMutation } from 'slices/userSlice';
+import { saveUserInfo, useGetUserQuery, useRegisterMutation } from 'slices/userSlice';
 import { selectAccessToken } from 'slices/tokenSlice';
 import { saveAccessToken } from 'slices/tokenSlice';
 
@@ -25,6 +25,9 @@ function RegisterPage(props) {
 
   const [registerUser] = useRegisterMutation();
   const [addPage] = useAddPageMutation();
+  const { refetch: getUser } = useGetUserQuery(accessToken, {
+    skip: !accessToken,
+  });
 
   const handleOnFocus = (e) => {
     setErrors({
@@ -101,12 +104,23 @@ function RegisterPage(props) {
 
         // auto add 1st page for user
         addPage(registerResult.tokens.accessToken);
-        navigate(`/${registerResult.username}`);
       } catch (err) {
+        console.log(err);
         notifyError(err.data.message);
       }
     }
   };
+
+  useEffect(() => {
+    if (accessToken) {
+      getUser()
+        .unwrap()
+        .then((res) => {
+          dispatch(saveUserInfo(res));
+          navigate(`/${res.username}`);
+        });
+    }
+  }, [accessToken]);
 
   return (
     <div className={styles.wrapper}>
