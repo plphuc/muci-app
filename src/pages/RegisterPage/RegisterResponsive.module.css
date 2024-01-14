@@ -1,0 +1,15 @@
+.registerFormWrapper {
+  width: 45%;
+  border-radius: 10px;
+  background-color: #f6f6f6;
+  margin-top: 20px;
+
+  display: flex;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 991px) {
+  .registerFormWrapper {
+    width: 65%;
+  }
+}

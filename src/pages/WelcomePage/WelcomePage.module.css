@@ -7,28 +7,19 @@
   flex: 1;
 }
 
-.contentWrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .welcomeImageWrapper {
   width: inherit;
 }
 
 .introWrapper {
+  margin-left: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-.contentContainer {
-  font-size: 2.5rem;
-  font-weight: 500;
-}
-
 .actionsWrapper {
+  margin-top: 30px;
   display: flex;
   gap: 30px;
   justify-content: center;
@@ -37,18 +28,13 @@
 
 .authenBtnWrapper {
   min-width: 110px;
-
+  text-align: center;
   font-size: 21px;
   font-weight: 600;
   background: #121212;
   border-radius: 10px;
-  margin-top: 20px;
   cursor: pointer;
   padding: 5px 10px;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
 
   &:hover {
     background-color: #333;
@@ -57,5 +43,5 @@
 
 .authenBtn {
   color: white;
-
 }
+

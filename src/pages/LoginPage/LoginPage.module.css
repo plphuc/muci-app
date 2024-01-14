@@ -5,15 +5,6 @@
   align-items: center;
 }
 
-.loginFormWrapper {
-  width: 35%;
-  border-radius: 10px;
-  background-color: #f6f6f6;
-
-  display: flex;
-  justify-content: center;
-}
-
 .loginFormContainer {
   width: 60%;
   margin: 40px;
@@ -50,6 +41,8 @@
 
   & label {
     font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-color);
   }
 
   & input {

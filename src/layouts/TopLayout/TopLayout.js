@@ -12,6 +12,7 @@ import {
 import { saveUserInfo, useGetUserQuery } from 'slices/userSlice';
 import { useDispatch } from 'react-redux';
 
+import stylesResponsive from './TopLayoutResponsive.module.css'
 import styles from './TopLayout.module.css';
 
 function TopLayout(props) {
@@ -49,7 +50,7 @@ function TopLayout(props) {
           <Link to="/" className={styles.logoWrapper}>
             <LogoSvg />
           </Link>
-          <ul className={styles.navListWrapper}>
+          <ul className={stylesResponsive.navListWrapper}>
             <li className={styles.navItem}>
               <p>Product</p>
               <div className={styles.dropdownMenuWrapper}>
@@ -128,10 +129,10 @@ function TopLayout(props) {
           </ul>
         </div>
         <ul className={styles.actionsWrapper}>
-          <li className={styles.actionItem}>Request a demo</li>
+          {/* <li className={styles.actionItem}>Request a demo</li> */}
           <li className={styles.actionBtnWrapper}>
             <a href="/" className={styles.actionBtn}>
-              Get Notion free
+              Get Muci free
             </a>
           </li>
         </ul>

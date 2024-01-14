@@ -4,16 +4,22 @@ import validator from 'validator';
 import { useDispatch, useSelector } from 'react-redux';
 
 import * as utils from 'common/utils/index.js';
-import { saveUserInfo, useGetUserQuery, useRegisterMutation } from 'slices/userSlice';
+import {
+  saveUserInfo,
+  useGetUserQuery,
+  useRegisterMutation,
+} from 'slices/userSlice';
 import { selectAccessToken } from 'slices/tokenSlice';
 import { saveAccessToken } from 'slices/tokenSlice';
 
 import ErrorField from 'common/components/ErrorField/ErrorField';
 import ShowHidePassword from 'common/components/ShowHidePassword/ShowHidePassword';
 
-import styles from './RegisterPage.module.css';
 import { useAddPageMutation } from 'slices/pageApiSlice';
 import { notifyError } from 'common/utils/toastMessage';
+
+import styles from './RegisterPage.module.css';
+import stylesResponsive from './RegisterResponsive.module.css';
 
 function RegisterPage(props) {
   const dispatch = useDispatch();
@@ -124,7 +130,7 @@ function RegisterPage(props) {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.registerFormWrapper}>
+      <div className={stylesResponsive.registerFormWrapper}>
         <div className={styles.registerFormContainer}>
           <h1 className={styles.formTitle}>Register</h1>
           <div className={styles.registerFormContentWrapper}>

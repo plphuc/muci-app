@@ -1,0 +1,14 @@
+.loginFormWrapper {
+  width: 50%;
+  border-radius: 10px;
+  background-color: #f6f6f6;
+
+  display: flex;
+  justify-content: center;
+}
+
+@media only screen and (max-width: 768px) {
+  .loginFormWrapper {
+    width: 80%;
+  }
+}

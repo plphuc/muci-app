@@ -8,6 +8,7 @@ import ShowHidePassword from 'common/components/ShowHidePassword/ShowHidePasswor
 import { saveAccessToken, selectAccessToken } from 'slices/tokenSlice';
 import { saveUserInfo, useGetUserQuery, useLoginMutation } from 'slices/userSlice';
 
+import stylesResponsive from './LoginPageResponsive.module.css';
 import styles from './LoginPage.module.css';
 
 function LoginPage(props) {
@@ -57,7 +58,7 @@ function LoginPage(props) {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.loginFormWrapper}>
+      <div className={stylesResponsive.loginFormWrapper}>
         <div className={styles.loginFormContainer}>
           <h1 className={styles.formTitle}>Login</h1>
           <div className={styles.loginFormContentWrapper}>

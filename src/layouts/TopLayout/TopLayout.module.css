@@ -33,12 +33,6 @@
   gap: 12px;
 }
 
-.navListWrapper {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-}
-
 .navItem {
   padding: 0 24px 0 10px;
   position: relative;
@@ -48,7 +42,7 @@
     content: '';
     width: 4px;
     height: 4px;
-    margin-top: -2px;
+    margin-top: -1px;
     position: absolute;
     top: 50%;
     right: 13px;
@@ -81,7 +75,7 @@
   align-items: center;
 }
 
-.actionItem {
+/* .actionItem {
   padding: 0 10px;
   cursor: pointer;
 
@@ -89,7 +83,7 @@
     background-color: rgba(0, 0, 0, 0.03);
     border-radius: 4px;
   }
-}
+} */
 
 .actionBtnWrapper {
   padding-left: 10px;
