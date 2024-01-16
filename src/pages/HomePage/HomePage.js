@@ -7,7 +7,7 @@ import styles from './HomePage.module.css';
 import NoSelectedPage from 'pages/NoSelectedPage/NoSelectedPage.js';
 import classNames from 'classnames';
 import { ToastContainer } from 'react-toastify';
-import { useEffect } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { saveAccessToken, selectAccessToken } from 'slices/tokenSlice.js';
 import { useGetAccessTokenQuery } from 'slices/tokenApiSlice.js';
@@ -17,7 +17,11 @@ import {
   useLazyGetUserQuery,
 } from 'slices/userSlice.js';
 
+export const collapseSidebarContext = createContext();
+
 function HomePage(props) {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
   const [searchParams] = useSearchParams();
   const pageId = searchParams.get('id');
 
@@ -53,21 +57,28 @@ function HomePage(props) {
 
   return (
     userInfo && (
-      <div className={styles.wrapper}>
-        <nav className={classNames(styles.navWrapper)}>
-          <SidebarSection />
-        </nav>
-        {pageId ? (
-          <main className={styles.editorSectionWrapper}>
-            <MainSection />
-          </main>
-        ) : (
-          <NoSelectedPage />
-        )}
-        <div className={styles.toastContainer}>
-          <ToastContainer />
+      <collapseSidebarContext.Provider value={{ isCollapsed, setIsCollapsed }}>
+        <div className={styles.wrapper}>
+          <nav
+            className={classNames(styles.navWrapper, {
+              [styles.collapseWrapper]: isCollapsed,
+              [styles.noCollapseWrapper]: !isCollapsed,
+            })}
+          >
+            <SidebarSection />
+          </nav>
+          {pageId ? (
+            <main className={styles.editorSectionWrapper}>
+              <MainSection />
+            </main>
+          ) : (
+            <NoSelectedPage />
+          )}
+          <div className={styles.toastContainer}>
+            <ToastContainer />
+          </div>
         </div>
-      </div>
+      </collapseSidebarContext.Provider>
     )
   );
 }

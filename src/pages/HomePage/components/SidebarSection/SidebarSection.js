@@ -18,11 +18,15 @@ import { selectUserInfo } from 'slices/userSlice';
 
 import styles from './SidebarSection.module.css';
 import DisplayListFeature from './DisplayListFeature/DisplayListFeature';
-import { createContext } from 'react';
+import { createContext, useContext } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBackward } from '@fortawesome/free-solid-svg-icons';
+import { collapseSidebarContext } from 'pages/HomePage/HomePage';
 
 export const MetaPageContext = createContext();
 
 function SidebarSection(props) {
+  const { isCollapsed, setIsCollapsed } = useContext(collapseSidebarContext);
   const userInfo = useSelector(selectUserInfo);
   const accessToken = useSelector(selectAccessToken);
   const { data: allPages } = useGetMetaAllPagesQuery(accessToken, {
@@ -33,11 +37,23 @@ function SidebarSection(props) {
     window.location.href = `/${userInfo?.username}`;
   };
 
+  const handleCollapseBar = (e) => {
+    e.stopPropagation();
+    setIsCollapsed(!isCollapsed);
+  };
+
   return (
     <MetaPageContext.Provider value={allPages}>
       <aside className={styles.wrapper}>
         {/* nickname */}
         <div className={styles.usernameWrapper} onClick={handleTurnToHomepage}>
+          <div className={styles.collapseBarWrapper}>
+            {!isCollapsed && (
+              <div className={styles.collapseBtn} onClick={handleCollapseBar}>
+                <FontAwesomeIcon icon={faBackward} />
+              </div>
+            )}
+          </div>
           <div className={styles.usernameContent}>
             <div className={styles.usernameIcon}>🌱</div>
             <div className={styles.usernameContainer}>
@@ -54,22 +70,26 @@ function SidebarSection(props) {
         </div>
         {/* nav pages */}
         <div className={styles.pagesWrapper}>
-          <div className={classNames(styles.titlePageContainer, styles.navItem)}>
+          <div
+            className={classNames(styles.titlePageContainer, styles.navItem)}
+          >
             <DisplayFeature icon="☁" title="Projects" />
           </div>
           <div className={styles.pagesContainer}>
-            <DisplayListFeature pages={allPages?.filter(page => page.level === 0)}/>
+            <DisplayListFeature
+              pages={allPages?.filter((page) => page.level === 0)}
+            />
           </div>
           <AddPageFeature className={styles.navItem} />
         </div>
-  
+
         <div className={classNames(styles.pageOptions, styles.navList)}>
           <TeamSpaceFeature className={styles.navItem} />
           <TemplatesFeature className={styles.navItem} />
           <ImportFeature className={styles.navItem} />
           <TrashFeature className={styles.navItem} />
         </div>
-  
+
         {/* close sidebar button absolute with wrapper */}
         <ResizableBar />
       </aside>

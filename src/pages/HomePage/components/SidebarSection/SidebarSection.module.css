@@ -13,14 +13,37 @@
 }
 
 .usernameWrapper {
+  position: relative;
   height: 45px;
   width: 100%;
   display: flex;
   align-items: center;
+  cursor: pointer;
 
   &:hover {
-    cursor: pointer;
     background-color: var(--hover-color);
+  }
+}
+
+.collapseBarWrapper {
+  height: 100%;
+  position: absolute;
+  right: 15px;
+  color: var(--icon-color);
+  display: flex;
+  align-items: center;
+}
+
+.collapseBtn {
+  padding: 4px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--divider-color);
   }
 }
 

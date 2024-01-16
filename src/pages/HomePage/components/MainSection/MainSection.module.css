@@ -2,11 +2,14 @@
   height: inherit;
   overflow-y: scroll;
   font-family: var(--default-font);
+  position: relative;
 }
 
 .topbarSectionWrapper {
   height: var(--header-height);
-  position: sticky;
+  width: 100%;
+  /* position: sticky; */
+  position: absolute;
   top: 0;
   z-index: 2;
 }

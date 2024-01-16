@@ -1,7 +1,7 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faEllipsis } from '@fortawesome/free-solid-svg-icons';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import { faStar as regularFaStar } from '@fortawesome/free-regular-svg-icons';
 
@@ -13,11 +13,18 @@ import { useSelector } from 'react-redux';
 import { selectAccessToken } from 'slices/tokenSlice';
 import { useEditPageMutation, useGetPathPageQuery } from 'slices/pageApiSlice';
 import { OwnerContext, PageContext } from '../MainSection';
-import { createSearchParams, useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import {
+  createSearchParams,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from 'react-router-dom';
+import { collapseSidebarContext } from 'pages/HomePage/HomePage';
 
 function TopbarSection(props) {
   const pageInfo = useContext(PageContext);
   const isOwner = useContext(OwnerContext);
+  const { isCollapsed, setIsCollapsed } = useContext(collapseSidebarContext);
 
   const accessToken = useSelector(selectAccessToken);
   const [searchParams] = useSearchParams();
@@ -47,9 +54,19 @@ function TopbarSection(props) {
     });
   };
 
+  const handleCollapseBar = (e) => {
+    e.stopPropagation();
+    setIsCollapsed(!isCollapsed);
+  };
+
   return (
     <header className={styles.wrapper}>
       <div className={styles.titleWrapper}>
+        {isCollapsed && (
+          <div className={styles.expandBtn} onClick={handleCollapseBar}>
+            <FontAwesomeIcon icon={faBars} />
+          </div>
+        )}
         {path &&
           path
             .slice()
@@ -61,8 +78,8 @@ function TopbarSection(props) {
                   className={classNames(
                     styles.pathContainer,
                     styles.btnContainer
-                    )}
-                    onClick={(e) => handleChoosePage(e, page.id)}
+                  )}
+                  onClick={(e) => handleChoosePage(e, page.id)}
                 >
                   <div className={styles.pathIcon}>{page.icon || '📃'}</div>
                   <div className={styles.pathTitle}>{page.title}</div>
