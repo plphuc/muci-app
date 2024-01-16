@@ -2,14 +2,18 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsis } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faEllipsis } from '@fortawesome/free-solid-svg-icons';
 
 import DropdownMenu from 'common/components/DropdownMenu/DropdownMenu';
 import { resetToken } from 'slices/tokenSlice';
 import { logoutUser } from 'slices/userSlice';
 import styles from './NoSelectedPage.module.css';
+import { useContext } from 'react';
+import { collapseSidebarContext } from 'pages/HomePage/HomePage';
 
 function NoSelectedPage(props) {
+  const { isCollapsed, setIsCollapsed } = useContext(collapseSidebarContext);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -18,16 +22,29 @@ function NoSelectedPage(props) {
     dispatch(logoutUser());
     navigate('/');
   };
+
+  const handleCollapseBar = (e) => {
+    e.stopPropagation();
+    setIsCollapsed(!isCollapsed);
+  };
+
   return (
     <>
+      {isCollapsed && (
+        <div className={styles.expandBtn} onClick={handleCollapseBar}>
+          <FontAwesomeIcon icon={faBars} />
+        </div>
+      )}
       <div
         className={classNames(styles.btnContainer, styles.moreActionsWrapper)}
       >
         <div className={styles.moreActionsContainer}>
           <FontAwesomeIcon icon={faEllipsis} width="18px" height="18px" />
-          <div className={styles.dropdownMenuWrapper} >
+          <div className={styles.dropdownMenuWrapper}>
             <DropdownMenu>
-              <div className={styles.dropdownItem} onClick={handleLogout}>Logout</div>
+              <div className={styles.dropdownItem} onClick={handleLogout}>
+                Logout
+              </div>
             </DropdownMenu>
           </div>
         </div>

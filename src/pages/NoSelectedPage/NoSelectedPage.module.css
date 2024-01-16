@@ -9,6 +9,12 @@ img {
   height: 100%;
 }
 
+.expandBtn {
+  margin-top: 10px;
+  cursor: pointer;
+  position: absolute;
+  left: 10px;
+}
 
 .btnContainer {
   margin-top: 10px;

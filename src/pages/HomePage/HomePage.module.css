@@ -41,7 +41,7 @@
 .noCollapseWrapper {
   z-index: 3;
   animation-name: slideIn;
-  animation-duration: 1s;
+  animation-duration: 0.5s;
 }
 
 @keyframes slideIn {
