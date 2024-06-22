@@ -3,7 +3,7 @@ import { Dropdown } from 'antd'
 
 export default function OptionsHeader({ items }) {
     return (
-        <Dropdown placement="bottomLeft" menu={{ items }} className="mr-8 mt-8">
+        <Dropdown placement="bottomLeft" menu={{ items }}>
             <MoreOutlined
                 className="cursor-pointer"
                 rotate={90}
