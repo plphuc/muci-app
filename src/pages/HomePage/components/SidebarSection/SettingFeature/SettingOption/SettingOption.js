@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import DisplayFeature from '../../DisplayFeature/DisplayFeature';
 import styles from './SettingOption.module.css';
 import classNames from 'classnames';

@@ -8,5 +8,5 @@ const pageSlice = createSlice({
   reducers: {},
 });
 
-export const {} = pageSlice.actions;
+// export const {} = pageSlice.actions;
 export default pageSlice.reducer;

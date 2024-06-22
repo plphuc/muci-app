@@ -4,12 +4,13 @@ import EditorSection from './EditorSection/EditorSection';
 
 import styles from './MainSection.module.css';
 import { useLazyGetPageQuery } from 'slices/pageApiSlice';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectAccessToken } from 'slices/tokenSlice';
 import { createContext, useEffect, useState } from 'react';
 import { selectUserInfo } from 'slices/userSlice';
 import NotFoundPage from 'pages/NotFoundPage/NotFoundPage';
+import NoSelectedPage from 'pages/NoSelectedPage/NoSelectedPage';
 
 export const OwnerContext = createContext();
 export const FontContext = createContext();
@@ -18,9 +19,6 @@ export const PageContext = createContext();
 function MainSection(props) {
   const [isOwner, setIsOwner] = useState();
   const [fontName, setFontName] = useState("'Raleway', monospace");
-
-  const navigate = useNavigate();
-  const location = useLocation();
 
   const userInfo = useSelector(selectUserInfo);
   const accessToken = useSelector(selectAccessToken);
@@ -48,6 +46,9 @@ function MainSection(props) {
 
   if (isError) {
     return <NotFoundPage />;
+  }
+  if (!pageId) {
+    return <NoSelectedPage />
   }
   return (
     <OwnerContext.Provider value={isOwner}>

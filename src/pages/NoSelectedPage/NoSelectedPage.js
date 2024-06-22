@@ -43,7 +43,7 @@ function NoSelectedPage(props) {
           <div className={styles.dropdownMenuWrapper}>
             <DropdownMenu>
               <div className={styles.dropdownItem} onClick={handleLogout}>
-                Logout
+                Log out
               </div>
             </DropdownMenu>
           </div>

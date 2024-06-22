@@ -2,8 +2,6 @@ import { faUserGroup } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DisplayFeature from '../DisplayFeature/DisplayFeature';
 
-import styles from './TeamSpaceFeature.module.css';
-
 function TeamSpaceFeature(props) {
   const { className } = props;
   return (

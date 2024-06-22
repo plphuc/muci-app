@@ -2,8 +2,6 @@ import { faShapes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DisplayFeature from '../DisplayFeature/DisplayFeature';
 
-import styles from './TemplatesFeature.module.css';
-
 function TemplatesFeature(props) {
   const { className } = props;
   return (

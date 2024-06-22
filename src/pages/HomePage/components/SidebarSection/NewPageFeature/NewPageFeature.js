@@ -2,7 +2,6 @@ import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DisplayFeature from '../DisplayFeature/DisplayFeature';
 
-import styles from './NewPageFeature.module.css';
 import { useSelector } from 'react-redux';
 import { selectAccessToken } from 'slices/tokenSlice';
 import { useAddPageMutation } from 'slices/pageApiSlice';

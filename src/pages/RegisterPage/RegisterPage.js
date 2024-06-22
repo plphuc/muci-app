@@ -16,7 +16,6 @@ import ErrorField from 'common/components/ErrorField/ErrorField';
 import ShowHidePassword from 'common/components/ShowHidePassword/ShowHidePassword';
 
 import { useAddPageMutation } from 'slices/pageApiSlice';
-import { notifyError } from 'common/utils/toastMessage';
 
 import styles from './RegisterPage.module.css';
 import stylesResponsive from './RegisterResponsive.module.css';
@@ -28,6 +27,7 @@ function RegisterPage(props) {
 
   const [isShowPw, setIsShowPw] = useState(false);
   const [errors, setErrors] = useState({});
+  const [registerFail, setRegisterFail] = useState('')
 
   const [registerUser] = useRegisterMutation();
   const [addPage] = useAddPageMutation();
@@ -84,7 +84,7 @@ function RegisterPage(props) {
     e.preventDefault();
     const dataForm = new FormData(e.target);
 
-    if (!(dataForm.get('confirmPassword') === dataForm.get('password'))) {
+    if (dataForm.get('confirmPassword') !== dataForm.get('password')) {
       setErrors({
         ...errors,
         confirmPassword: 'Confirm password does not match',
@@ -111,8 +111,7 @@ function RegisterPage(props) {
         // auto add 1st page for user
         addPage(registerResult.tokens.accessToken);
       } catch (err) {
-        console.log(err);
-        notifyError(err.data.message);
+        setRegisterFail(err.data.message)
       }
     }
   };
@@ -179,7 +178,7 @@ function RegisterPage(props) {
                     id="username"
                     name="username"
                     required
-                    pattern="^[^ ].+[^ ]$"
+                    pattern="^[^ ].+[^ ]$\g"
                     onFocus={handleOnFocus}
                     onBlur={handleRequireField}
                   ></input>
@@ -236,7 +235,8 @@ function RegisterPage(props) {
                   )}
                 </div>
               </div>
-              <div>
+              <div className='text-red-300 text-left w-full'>{registerFail}</div>
+              <div className='w-full'>
                 <input type="submit" id="register" value="SUBMIT"></input>
               </div>
             </form>

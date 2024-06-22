@@ -1,5 +1,4 @@
 import {
-  faBell,
   faDiagramProject,
   faDownload,
   faGear,
