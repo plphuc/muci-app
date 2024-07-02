@@ -80,7 +80,7 @@ function TimerFeature() {
                     <p className="font-semibold">Choose Time: &nbsp;</p>
                     <TimePicker onChange={handleChooseTime} showNow={false} />
                 </div>
-                <div className="text-center flex-1 flex justify-center items-center flex-col">
+                <div className="text-center flex-1 flex justify-center items-center flex-col -mt-10">
                     <p className="font-semibold text-9xl">Timer</p>
                     <div className="flex justify-center items-center gap-5 my-12 font-semibold">
                         <div className="flex flex-col items-center justify-center gap-2">
