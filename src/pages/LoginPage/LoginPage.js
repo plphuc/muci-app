@@ -111,7 +111,9 @@ function LoginPage(props) {
                                             width: '100%',
                                             background: 'black',
                                             fontWeight: 600,
+                                            height: '44px'
                                         }}
+                                        className=''
                                         type="primary"
                                         htmlType="submit"
                                     >
