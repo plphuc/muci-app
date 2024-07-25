@@ -52,11 +52,10 @@
     &:focus-visible {
       outline: none;
     }
-  }
+  }}
 
   .fieldWrapper {
     width: 100%;
-  }
 
   & input[type='submit'] {
     cursor: pointer;
