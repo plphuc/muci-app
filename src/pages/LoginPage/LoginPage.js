@@ -51,7 +51,7 @@ function LoginPage(props) {
                 .unwrap()
                 .then((res) => {
                     dispatch(saveUserInfo(res))
-                    navigate(`/${res.username}`)
+                    navigate(`${res.username}`)
                 })
         }
     }, [accessToken])

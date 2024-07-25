@@ -16,7 +16,6 @@ import stylesResponsive from './TopLayoutResponsive.module.css'
 import styles from './TopLayout.module.css';
 
 function TopLayout(props) {
-  console.log(process.env.REACT_APP_SERVER_URL);
   const refreshToken = localStorage.getItem('refreshToken');
 
   const [isScrolled, setIsScrolled] = useState(false);

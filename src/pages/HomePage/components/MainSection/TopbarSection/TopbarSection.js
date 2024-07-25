@@ -1,14 +1,11 @@
 import { useContext } from 'react'
 import classNames from 'classnames'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars, faEllipsis } from '@fortawesome/free-solid-svg-icons'
+import { faBars } from '@fortawesome/free-solid-svg-icons'
 import { faStar } from '@fortawesome/free-solid-svg-icons'
 import { faStar as regularFaStar } from '@fortawesome/free-regular-svg-icons'
 
-import DropdownMenu from 'common/components/DropdownMenu/DropdownMenu'
-
 import styles from './TopbarSection.module.css'
-import MoreOptionsMenu from './MoreOptionsMenu/MoreOptionsMenu'
 import { useSelector } from 'react-redux'
 import { selectAccessToken } from 'slices/tokenSlice'
 import { useEditPageMutation, useGetPathPageQuery } from 'slices/pageApiSlice'

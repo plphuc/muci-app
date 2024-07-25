@@ -3,10 +3,11 @@ import { resetToken, saveAccessToken } from './tokenSlice';
 import { logoutUser } from './userSlice';
 import { Mutex } from 'async-mutex';
 
-const baseQuery = fetchBaseQuery({ baseUrl: process.env.REACT_APP_SERVER_URL });
+// const baseQuery = fetchBaseQuery({ baseUrl: process.env.REACT_APP_SERVER_URL });
+const baseQuery = fetchBaseQuery({ baseUrl: 'http://localhost:8080' });
 const mutex = new Mutex();
 
-const baseQueryWithReauth = async (args, api, extraOptions) => {
+const baseQueryWithReAuth = async (args, api, extraOptions) => {
   // wait until the mutex is available without locking it
   await mutex.waitForUnlock();
   const result = await baseQuery(args, api, extraOptions);
@@ -80,7 +81,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
 const apiSlice = createApi({
   reducerPath: 'api',
-  baseQuery: baseQueryWithReauth,
+  baseQuery: baseQueryWithReAuth,
   tagTypes: ['User', 'Page', 'Cover'],
   endpoints: (builder) => ({}),
 });

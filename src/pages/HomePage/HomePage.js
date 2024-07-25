@@ -14,6 +14,8 @@ import {
     useLazyGetUserQuery,
 } from 'slices/userSlice.js'
 import NotFoundPage from 'pages/NotFoundPage/NotFoundPage.js'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faForward } from '@fortawesome/free-solid-svg-icons'
 
 export const collapseSidebarContext = createContext()
 
@@ -30,6 +32,11 @@ function HomePage(props) {
 
     const { refetch: getAccessToken } = useGetAccessTokenQuery(refreshToken)
     const [getUserInfo] = useLazyGetUserQuery()
+
+    const handleCollapseBar = (e) => {
+        e.stopPropagation()
+        setIsCollapsed(!isCollapsed)
+    }
 
     useEffect(() => {
         // request new access token when reload
@@ -56,14 +63,25 @@ function HomePage(props) {
             value={{ isCollapsed, setIsCollapsed }}
         >
             <div className={styles.wrapper}>
-                <nav
-                    className={classNames(styles.navWrapper, {
-                        [styles.collapseWrapper]: isCollapsed,
-                        [styles.noCollapseWrapper]: !isCollapsed,
-                    })}
-                >
-                    <SidebarSection />
-                </nav>
+                {isCollapsed ? (
+                    <FontAwesomeIcon
+                        className={classNames(
+                            styles.noCollapseWrapper,
+                            'p-4 text-[#37352f73] cursor-pointer hover:bg-[#0000001a] rounded-md'
+                        )}
+                        icon={faForward}
+                        onClick={handleCollapseBar}
+                    />
+                ) : (
+                    <nav
+                        className={classNames(styles.navWrapper, {
+                            [styles.collapseWrapper]: isCollapsed,
+                            [styles.noCollapseWrapper]: !isCollapsed,
+                        })}
+                    >
+                        <SidebarSection />
+                    </nav>
+                )}
                 <main className="w-full">
                     {username === userInfo?.username ? (
                         <Outlet />

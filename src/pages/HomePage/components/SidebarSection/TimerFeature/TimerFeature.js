@@ -1,9 +1,5 @@
 import { Button, Card, TimePicker } from 'antd'
 import OptionsHeader from 'common/components/OptionsHeader/OptionsHeader'
-import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
-import { resetToken } from 'slices/tokenSlice'
-import { logoutUser } from 'slices/userSlice'
 import './TimerFeature.css'
 import { useState } from 'react'
 
@@ -11,18 +7,10 @@ const { useTimer } = require('react-timer-hook')
 const DEFAULT_RESTART_TIME = 1500
 
 function TimerFeature() {
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
     const expiryTimestamp = new Date().setSeconds(
         new Date().getSeconds() + DEFAULT_RESTART_TIME
     )
     const [restartTime, setRestartTime] = useState(DEFAULT_RESTART_TIME)
-
-    const handleLogout = () => {
-        dispatch(logoutUser())
-        dispatch(resetToken())
-        navigate('/')
-    }
 
     const handleChooseTime = (e) => {
         const time = new Date()

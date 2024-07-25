@@ -67,6 +67,7 @@ function HeaderSection(props) {
           <img
             src={coverInfo}
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            alt="cover"
           ></img>
           <button
             className={classNames(styles.removeCoverBtn, 'no-border-button')}

@@ -1,7 +1,9 @@
 import TopLayout from 'layouts/TopLayout/TopLayout'
+import MainSection from 'pages/HomePage/components/MainSection/MainSection'
 import TimerFeature from 'pages/HomePage/components/SidebarSection/TimerFeature/TimerFeature'
 import HomePage from 'pages/HomePage/HomePage'
 import LoginPage from 'pages/LoginPage/LoginPage'
+import NoSelectedPage from 'pages/NoSelectedPage/NoSelectedPage'
 import NotFoundPage from 'pages/NotFoundPage/NotFoundPage'
 import RegisterPage from 'pages/RegisterPage/RegisterPage'
 import WelcomePage from 'pages/WelcomePage/WelcomePage'
@@ -39,8 +41,8 @@ const routers = createBrowserRouter([
                 element: <TimerFeature />,
             },
             {
-                path: '/:username/*',
-                element: <NotFoundPage />,
+                path: '/:username/',
+                element: <MainSection />,
             },
         ],
     },
