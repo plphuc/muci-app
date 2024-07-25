@@ -3,7 +3,7 @@ import { resetToken, saveAccessToken } from './tokenSlice';
 import { logoutUser } from './userSlice';
 import { Mutex } from 'async-mutex';
 
-const baseQuery = fetchBaseQuery({ baseUrl: process.env.SERVER_URL });
+const baseQuery = fetchBaseQuery({ baseUrl: process.env.REACT_APP_SERVER_URL });
 const mutex = new Mutex();
 
 const baseQueryWithReauth = async (args, api, extraOptions) => {
