@@ -43,8 +43,8 @@
   }
 
   & input {
-    width: 100%;
     padding: 10px;
+    width: 100%;
     border: none;
     border-radius: 5px;
     box-shadow: var(--dropdown-shadow-color);
@@ -52,10 +52,11 @@
     &:focus-visible {
       outline: none;
     }
-  }}
+  }
+}
 
-  .fieldWrapper {
-    width: 100%;
+.fieldWrapper {
+  width: 100%;
 
   & input[type='submit'] {
     cursor: pointer;
