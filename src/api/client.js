@@ -1,8 +1,8 @@
 // a small AJAX request client that allows us to make GET and POST requests
 export async function client(endpoint, { body, ...customConfig } = {}) {
   const headers = { 'Content-Type': 'application/json' };
-  // const baseUrl = process.env.REACT_APP_SERVER_URL
-  const baseUrl = 'http://localhost:8080'
+  const baseUrl = process.env.REACT_APP_SERVER_URL
+  // const baseUrl = 'http://localhost:8080'
   const config = {
     method: body ? 'POST' : 'GET',
     ...customConfig,

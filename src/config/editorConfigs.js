@@ -27,7 +27,7 @@ export const EDITOR_JS_TOOLS = {
           const formData = new FormData();
           formData.append('file', file);
 
-          const response = await fetch(`http://localhost:8080/uploadImage/uploadByFile`, {
+          const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/uploadImage/uploadByFile`, {
             method: 'POST',
             mode: 'cors',
             body: formData,
@@ -40,7 +40,7 @@ export const EDITOR_JS_TOOLS = {
           }
         },
         async uploadByUrl(url) {
-          const response = await fetch(`http://localhost:8080/uploadImage/uploadByUrl`, {
+          const response = await fetch(`${process.env.REACT_APP_SERVER_URL}/uploadImage/uploadByUrl`, {
             method: 'POST',
             mode: 'cors',
             headers: {
