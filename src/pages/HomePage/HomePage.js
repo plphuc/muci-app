@@ -82,7 +82,7 @@ function HomePage(props) {
                         <SidebarSection />
                     </nav>
                 )}
-                <main className="w-full">
+                <main className="w-full flex flex-col">
                     {username === userInfo?.username ? (
                         <Outlet />
                     ) : (

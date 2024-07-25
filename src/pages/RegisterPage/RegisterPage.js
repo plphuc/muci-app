@@ -237,7 +237,7 @@ function RegisterPage(props) {
               </div>
               <div className='text-red-300 text-left w-full'>{registerFail}</div>
               <div className='w-full'>
-                <input type="submit" id="register" value="SUBMIT"></input>
+                <input type="submit" id="register" value="Register"></input>
               </div>
             </form>
             <div className={styles.loginWrapper}>

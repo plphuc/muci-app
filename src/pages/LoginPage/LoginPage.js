@@ -115,7 +115,7 @@ function LoginPage(props) {
                                         type="primary"
                                         htmlType="submit"
                                     >
-                                        Submit
+                                        Login
                                     </Button>
                                 </Form.Item>
                             </div>

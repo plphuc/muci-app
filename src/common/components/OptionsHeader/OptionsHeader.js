@@ -21,7 +21,7 @@ export default function OptionsHeader({ items = [] }) {
             {
                 key: '0',
                 label: (<p
-                        className="min-w-28 font-semibold text-2xl"
+                        className="min-w-28 text-2xl"
                         onClick={handleLogout}
                     >
                         Log out
