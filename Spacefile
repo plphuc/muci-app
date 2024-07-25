@@ -1,7 +1,17 @@
 # Spacefile Docs: https://go.deta.dev/docs/spacefile/v0
 v: 0
 micros:
-  - name: muci-app
+  - name: muci-user-app
     src: ./
     engine: react
     primary: true
+    public: true
+    commands:
+      - GENERATE_SOURCEMAP=false npm run build
+    serve: dist
+    dev: npm run dev --port $PORT
+    presets:
+      env:
+      - name: REACT_APP_SERVER_URL
+        description: API
+        default: "https://muci-server-vercel.vercel.app"

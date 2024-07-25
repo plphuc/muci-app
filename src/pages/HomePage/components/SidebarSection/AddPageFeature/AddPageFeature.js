@@ -6,7 +6,6 @@ import { useAddPageMutation } from 'slices/pageApiSlice';
 import { useSelector } from 'react-redux';
 import { selectAccessToken } from 'slices/tokenSlice';
 
-import styles from './AddPageFeature.module.css';
 import { notifyError } from 'common/utils/toastMessage';
 
 function AddPageFeature(props) {

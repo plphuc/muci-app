@@ -16,6 +16,7 @@ import stylesResponsive from './TopLayoutResponsive.module.css'
 import styles from './TopLayout.module.css';
 
 function TopLayout(props) {
+  console.log(process.env.REACT_APP_SERVER_URL);
   const refreshToken = localStorage.getItem('refreshToken');
 
   const [isScrolled, setIsScrolled] = useState(false);
@@ -28,14 +29,18 @@ function TopLayout(props) {
     setIsScrolled(document.documentElement.scrollTop > 1);
   };
 
+  const getUseInfo = () => {
+    getUser()
+      .unwrap()
+      .then((res) => {
+        dispatch(saveUserInfo(res))
+        navigate(`${res.username}`);
+      });
+  }
+
   useEffect(() => {
     if (refreshToken) {
-      getUser()
-        .unwrap()
-        .then((res) => {
-          dispatch(saveUserInfo(res))
-          navigate(`${res.username}`);
-        });
+      getUseInfo()
     }
   }, [refreshToken]);
 

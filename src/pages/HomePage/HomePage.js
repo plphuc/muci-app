@@ -1,4 +1,4 @@
-import { Outlet, useNavigate, useSearchParams } from 'react-router-dom'
+import { Outlet, useNavigate, useParams } from 'react-router-dom'
 
 import SidebarSection from './components/SidebarSection/SidebarSection.js'
 
@@ -13,19 +13,18 @@ import {
     selectUserInfo,
     useLazyGetUserQuery,
 } from 'slices/userSlice.js'
+import NotFoundPage from 'pages/NotFoundPage/NotFoundPage.js'
 
 export const collapseSidebarContext = createContext()
 
 function HomePage(props) {
     const [isCollapsed, setIsCollapsed] = useState(false)
 
-    const [searchParams] = useSearchParams()
-    const pageId = searchParams.get('id')
-
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const accessToken = useSelector(selectAccessToken)
     const userInfo = useSelector(selectUserInfo)
+    const { username } = useParams()
 
     const refreshToken = localStorage.getItem('refreshToken')
 
@@ -53,25 +52,27 @@ function HomePage(props) {
     }, [refreshToken])
 
     return (
-        userInfo && (
-            <collapseSidebarContext.Provider
-                value={{ isCollapsed, setIsCollapsed }}
-            >
-                <div className={styles.wrapper}>
-                    <nav
-                        className={classNames(styles.navWrapper, {
-                            [styles.collapseWrapper]: isCollapsed,
-                            [styles.noCollapseWrapper]: !isCollapsed,
-                        })}
-                    >
-                        <SidebarSection />
-                    </nav>
-                    <main className='w-full'>
+        <collapseSidebarContext.Provider
+            value={{ isCollapsed, setIsCollapsed }}
+        >
+            <div className={styles.wrapper}>
+                <nav
+                    className={classNames(styles.navWrapper, {
+                        [styles.collapseWrapper]: isCollapsed,
+                        [styles.noCollapseWrapper]: !isCollapsed,
+                    })}
+                >
+                    <SidebarSection />
+                </nav>
+                <main className="w-full">
+                    {username === userInfo?.username ? (
                         <Outlet />
-                    </main>
-                </div>
-            </collapseSidebarContext.Provider>
-        )
+                    ) : (
+                        <NotFoundPage />
+                    )}
+                </main>
+            </div>
+        </collapseSidebarContext.Provider>
     )
 }
 

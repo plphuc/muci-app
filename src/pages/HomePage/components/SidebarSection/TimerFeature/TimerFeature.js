@@ -38,27 +38,13 @@ function TimerFeature() {
         pause()
     }
 
-    const items = [
-        {
-            key: '1',
-            label: (
-                <p
-                    className="min-w-28 font-semibold text-2xl"
-                    onClick={handleLogout}
-                >
-                    Log out
-                </p>
-            ),
-        },
-    ]
-
     const {
-        totalSeconds,
+        // totalSeconds,
         seconds,
         minutes,
         hours,
-        isRunning,
-        start,
+        // isRunning,
+        // start,
         pause,
         resume,
         restart,
@@ -72,7 +58,7 @@ function TimerFeature() {
         <div className="h-full flex flex-col">
             <div className=" flex justify-end mr-8 mt-8">
                 <div>
-                    <OptionsHeader items={items} />
+                    <OptionsHeader />
                 </div>
             </div>
             <div className="flex flex-col flex-1 ">

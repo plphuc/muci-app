@@ -25,17 +25,21 @@ const routers = createBrowserRouter([
                 element: <RegisterPage />,
             },
             {
-                path: '/:username',
-                element: <HomePage />,
-                children: [
-                    {
-                        path: '/:username/timer',
-                        element: <TimerFeature />,
-                    },
-                ],
+                path: '*',
+                element: <NotFoundPage />,
+            },
+        ],
+    },
+    {
+        path: '/:username',
+        element: <HomePage />,
+        children: [
+            {
+                path: '/:username/timer',
+                element: <TimerFeature />,
             },
             {
-                path: '/*',
+                path: '/:username/*',
                 element: <NotFoundPage />,
             },
         ],
