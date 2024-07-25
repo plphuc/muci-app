@@ -85,6 +85,12 @@ function LoginPage(props) {
                                 className="m-0"
                                 label="Password"
                                 name="password"
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: REQUIRE_FIELD('Password'),
+                                    },
+                                ]}
                             >
                                 <div className="relative">
                                     <Input
