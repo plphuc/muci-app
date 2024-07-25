@@ -9,7 +9,7 @@ micros:
     commands:
       - GENERATE_SOURCEMAP=false npm run build
     serve: dist
-    dev: npm run dev --port $PORT
+    dev: npm run dev -- --port $PORT
     presets:
       env:
       - name: REACT_APP_SERVER_URL

@@ -19,6 +19,7 @@ import styles from './PageBlock.module.css';
 import DisplayListFeature from '../DisplayListFeature/DisplayListFeature';
 import { notifyError } from 'common/utils/toastMessage';
 import { MetaPageContext } from '../SidebarSection';
+import { selectUserInfo } from 'slices/userSlice';
 
 function PageBlock(props) {
   const { parentClass, page: currentPage } = props;
@@ -30,6 +31,7 @@ function PageBlock(props) {
   const location = useLocation();
   const [searchParams] = useSearchParams();
   const pageId = searchParams.get('id');
+  const userInfo = useSelector(selectUserInfo)
 
   const [isToggle, setIsToggle] = useState(false);
 
@@ -41,7 +43,7 @@ function PageBlock(props) {
     setIsToggle(!isToggle);
 
     navigate({
-      pathname: location.pathname,
+      pathname: `/${userInfo.username}`,
       search: createSearchParams({ id: currentPage.id }).toString(),
     });
   };
